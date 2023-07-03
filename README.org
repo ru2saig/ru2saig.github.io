@@ -1,0 +1,1 @@
+Files for my personal site, [[https://ru2saig.github.io/]]. Powered by [[https://getnikola.com/][Nikola]].

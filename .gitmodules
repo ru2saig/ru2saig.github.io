@@ -1,0 +1,3 @@
+[submodule "themes/willy-wonky"]
+	path = themes/willy-wonky
+	url = https://gitlab.com/ru2saig/willy-wonky.git
