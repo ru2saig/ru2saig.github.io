@@ -10,4 +10,9 @@
 
 #+END_COMMENT
 
-About me
+Hello, there! I'm Nidhish, interested in robotics, embedded development, free software and anything else that beeps and boops. On this website you'll find posts about stuff I find interesting, in-progress projects, experiments and much more.
+
+Here are my profiles:
+- https://gitlab.com/ru2saig
+- https://code.swecha.org/ru2saig
+- https://github.com/ru2saig
