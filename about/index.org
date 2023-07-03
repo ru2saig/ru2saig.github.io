@@ -10,7 +10,7 @@
 
 #+END_COMMENT
 
-Hello, there! I'm Nidhish, interested in robotics, embedded development, free software and anything else that beeps and boops. On this website you'll find posts about stuff I find interesting, in-progress projects, experiments and much more.
+Hello, there! I'm Nidhish, interested in robotics, embedded development, free software and anything else that beeps and boops. On this website you'll find posts about stuff I find interesting, in-progress projects, experiments and much more. For "finished" projects, check this [[https://ru2saig.github.io/projects/][page]]. 
 
 Here are my profiles:
 - https://gitlab.com/ru2saig
