@@ -17,7 +17,7 @@ These are a list of pretty-much completed projects, or things I've deemed worthy
 * 
 ** 
 *** Unlauncher Fork
-This is my fork of [[https://jkuester.github.io/unlauncher/][jkuester's Unlauncher]]. I've added a few quality of life improvements, such as wallpapers, double-tap to sleep and a long press menu as well.
+This is my fork of [[https://jkuester.github.io/unlauncher/][jkuester's Unlauncher]]. I've added a few quality of life improvements, such as wallpapers, double-tap to sleep and a long press menu as well. You use your phone, not the other way around!
 
 Source code: https://github.com/ru2saig/unlauncher.
 \\
