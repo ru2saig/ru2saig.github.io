@@ -1,0 +1,4 @@
+Sitemap: https://ru2saig.github.io/sitemapindex.xml
+
+User-Agent: *
+Host: ru2saig.github.io
