@@ -11,7 +11,7 @@
 #+END_COMMENT
 
 
-These are a list of pretty-much completed projects, or things I've deemed worthy of this page. For in-progress things, experiments, snippets and more check out the [[https://ru2saig.github.io/][blog]] and my repositories on [[https://github.com/ru2saig][github]], [[https://gitlab.com/ru2saig][gitlab]] and [[https://code.swecha.org/ru2saig][code.swecha.org]]. The projects are ordered roughly by the date of the last commit.
+These are a list of pretty-much completed projects, or things I've deemed worthy of this page. The projects are ordered roughly by the date of the last commit.
 \\
 \\
 * 
