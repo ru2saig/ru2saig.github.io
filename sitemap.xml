@@ -7,30 +7,62 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://ru2saig.github.io/</loc>
-  <lastmod>2023-07-03T10:13:00Z</lastmod>
+  <lastmod>2023-07-03T15:52:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/about/</loc>
-  <lastmod>2023-07-03T10:13:00Z</lastmod>
+  <lastmod>2023-07-03T15:47:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/archive/</loc>
-  <lastmod>2023-07-03T10:13:00Z</lastmod>
+  <lastmod>2023-07-03T15:47:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/archive/2023/</loc>
+  <lastmod>2023-07-03T15:47:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/categories/</loc>
-  <lastmod>2023-07-03T10:13:00Z</lastmod>
+  <lastmod>2023-07-08T22:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/categories/elisp/</loc>
+  <lastmod>2023-07-03T15:47:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/categories/emacs/</loc>
+  <lastmod>2023-07-03T15:47:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/categories/org-mode/</loc>
+  <lastmod>2023-07-03T15:47:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/categories/org-roam/</loc>
+  <lastmod>2023-07-08T22:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/categories/org-roamtips/</loc>
+  <lastmod>2023-07-03T15:47:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/categories/tips/</loc>
+  <lastmod>2023-07-08T22:12:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/galleries/</loc>
-  <lastmod>2023-07-03T10:13:00Z</lastmod>
+  <lastmod>2023-07-03T15:47:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/listings/</loc>
-  <lastmod>2023-07-03T10:13:00Z</lastmod>
+  <lastmod>2023-07-03T15:47:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/posts/contextual-capitalization-of-org-roam-node-titles/</loc>
+  <lastmod>2023-07-03T15:47:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/projects/</loc>
-  <lastmod>2023-07-03T10:13:00Z</lastmod>
+  <lastmod>2023-07-03T15:47:00Z</lastmod>
  </url>
 </urlset>

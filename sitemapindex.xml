@@ -6,15 +6,39 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
+  <loc>https://ru2saig.github.io/categories/elisp.xml</loc>
+  <lastmod>2023-07-09T00:29:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://ru2saig.github.io/categories/emacs.xml</loc>
+  <lastmod>2023-07-09T00:29:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://ru2saig.github.io/categories/org-mode.xml</loc>
+  <lastmod>2023-07-09T00:29:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://ru2saig.github.io/categories/org-roam.xml</loc>
+  <lastmod>2023-07-09T00:29:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://ru2saig.github.io/categories/org-roamtips.xml</loc>
+  <lastmod>2023-07-08T21:30:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://ru2saig.github.io/categories/tips.xml</loc>
+  <lastmod>2023-07-09T00:29:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://ru2saig.github.io/galleries/rss.xml</loc>
-  <lastmod>2023-07-03T10:13:00Z</lastmod>
+  <lastmod>2023-07-03T15:55:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/rss.xml</loc>
-  <lastmod>2023-07-03T10:13:00Z</lastmod>
+  <lastmod>2023-07-09T00:29:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/sitemap.xml</loc>
-  <lastmod>2023-07-03T10:13:00Z</lastmod>
+  <lastmod>2023-07-09T00:29:00Z</lastmod>
  </sitemap>
 </sitemapindex>
