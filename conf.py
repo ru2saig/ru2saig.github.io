@@ -45,6 +45,10 @@ THEME = "willy-wonky"
 USE_CDN = False
 USE_BUNDLES = False
 
+FAVICONS = (
+    ("icon", "/favicon.ico", "32x32"),
+)
+
 
 POSTS = (
     ("posts/*.org", "posts", "post.tmpl"),
@@ -58,7 +62,7 @@ PAGES = (
 
 TIMEZONE = "Asia/Kolkata"
 
-DATE_FORMAT = 'dd-MM-yyyy'
+DATE_FORMAT = 'dd-MMMM-yyyy'
 
 COMPILERS = {
     "orgmode": ['.org'],

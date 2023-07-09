@@ -1,0 +1,217 @@
+#+BEGIN_COMMENT
+.. title: Contextual-Capitalization of Org-Roam Node Titles
+.. slug: contextual-capitalization-of-org-roam-node-titles
+.. date: 2023-07-08 17:44:57 UTC+05:30
+.. tags: org-mode,emacs,elisp,org-roam,tips
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+I extensively use Emacs, Org-Mode and [[https://www.orgroam.com/][Org-Roam]] for managing my knowledge, in the form a personal wiki. I use the [[https://zettelkasten.de/introduction/][Zettelkasten Method]] for making the entries, but instead of explicitly noting the ID, I like inserting the titles of the nodes instead, like a page from [[https://en.wikipedia.org/wiki/Cosmic_latte][Wikipedia]] or this blog post itself as an example! (Of course, the links are relevant to the topic of the note)
+\\
+\\
+But there I have a gripe; the titles are inserted as they are, which makes the link not so aesthetic. (e.g.) "Given a Matrix ...". I did not like reading that. So I spent some time making such a sentence into "Given a matrix ...". I describe in this post (more of an article) how I arrived at a workable solution. 
+
+\\
+* 
+** 
+*** Requirements
+First, how do I like my links? The first step is setting requirements for the end approach.
+- Insert the title as it is if it's a project node
+- All the proper nouns must be upper-cased
+- All the other words of the title are lower-cased
+- The first word is capitalized if it's at the beginning of a sentence
+
+Alright so once that's out of the way, I can get to making it!
+\\
+\\
+*** Version 1
+I started by investigating the function that runs when I insert a node. I consulted describe-key for answers. I called the describe-key function (C-h k) and then used the keyboard shortcut to insert a node in org-buffers: (C-c n i). Describe-key reported that org-roam-node-insert is what is run.
+
+Reading through the source of the function, we find this intriguing s-expression:
+#+BEGIN_SRC lisp
+  (description (or region-text
+                   (org-roam-node-formatted node)))
+#+END_SRC
+
+This description is used further down as the description (aptly named, huh?) for the link that is inserted at the point:
+#+BEGIN_SRC lisp
+  (insert (org-link-make-string
+           (concat "id:" id)
+           description))
+#+END_SRC
+
+So running (C-h f) with my point on org-roam-node-formatted, I find that this is what is used to create a formatted string for the node. Reading through it, I find org-roam-node-formatter. Running (C-h f) on that...shows funcall? That would mean org-roam-node-formatter is not a function, but a variable! Running (C-h v) on it shows that it's a customizable. Reading the description, it seems to be exactly what I'm looking for.
+
+Now I can write some elisp!
+
+#+BEGIN_SRC lisp
+  (setq capitalize-words-list ;; put all the proper nouns in here
+   '("Emacs" "Elisp" "GNU" "Linux" "Python" "BeagleBone" "Arduino"))
+
+  (customize-set-variable
+   'org-roam-node-formatter
+   (lambda
+       (node)
+     (let ((sentence-end-regex (concat "[:]\\{2\\}\\|[*-+]\\b*[\n]\\|" (sentence-end))) ;; includes org-headlins, new line after the headline, and bullet points too
+           (split-title-regex "[-=']\\|[ \f\t\n\r\v]+")
+           (title (org-roam-node-title node))
+           (initial-point (point)))
+       (if (member "Project" (org-roam-node-tags node))
+           title ;; return title as it is
+
+           ;; captilize each of the words in the capitalize-words-list
+           (setq cased-title (mapconcat 
+                              (lambda (word)
+                                (if (member word capitalize-words-list)
+                                    word
+                                    (downcase word)))
+                              (split-string title split-title-regex t) ""))
+           ;; count the words to the  beginning of last sentence
+           (setq words (save-excursion
+                         (re-search-backward sentence-end-regex)
+                         (count-words-region (point) initial-point))) 
+           (if (= words 0) ;; if it's at the beginning, captilize the first word
+               (concat (capitalize (substring cased-title 0 1))
+                       (substring cased-title 1 (length cased-title)))
+               cased-title)))))
+#+END_SRC
+
+This snippet works pretty well! Except, split-string consumes the separators. This causes all the words of the title to be squished together. Not aesthetic. Browsing around, I found this nice implementation that does not consume the separators, [[https://emacs.stackexchange.com/questions/5729/split-a-string-without-consuming-separators][here]]. Using that, the case-title becomes 
+
+#+BEGIN_SRC lisp
+  (setq cased-title (mapconcat 
+                     (lambda (word)
+                       (if (member word capitalize-words-list)
+                           word
+                           (downcase word)))
+                     (split-string title split-title-regex t t) ""))
+#+END_SRC
+
+It works! But, there are a few issues present, mainly, there is no way to configure the capitalize-word-list without editing the elisp setq expression. That's what version 2 is for!
+\\
+\\
+*** Version 2
+Using Emacs's [[https://www.gnu.org/software/emacs/manual/html_node/eintr/defcustom.html][defcustom]] mechanism, the user can add and remove words as they wish, and take their capitalize-word-list with them! I've written elisp functions for removal and addition of words as well, as I find using the customize interface for a new word take too long. While typing, add-word-at-point-to-list becomes immensely useful to add words on the fly. 
+
+#+BEGIN_SRC lisp
+  (defun remove-word-from-list ()
+    (interactive)
+    (let ((word-to-remove (read-string "Word to remove: " "")))
+      (when word-to-remove
+        (customize-save-variable 'capitalize-words-list (delete word-to-remove capitalize-words-list)))))
+
+  (defun add-word-to-list (&optional word-inp)
+    (interactive)
+    (let ((word (read-string "Word selected: " word-inp)))
+      (if (member word capitalize-words-list)
+          (message "'%s' is already present in the capitalize-word-list." word)
+        (customize-save-variable 'capitalize-words-list (add-to-list 'capitalize-words-list word t))
+        (message "Updated and saved word-list!"))))
+
+  (defun add-word-at-point-to-list ()
+    (interactive)
+    (let ((word (thing-at-point 'word 'no-properties)))
+      (when word
+        (add-word-to-list word))))
+#+END_SRC
+
+*** The Complete Code Listing
+#+BEGIN_SRC lisp
+    (defcustom capitalize-words-list '("Emacs" "Elisp" "GNU" "Linux" "Python" "BeagleBone" "Arduino")
+      "If non-nil, contains a list of proper-nouns, abbreviations, and other words to be capitalized when
+    org-roam-insert is called. The case does matter for this, so be careful when adding own words."
+      :type '(repeat string))
+
+  ;; https://emacs.stackexchange.com/questions/5729/split-a-string-without-consuming-separators
+  (defun split-string (string &optional separators omit-nulls keep-sep)
+        "Split STRING into substrings bounded by matches for SEPARATORS."
+        (let* ((keep-nulls (not (if separators omit-nulls t)))
+               (rexp (or separators split-string-default-separators))
+               (start 0)
+               this-start this-end
+               notfirst
+               (list nil)
+               (push-one
+                (lambda ()
+                  (when (or keep-nulls (< this-start this-end))
+                    (let ((this (substring string this-start this-end)))
+                      (when (or keep-nulls (> (length this) 0))
+                        (push this list)))))))
+          (while (and (string-match
+                       rexp string
+                       (if (and notfirst
+                                (= start (match-beginning 0))
+                                (< start (length string)))
+                           (1+ start) start))
+                      (< start (length string)))
+            (setq notfirst t)
+            (setq this-start start this-end (match-beginning 0)
+                  start (match-end 0))
+            (funcall push-one)
+            (when keep-sep
+              (push (match-string 0 string) list)))
+          (setq this-start start this-end (length string))
+          (funcall push-one)
+          (nreverse list)))
+
+  (customize-set-variable
+   'org-roam-node-formatter
+   (lambda
+     (node)
+     (let ((sentence-end-regex (concat "[:]\\{2\\}\\|[*-+]\\b*[\n]\\|" (sentence-end)))
+           (split-title-regex "[-='/()]\\|[ \f\t\n\r\v]+")
+           (title (org-roam-node-title node))
+           (initial-point (point)))
+       (cond ((member "Project" (org-roam-node-tags node)) title) ;; return title as it is
+             ;; add specific cases here (like the above)
+             ((org-at-heading-p) title) ;; at an org-headline, so return as it is
+             (t (setq cased-title (mapconcat ;; capitalize only the proper nouns
+                                   (lambda (word)
+                                     (if (member word capitalize-words-list) ;; assumes that the word is capitalized properly in the title
+                                         word
+                                       (downcase word)))
+                                   (split-string title split-title-regex t t) ""))
+                (setq words (save-excursion
+                              (re-search-backward sentence-end-regex)
+                              (count-words-region (point) initial-point)))
+                (if (= words 0) ;; at the beginning of a sentence, so make sure the first word is capitalized
+                    (concat (capitalize (substring cased-title 0 1))
+                            (substring cased-title 1 (length cased-title)))
+                  cased-title))))))
+
+  (defun remove-word-from-list ()
+    "Removes a word from the capitalize-words-list. Which word to be removed will be prompted at the mini-buffer."
+    (interactive)
+    (let ((word-to-remove (read-string "Word to remove: " "")))
+      (when word-to-remove
+        (customize-save-variable 'capitalize-words-list (delete word-to-remove capitalize-words-list)))))
+
+  (defun add-word-to-list (&optional word-inp)
+    "Adds a word to the capitalize-words-list, if not present."
+    (interactive)
+    (let ((word (read-string "Word selected: " word-inp)))
+      (if (member word capitalize-words-list)
+          (message "'%s' is already present in the capitalize-word-list." word)
+        (customize-save-variable 'capitalize-words-list (add-to-list 'capitalize-words-list word t))
+        (message "Updated and saved word-list!"))))
+
+  (defun add-word-at-point-to-list ()
+    "Adds a word under the point to the capitalize-words-list, if not present."
+    (interactive)
+    (let ((word (thing-at-point 'word 'no-properties)))
+      (when word
+        (add-word-to-list word))))
+#+END_SRC
+
+*** Conclusion...or is it?
+I have noticed a few areas that I can improve version 2,
+- A different way to tell if we're at the beginning of a "sentence" instead of counting words
+- If you insert a link between the end of a sentence and another word, the first word won't be capitalized properly.
+
+These don't impede my usage as those cases are very less. But it is a scope of improvement. So watch [[https://gitlab.com/-/snippets/2567491][this]] space for an updated version when I go about doing that! That's all y'all. 
+
+
