@@ -14,27 +14,26 @@
 These are a list of pretty-much completed projects, or things I've deemed worthy of this page. The projects are ordered roughly by the date of the last commit.
 \\
 \\
-* 
-** 
-*** Unlauncher Fork
+
+* Unlauncher Fork
 This is my fork of [[https://jkuester.github.io/unlauncher/][jkuester's Unlauncher]]. I've added a few quality of life improvements, such as wallpapers, double-tap to sleep and a long press menu as well. You use your phone, not the other way around!
 
 Source code: https://github.com/ru2saig/unlauncher.
 \\
 \\
-*** xfce4-kind-plugin
+* xfce4-kind-plugin
 This is a panel-plugin I made for the [[https://xfce.org/][XFCE4 project]]. It displays the status of the keyboard indicators in the panel. Pretty nifty. The main purpose was to learn how plugins are made, and get some experience with the C programming language, autotools and XFCE4 panel plugins.
 
 Source code: https://github.com/ru2saig/xfce4-kind-plugin
 \\
 \\
-*** BTTerminal
+* BTTerminal
 An bluetooth terminal written in Java for Android in order to send commands to a HC-05 bluetooth module. 
 
 Source code: https://gitlab.com/ru2saig/BTTerminal
 \\
 \\
-*** MatrixUI
+* MatrixUI
 This app controls a simple 3x3 daisy-chained LED matrix, driven by and Arduino. The app communicates with the circuit over bluetooth, with a HC-05. 
 
 Source code: https://gitlab.com/ru2saig/MatrixUi
