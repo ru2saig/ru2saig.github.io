@@ -6,6 +6,11 @@
 .nav-menu ul li { margin-bottom:1rem}.nav-menu ul li.active{--text-opacity:1;color:#38b2ac;color:rgba(56,178,172,var(--text-opacity))}.nav-menu__link{--border-opacity:1;border-color:#edf2f7;border-color:rgba(237,242,247,var(--border-opacity))}
 .tagindex h1 { font-size: 1.875rem; }
 .listpage h1 { font-size: 1.875rem; }
+.tagpage h1 { font-size: 1.875rem; }
+.postpage h1 { font-size: 1.875rem; }
+.storypage h1 { font-size: 1.875rem; }
+.e-content h2 { font-size: 1.25rem; }
+.e-content h3 { font-size: 1rem; }
 #older-post { float: left; margin-left:auto; }
 #next-post { float: left; margin-left:auto; }
 .license{ display:flex; justify-content:center; }

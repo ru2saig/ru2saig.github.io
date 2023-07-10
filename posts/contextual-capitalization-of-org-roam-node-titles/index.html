@@ -58,7 +58,7 @@
 </div>
 
 
-  </header><main id="content" class="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h2 class="p-name entry-title header__title" itemprop="headline name"><a href="." class="u-url hover:header__title__link">Contextual-Capitalization of Org-Roam Node Titles</a></h2>
+  </header><main id="content" class="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title header__title" itemprop="headline name"><a href="." class="u-url hover:header__title__link">Contextual-Capitalization of Org-Roam Node Titles</a></h1>
 
         <div class="metadata">
             <span class="byline author vcard p-author h-card">
@@ -85,17 +85,9 @@ But there I have a gripe; the titles are inserted as they are, which makes the l
 
 <p>
 <br></p>
-<div id="outline-container-org8851c22" class="outline-2">
-<h2 id="org8851c22"></h2>
-<div class="outline-text-2" id="text-org8851c22">
-</div>
-<div id="outline-container-org6ecb907" class="outline-3">
-<h3 id="org6ecb907"></h3>
-<div class="outline-text-3" id="text-org6ecb907">
-</div>
-<div id="outline-container-org4e259bb" class="outline-4">
-<h4 id="org4e259bb">Requirements</h4>
-<div class="outline-text-4" id="text-org4e259bb">
+<div id="outline-container-orgc8b2e14" class="outline-2">
+<h2 id="orgc8b2e14">Requirements</h2>
+<div class="outline-text-2" id="text-orgc8b2e14">
 <p>
 First, how do I like my links? The first step is setting requirements for the end approach.
 </p>
@@ -110,9 +102,9 @@ Alright so once that's out of the way, I can get to making it!
 <br><br></p>
 </div>
 </div>
-<div id="outline-container-org2dd530c" class="outline-4">
-<h4 id="org2dd530c">Version 1</h4>
-<div class="outline-text-4" id="text-org2dd530c">
+<div id="outline-container-org6ab07eb" class="outline-2">
+<h2 id="org6ab07eb">Version 1</h2>
+<div class="outline-text-2" id="text-org6ab07eb">
 <p>
 I started by investigating the function that runs when I insert a node. I consulted describe-key for answers. I called the describe-key function (C-h k) and then used the keyboard shortcut to insert a node in org-buffers: (C-c n i). Describe-key reported that org-roam-node-insert is what is run.
 </p>
@@ -188,9 +180,9 @@ It works! But, there are a few issues present, mainly, there is no way to config
 <br><br></p>
 </div>
 </div>
-<div id="outline-container-org282fdf4" class="outline-4">
-<h4 id="org282fdf4">Version 2</h4>
-<div class="outline-text-4" id="text-org282fdf4">
+<div id="outline-container-orgf750007" class="outline-2">
+<h2 id="orgf750007">Version 2</h2>
+<div class="outline-text-2" id="text-orgf750007">
 <p>
 Using Emacs's <a href="https://www.gnu.org/software/emacs/manual/html_node/eintr/defcustom.html">defcustom</a> mechanism, the user can add and remove words as they wish, and take their capitalize-word-list with them! I've written elisp functions for removal and addition of words as well, as I find using the customize interface for a new word take too long. While typing, add-word-at-point-to-list becomes immensely useful to add words on the fly. 
 </p>
@@ -218,9 +210,9 @@ Using Emacs's <a href="https://www.gnu.org/software/emacs/manual/html_node/eintr
 </div>
 </div>
 
-<div id="outline-container-org7abaaac" class="outline-4">
-<h4 id="org7abaaac">The Complete Code Listing</h4>
-<div class="outline-text-4" id="text-org7abaaac">
+<div id="outline-container-orgd92547d" class="outline-2">
+<h2 id="orgd92547d">The Complete Code Listing</h2>
+<div class="outline-text-2" id="text-orgd92547d">
 <div class="highlight"><pre><span></span><span class="w">  </span><span class="p">(</span><span class="nv">defcustom</span><span class="w"> </span><span class="nv">capitalize-words-list</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"Emacs"</span><span class="w"> </span><span class="s">"Elisp"</span><span class="w"> </span><span class="s">"GNU"</span><span class="w"> </span><span class="s">"Linux"</span><span class="w"> </span><span class="s">"Python"</span><span class="w"> </span><span class="s">"BeagleBone"</span><span class="w"> </span><span class="s">"Arduino"</span><span class="p">)</span>
 <span class="w">    </span><span class="s">"If non-nil, contains a list of proper-nouns, abbreviations, and other words to be capitalized when</span>
 <span class="s">  org-roam-insert is called. The case does matter for this, so be careful when adding own words."</span>
@@ -309,9 +301,9 @@ Using Emacs's <a href="https://www.gnu.org/software/emacs/manual/html_node/eintr
 </div>
 </div>
 
-<div id="outline-container-org276a242" class="outline-4">
-<h4 id="org276a242">Conclusion…or is it?</h4>
-<div class="outline-text-4" id="text-org276a242">
+<div id="outline-container-org227c5eb" class="outline-2">
+<h2 id="org227c5eb">Conclusion…or is it?</h2>
+<div class="outline-text-2" id="text-org227c5eb">
 <p>
 I have noticed a few areas that I can improve version 2,
 </p>
@@ -322,8 +314,6 @@ I have noticed a few areas that I can improve version 2,
 <p>
 These don't impede my usage as those cases are very less. But it is a scope of improvement. So watch <a href="https://gitlab.com/-/snippets/2567491">this</a> space for an updated version when I go about doing that! That's all y'all. 
 </p>
-</div>
-</div>
 </div>
 </div>
     </section><aside class="postpromonav"><nav></nav></aside></article></main><footer class="article__meta footer"><div>

@@ -16,9 +16,7 @@ I extensively use Emacs, Org-Mode and [[https://www.orgroam.com/][Org-Roam]] for
 But there I have a gripe; the titles are inserted as they are, which makes the link not so aesthetic. (e.g.) "Given a Matrix ...". I did not like reading that. So I spent some time making such a sentence into "Given a matrix ...". I describe in this post (more of an article) how I arrived at a workable solution. 
 
 \\
-* 
-** 
-*** Requirements
+* Requirements
 First, how do I like my links? The first step is setting requirements for the end approach.
 - Insert the title as it is if it's a project node
 - All the proper nouns must be upper-cased
@@ -28,7 +26,7 @@ First, how do I like my links? The first step is setting requirements for the en
 Alright so once that's out of the way, I can get to making it!
 \\
 \\
-*** Version 1
+* Version 1
 I started by investigating the function that runs when I insert a node. I consulted describe-key for answers. I called the describe-key function (C-h k) and then used the keyboard shortcut to insert a node in org-buffers: (C-c n i). Describe-key reported that org-roam-node-insert is what is run.
 
 Reading through the source of the function, we find this intriguing s-expression:
@@ -94,7 +92,7 @@ This snippet works pretty well! Except, split-string consumes the separators. Th
 It works! But, there are a few issues present, mainly, there is no way to configure the capitalize-word-list without editing the elisp setq expression. That's what version 2 is for!
 \\
 \\
-*** Version 2
+* Version 2
 Using Emacs's [[https://www.gnu.org/software/emacs/manual/html_node/eintr/defcustom.html][defcustom]] mechanism, the user can add and remove words as they wish, and take their capitalize-word-list with them! I've written elisp functions for removal and addition of words as well, as I find using the customize interface for a new word take too long. While typing, add-word-at-point-to-list becomes immensely useful to add words on the fly. 
 
 #+BEGIN_SRC lisp
@@ -119,7 +117,7 @@ Using Emacs's [[https://www.gnu.org/software/emacs/manual/html_node/eintr/defcus
         (add-word-to-list word))))
 #+END_SRC
 
-*** The Complete Code Listing
+* The Complete Code Listing
 #+BEGIN_SRC lisp
     (defcustom capitalize-words-list '("Emacs" "Elisp" "GNU" "Linux" "Python" "BeagleBone" "Arduino")
       "If non-nil, contains a list of proper-nouns, abbreviations, and other words to be capitalized when
@@ -207,7 +205,7 @@ Using Emacs's [[https://www.gnu.org/software/emacs/manual/html_node/eintr/defcus
         (add-word-to-list word))))
 #+END_SRC
 
-*** Conclusion...or is it?
+* Conclusion...or is it?
 I have noticed a few areas that I can improve version 2,
 - A different way to tell if we're at the beginning of a "sentence" instead of counting words
 - If you insert a link between the end of a sentence and another word, the first word won't be capitalized properly.
