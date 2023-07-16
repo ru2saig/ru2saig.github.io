@@ -88,7 +88,7 @@ $ ip addr
        valid_lft forever preferred_lft forever
 #+END_SRC
 
-Take a note of either of the interface names[fn:1] and the corresponding ip. I will be going with the interface enp0s210f0u2i2 that has the ip 192.168.6.1, unless otherwise stated.
+Take a note of either of the interface names[fn:1] and the corresponding ip. I will be going with the interface enp0s210f0u2i2 that has the ip 192.168.6.1, unless otherwise stated. Some of the sections have commands run for both of the interfaces, but solely using one interface will also work. 
 
 Now plug in the board and wait for it to boot, and then go forward with one of the NetworkManager methods[fn:2]. The firewall configuration has to be done if your internet connection from the board does not work (as described here: [[*Testing the Connection][Testing the Connection]]). Here are quick-links for your firewall: [[*Firewall Configuration (ufw)][ufw]], [[*Firewall Configuration (firewalld)][firewalld]], [[*Firewall Configuration (iptables)][iptables]], [[*Firewall Configuration (nftables)][nftables]].
 \\
@@ -164,9 +164,10 @@ ufw is a firewall that comes with many Linux distributions. It comes preinstalle
 Note down the internet-facing interface on your PC. For me, it was wlp3s0.
 
 #+BEGIN_SRC sh
-$ sudo -s
-root$ ufw route allow in on enp0s20f0u2i2 out on wlp3s0 # enp0s20f0u2i2 is the interface of the bone, and wlp3s0 is the internet-facing interface on my PC
-root$ ufw default allow FORWARD
+  $ sudo -s
+  root$ ufw route allow in on enp0s20f0u2i2 out on wlp3s0 # enp0s20f0u2i2 is the interface of the bone, and wlp3s0 is the internet-facing interface on my PC
+  root$ ufw route allow in on enp0s20f0u2 out on wlp3s0 # enp0s20f0u2 is the other interface of the bone
+  root$ ufw default allow FORWARD
 #+END_SRC
 
 Now, open and add the following content to the top of /etc/ufw/before.rules:
@@ -176,7 +177,8 @@ Now, open and add the following content to the top of /etc/ufw/before.rules:
 :POSTROUTING ACCEPT [0:0]
 
 # Forward traffic
--A POSTROUTING -s 192.168.6.0/24 -o wlp3s0 -j MASQUERADE  
+-A POSTROUTING -s 192.168.6.0/24 -o wlp3s0 -j MASQUERADE
+-A POSTROUTING -s 192.168.7.0/24 -o wlp3s0 -j MASQUERADE  
 
 COMMIT
 #+END_SRC
@@ -259,7 +261,7 @@ Make sure you note down the name of the interface on your host that is facing th
 
 
   root$ iptables --table nat --append POSTROUTING --out-interface host-interface -j MASQUERADE # where host-interface is the interface on your host you'd like to use, e.g. wlp3s0
-  root$ iptables --append FORWARD --in-interface bbb-interface -j ACCEPT # bbb-interface is what the interface of beaglebone shows up when ifconfig or ip addr is run on the host mahcine. For me it was enp0s20f0u2i2
+  root$ iptables --append FORWARD --in-interface bbb-interface -j ACCEPT # bbb-interface is what the interface of beaglebone shows up when ifconfig or ip addr is run on the host mahcine. For me it was enp0s20f0u2i2 and enp0s20f0u2. Run these seperate times if you want to setup both for internet.
 
   root$ echo 1 > /proc/sys/net/ipv4/ip_forward # turn on IP forwarding
   root$ exit # exit root shell
