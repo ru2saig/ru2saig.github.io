@@ -463,4 +463,4 @@ Until next time!
 * Footnotes
 [fn:1] In the official Debian images from BeagleBone, the bone's USB is configured this way: USB-RNDIS (for Windows compatibility) and USB-NCM gadget (for MacOS compatibility). Both USB gadgets are supported under Linux operating systems.
 [fn:2] This is certainly not exhaustive list of all network managing software's or firewalls, but it has the most common ones that are usually preinstalled with your distro. If you have methods for your networking that you don't see here, feel free to shoot me an email at develruusaig dot gmail dot com!
-[fn:3] There is a dns-nameservers option but that did not work for me, so I used systemd-resolv which is what manages /etc/resolv.conf. 
+[fn:3] There is a "dns-nameservers" option but that did not work for me, so I used systemd-resolv which is what manages /etc/resolv.conf. 
