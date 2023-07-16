@@ -85,55 +85,55 @@ Firewall Configuration (u">
         
     </header><section class="e-content entry-content" itemprop="articleBody text"><p>
 <br></p>
-<div id="outline-container-orgff4b50a" class="outline-2">
-<h2 id="orgff4b50a">Table Of Contents</h2>
-<div class="outline-text-2" id="text-orgff4b50a">
+<div id="outline-container-org93feec6" class="outline-2">
+<h2 id="org93feec6">Table Of Contents</h2>
+<div class="outline-text-2" id="text-org93feec6">
 <ul class="org-ul">
-<li><a href="#orgcb4d793">Introduction</a></li>
-<li><a href="#org1d1ec33">Prerequisites</a></li>
+<li><a href="#orga312ec8">Introduction</a></li>
+<li><a href="#orgece5f97">Prerequisites</a></li>
 <li>
-<a href="#org3fb4410">Network Configuration on the PC</a>
+<a href="#orgaa2bfd3">Network Configuration on the PC</a>
 <ul class="org-ul">
-<li><a href="#orgd9512cc">Using a GUI (NetworkManager, nm-connection-editor)</a></li>
-<li><a href="#org7dadc30">Command-Line Method (NetworkManager, nmcli)</a></li>
-<li><a href="#org6d0843d">Firewall Configuration (ufw)</a></li>
-<li><a href="#orga557b39">Firewall Configuration (firewalld)</a></li>
-<li><a href="#org88ed2ca">Firewall Configuration (iptables)</a></li>
-<li><a href="#org994a385">Firewall Configuration (nftables)</a></li>
+<li><a href="#orgf6dacef">Using a GUI (NetworkManager, nm-connection-editor)</a></li>
+<li><a href="#org8946606">Command-Line Method (NetworkManager, nmcli)</a></li>
+<li><a href="#org648511d">Firewall Configuration (ufw)</a></li>
+<li><a href="#org78402c0">Firewall Configuration (firewalld)</a></li>
+<li><a href="#orga4031a6">Firewall Configuration (iptables)</a></li>
+<li><a href="#org3d3d7e4">Firewall Configuration (nftables)</a></li>
 </ul>
 </li>
 <li>
-<a href="#orgc19bf40">Onto the BeagleBone!</a>
+<a href="#org5a2ad91">Onto the BeagleBone!</a>
 <ul class="org-ul">
 <li>
-<a href="#org59f61cd">Making it Persistent</a>
+<a href="#org7362ed6">Making it Persistent</a>
 <ul class="org-ul">
-<li><a href="#orgc4ec2f4">Script</a></li>
-<li><a href="#org058052e">A Configuration File in /etc/network/interfaces.d</a></li>
+<li><a href="#orgf532ea9">Script</a></li>
+<li><a href="#org40b014b">A Configuration File in /etc/network/interfaces.d</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgbe4d061">Conclusion</a></li>
-<li><a href="#org8fb38d7">References and Further Reading</a></li>
-<li><a href="#orgbf08c54">Footnotes</a></li>
+<li><a href="#org24540be">Conclusion</a></li>
+<li><a href="#org28f6cd8">References and Further Reading</a></li>
+<li><a href="#orgd4d737b">Footnotes</a></li>
 </ul>
 <p>
 <br></p>
 </div>
 </div>
-<div id="outline-container-orgcb4d793" class="outline-2">
-<h2 id="orgcb4d793">Introduction</h2>
-<div class="outline-text-2" id="text-orgcb4d793">
+<div id="outline-container-orga312ec8" class="outline-2">
+<h2 id="orga312ec8">Introduction</h2>
+<div class="outline-text-2" id="text-orga312ec8">
 <p>
 <br>
 In this post, I'll describe setting up internet-sharing between a typical desktop Linux install and a BeagleBone board, over USB. This will allow the boards such as the BeagleBone Black to access the outside world with just the provided USB cable and your PC. This will eliminate the need for an additional USB WiFi dongle or another Ethernet cable for the board. 
 <br><br></p>
 </div>
 </div>
-<div id="outline-container-org1d1ec33" class="outline-2">
-<h2 id="org1d1ec33">Prerequisites</h2>
-<div class="outline-text-2" id="text-org1d1ec33">
+<div id="outline-container-orgece5f97" class="outline-2">
+<h2 id="orgece5f97">Prerequisites</h2>
+<div class="outline-text-2" id="text-orgece5f97">
 <p>
 <br>
 This guide assumes you're running a desktop Linux distribution, have physical working BeagleBone and also have basic familiarity with the Linux command line. 
@@ -169,9 +169,9 @@ Let's get started!
 <br><br></p>
 </div>
 </div>
-<div id="outline-container-org3fb4410" class="outline-2">
-<h2 id="org3fb4410">Network Configuration on the PC</h2>
-<div class="outline-text-2" id="text-org3fb4410">
+<div id="outline-container-orgaa2bfd3" class="outline-2">
+<h2 id="orgaa2bfd3">Network Configuration on the PC</h2>
+<div class="outline-text-2" id="text-orgaa2bfd3">
 <p>
 <br>
 First we will note down the interfaces of the board. Once you boot your board (just power up your board using the provided USB cable using on of your PC's USB ports), 2 new network interfaces will show up. On my machine, they were enp0s20f0u2 and enp0s20f0u2i2, though they may be different under yours. Make sure to note down the interface names. The ip address will always be 192.168.7.1 and 192.168.6.1 for the respective interface. Here's a snippet of the interfaces on my machine:
@@ -193,16 +193,16 @@ First we will note down the interfaces of the board. Once you boot your board (j
 </pre></div>
 
 <p>
-Take a note of either of the interface names<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> and the corresponding ip. I will be going with the interface enp0s210f0u2i2 that has the ip 192.168.6.1, unless otherwise stated. Some of the sections have commands run for both of the interfaces, but solely using one interface will also work. 
+Take a note of either of the interface names<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> and the corresponding ip. Configuring one interface properly is enough for reliable internet-sharing, so I will be going with the interface enp0s210f0u2i2 that has the ip 192.168.6.1, unless otherwise stated. 
 </p>
 
 <p>
-Now plug in the board and wait for it to boot, and then go forward with one of the NetworkManager methods<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. The firewall configuration has to be done if your internet connection from the board does not work (as described here: <a href="#org34efa57">Testing the Connection</a>). Here are quick-links for your firewall: <a href="#org6d0843d">ufw</a>, <a href="#orga557b39">firewalld</a>, <a href="#org88ed2ca">iptables</a>, <a href="#org994a385">nftables</a>.
+Now plug in the board and wait for it to boot, and then go forward with one of the NetworkManager methods<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. The firewall configuration has to be done if your internet connection from the board does not work (as described here: <a href="#orgc93cf73">Testing the Connection</a>). Here are quick-links for your firewall: <a href="#org648511d">ufw</a>, <a href="#org78402c0">firewalld</a>, <a href="#orga4031a6">iptables</a>, <a href="#org3d3d7e4">nftables</a>.
 <br><br></p>
 </div>
-<div id="outline-container-orgd9512cc" class="outline-3">
-<h3 id="orgd9512cc">Using a GUI (NetworkManager, nm-connection-editor)</h3>
-<div class="outline-text-3" id="text-orgd9512cc">
+<div id="outline-container-orgf6dacef" class="outline-3">
+<h3 id="orgf6dacef">Using a GUI (NetworkManager, nm-connection-editor)</h3>
+<div class="outline-text-3" id="text-orgf6dacef">
 <p>
 <br>
 NetworkManager is a software used to manage networks. We will use NetworkManager to set-up internet sharing between our PC and the bone. In this section, we will use nm-connection-editor, a GUI tool used for configuring networks for NetworkManager. Let's dive right in:
@@ -229,13 +229,13 @@ Click the Add button and fill out the following details (use 192.168.7.1 if you 
 <img src="../../images/nm-connection-editor-4.png" alt="nil"></p>
 
 <p>
-Now click Save. You may additionally configure the other interface too, though that is not required. Now <a href="#orgc19bf40">onto the BeagleBone</a>!
+Now click Save. You may additionally configure the other interface too, though that is not required. Now <a href="#org5a2ad91">onto the BeagleBone</a>!
 <br><br></p>
 </div>
 </div>
-<div id="outline-container-org7dadc30" class="outline-3">
-<h3 id="org7dadc30">Command-Line Method (NetworkManager, nmcli)</h3>
-<div class="outline-text-3" id="text-org7dadc30">
+<div id="outline-container-org8946606" class="outline-3">
+<h3 id="org8946606">Command-Line Method (NetworkManager, nmcli)</h3>
+<div class="outline-text-3" id="text-org8946606">
 <p>
 <br>
 NetworkManager is a software to manage networks. In our case, we use it to share the internet of our PC with the bone. NetworkManager comes with a nifty command-line tool, nmcli. This section will describe how to use that to set up internet-sharing.
@@ -256,9 +256,10 @@ If the STATE for the interfaces is "connected", run the following for your inter
 </p>
 <div class="highlight"><pre><span></span>$<span class="w"> </span>nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w">  </span><span class="s2">"Ethernet connection 2"</span><span class="w"> </span>ipv4.method<span class="w"> </span>shared
 $<span class="w"> </span>nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w">  </span><span class="s2">"Ethernet connection 2"</span><span class="w"> </span>ipv4.addresses<span class="w"> </span><span class="m">192</span>.168.6.1/24
-$<span class="w"> </span>nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w">  </span><span class="s2">"Ethernet connection 3"</span><span class="w"> </span>ipv4.method<span class="w"> </span>shared
-$<span class="w"> </span>nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w">  </span><span class="s2">"Ethernet connection 3"</span><span class="w"> </span>ipv4.addresses<span class="w"> </span><span class="m">192</span>.168.7.1/24
 </pre></div>
+<p>
+You may run the commands again for the other interface, just make sure to use the right connection names and change the ip from 192.168.6.1/24 to 192.168.7.1/24
+</p>
 
 <p>
 If the STATE is "disconnected", like below,
@@ -273,24 +274,26 @@ enp0s20f0u2i2<span class="w">   </span>ethernet<span class="w">  </span>disconne
 <p>
 Run the following for the bone's interfaces to manually set everything up:
 </p>
-<div class="highlight"><pre><span></span><span class="c1"># I will setup both of the interfaces that have the disconnected state above:</span>
+<div class="highlight"><pre><span></span><span class="c1"># I will setup one of the interfaces that have the disconnected state above:</span>
 $<span class="w"> </span>nmcli<span class="w"> </span>connection<span class="w"> </span>add<span class="w"> </span><span class="nb">type</span><span class="w"> </span>ethernet<span class="w"> </span>ifname<span class="w"> </span>enp0s20f0u2i2<span class="w"> </span>ipv4.method<span class="w"> </span>shared<span class="w"> </span>ipv4.addresses<span class="w"> </span><span class="m">192</span>.168.6.1/24<span class="w"> </span>con-name<span class="w"> </span><span class="s2">"Ethernet Connection 1"</span><span class="w"> </span><span class="c1"># make sure that con-name name is unique</span>
-
-$<span class="w"> </span>nmcli<span class="w"> </span>connection<span class="w"> </span>add<span class="w"> </span><span class="nb">type</span><span class="w"> </span>ethernet<span class="w"> </span>ifname<span class="w"> </span>enp0s20f0u2<span class="w"> </span>ipv4.method<span class="w"> </span>shared<span class="w"> </span>ipv4.addresses<span class="w"> </span><span class="m">192</span>.168.7.1/24<span class="w"> </span>con-name<span class="w"> </span><span class="s2">"Ethernet Connection 2"</span><span class="w"> </span><span class="c1"># make sure that con-name name is unique</span>
 </pre></div>
+<p>
+A similar command is run for the other interface, just charge the ipv4.addresss to 192.168.7.1/24 and use a different connection name.
+</p>
+
 <p>
 Make sure that the interfaces are from the bone and not from your PC's Ethernet port or some other device. A simple way to figure that out is to just disconnect the bone and see what interfaces are removed; or the converse: connect the board and note down what show up.
 </p>
 
 
 <p>
-Now <a href="#orgc19bf40">onto the BeagleBone</a>!
+Now <a href="#org5a2ad91">onto the BeagleBone</a>!
 <br><br></p>
 </div>
 </div>
-<div id="outline-container-org6d0843d" class="outline-3">
-<h3 id="org6d0843d">Firewall Configuration (ufw)</h3>
-<div class="outline-text-3" id="text-org6d0843d">
+<div id="outline-container-org648511d" class="outline-3">
+<h3 id="org648511d">Firewall Configuration (ufw)</h3>
+<div class="outline-text-3" id="text-org648511d">
 <p>
 <br>
 ufw is a firewall that comes with many Linux distributions. It comes preinstalled on many Debian-based distributions such as Ubuntu and Mint. This section assumes you have run the network manager steps and  sometimes required in addition to NetworkManager methods.
@@ -301,8 +304,7 @@ Note down the internet-facing interface on your PC. For me, it was wlp3s0.
 </p>
 
 <div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>-s
-root$<span class="w"> </span>ufw<span class="w"> </span>route<span class="w"> </span>allow<span class="w"> </span><span class="k">in</span><span class="w"> </span>on<span class="w"> </span>enp0s20f0u2i2<span class="w"> </span>out<span class="w"> </span>on<span class="w"> </span>wlp3s0<span class="w"> </span><span class="c1"># enp0s20f0u2i2 is the interface of the bone, and wlp3s0 is the internet-facing interface on my PC</span>
-root$<span class="w"> </span>ufw<span class="w"> </span>route<span class="w"> </span>allow<span class="w"> </span><span class="k">in</span><span class="w"> </span>on<span class="w"> </span>enp0s20f0u2<span class="w"> </span>out<span class="w"> </span>on<span class="w"> </span>wlp3s0<span class="w"> </span><span class="c1"># enp0s20f0u2 is the other interface of the bone</span>
+root$<span class="w"> </span>ufw<span class="w"> </span>route<span class="w"> </span>allow<span class="w"> </span><span class="k">in</span><span class="w"> </span>on<span class="w"> </span>enp0s20f0u2i2<span class="w"> </span>out<span class="w"> </span>on<span class="w"> </span>wlp3s0<span class="w"> </span><span class="c1"># enp0s20f0u2i2 is the interface of the bone, and wlp3s0 is the internet-facing interface on my PC. To configure both interfaces, run the same command but with enps20f0u2 instead of enp0s20f0u2i2</span>
 root$<span class="w"> </span>ufw<span class="w"> </span>default<span class="w"> </span>allow<span class="w"> </span>FORWARD
 </pre></div>
 
@@ -315,7 +317,6 @@ Now, open and add the following content to the top of /etc/ufw/before.rules:
 
 # Forward traffic
 -A POSTROUTING -s 192.168.6.0/24 -o wlp3s0 -j MASQUERADE
--A POSTROUTING -s 192.168.7.0/24 -o wlp3s0 -j MASQUERADE  
 
 COMMIT
 </pre></div>
@@ -332,13 +333,13 @@ root$<span class="w"> </span><span class="nb">exit</span>
 </pre></div>
 
 <p>
-To the <a href="#orgc19bf40">BeagleBone</a>!
+To the <a href="#org5a2ad91">BeagleBone</a>!
 <br><br></p>
 </div>
 </div>
-<div id="outline-container-orga557b39" class="outline-3">
-<h3 id="orga557b39">Firewall Configuration (firewalld)</h3>
-<div class="outline-text-3" id="text-orga557b39">
+<div id="outline-container-org78402c0" class="outline-3">
+<h3 id="org78402c0">Firewall Configuration (firewalld)</h3>
+<div class="outline-text-3" id="text-org78402c0">
 <p>
 <br>
 Firewalld is the firewall used typically on Fedora. Firewalld requires a way to manage connections, it won't do that on it's own. See <a href="https://firewalld.org/documentation/zone/connections-interfaces-and-sources.html">this resource</a> for more information. Assuming there is a way to manage the interface, we will continue to allow the interface through our firewall.
@@ -371,13 +372,12 @@ Let's create a new zone for the bone (rhymes). Put the following into /etc/firew
 Now from a root shell:
 </p>
 <div class="highlight"><pre><span></span>root$<span class="w"> </span>firewall-cmd<span class="w"> </span>--reload
-<span class="c1"># adding both of the interfaces of the BeagleBone to the bone-zone. </span>
+<span class="c1"># adding the choosen interface of the BeagleBone to the bbb-zone</span>
 root$<span class="w"> </span>firewall-cmd<span class="w"> </span>--zone<span class="o">=</span>bbb-zone<span class="w"> </span>--change-interface<span class="o">=</span>enp0s20f0u2i2<span class="w"> </span>
-root$<span class="w"> </span>firewall-cmd<span class="w"> </span>--zone<span class="o">=</span>bbb-zone<span class="w"> </span>--change-interface<span class="o">=</span>enp0s20f0u2
 root$<span class="w"> </span>firewall-cmd<span class="w"> </span>--zone<span class="o">=</span>bbb-zone<span class="w"> </span>--list-all<span class="w"> </span><span class="c1"># double check your work!</span>
 target:<span class="w"> </span>ACCEPT
 icmp-block-inversion:<span class="w"> </span>no
-interfaces:<span class="w"> </span>enp0s20f0u2<span class="w"> </span>enp0s20f0u2i2
+interfaces:<span class="w"> </span>enp0s20f0u2<span class="w"> </span>enp0s20f0u2i2<span class="w"> </span><span class="c1"># I've added the other interface as well</span>
 sources:
 services:<span class="w"> </span>dhcp<span class="w"> </span>dns<span class="w"> </span>ssh
 ports:
@@ -391,13 +391,13 @@ rich<span class="w"> </span>rules:
 </pre></div>
 
 <p>
-To the <a href="#orgc19bf40">BeagleBone</a>!
+To the <a href="#org5a2ad91">BeagleBone</a>!
 <br><br></p>
 </div>
 </div>
-<div id="outline-container-org88ed2ca" class="outline-3">
-<h3 id="org88ed2ca">Firewall Configuration (iptables)</h3>
-<div class="outline-text-3" id="text-org88ed2ca">
+<div id="outline-container-orga4031a6" class="outline-3">
+<h3 id="orga4031a6">Firewall Configuration (iptables)</h3>
+<div class="outline-text-3" id="text-orga4031a6">
 <p>
 <br>
 Make sure you note down the name of the interface on your host that is facing the internet. Mine is wlp3s0, yours may be different. 
@@ -420,13 +420,13 @@ root$<span class="w"> </span><span class="nb">exit</span><span class="w"> </span
 </pre></div>
 
 <p>
-To the <a href="#orgc19bf40">BeagleBone</a>!
+To the <a href="#org5a2ad91">BeagleBone</a>!
 <br><br></p>
 </div>
 </div>
-<div id="outline-container-org994a385" class="outline-3">
-<h3 id="org994a385">Firewall Configuration (nftables)</h3>
-<div class="outline-text-3" id="text-org994a385">
+<div id="outline-container-org3d3d7e4" class="outline-3">
+<h3 id="org3d3d7e4">Firewall Configuration (nftables)</h3>
+<div class="outline-text-3" id="text-org3d3d7e4">
 <p>
 <br>
 Make sure you note down the name of the interface on your host that is facing the internet. Mine is wlp3s0, yours may be different.
@@ -446,14 +446,14 @@ root$<span class="w"> </span><span class="nb">exit</span>
 </pre></div>
 
 <p>
-To the <a href="#orgc19bf40">BeagleBone</a>!
+To the <a href="#org5a2ad91">BeagleBone</a>!
 <br><br></p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc19bf40" class="outline-2">
-<h2 id="orgc19bf40">Onto the BeagleBone!</h2>
-<div class="outline-text-2" id="text-orgc19bf40">
+<div id="outline-container-org5a2ad91" class="outline-2">
+<h2 id="org5a2ad91">Onto the BeagleBone!</h2>
+<div class="outline-text-2" id="text-org5a2ad91">
 <p>
 <br>
 Alright, now boot power-up the bone by connecting the USB-mini to the board and the USB-A to your PC. After a few seconds, a few connections will show up, you can watch for them to appear with
@@ -492,9 +492,9 @@ BeagleBoard.org<span class="w"> </span>Debian<span class="w"> </span>Bullseye<sp
 <p>
 <br><br></p>
 </div>
-<div id="outline-container-org34efa57" class="outline-3">
-<h3 id="org34efa57">Testing the Connection</h3>
-<div class="outline-text-3" id="text-org34efa57">
+<div id="outline-container-orgc93cf73" class="outline-3">
+<h3 id="orgc93cf73">Testing the Connection</h3>
+<div class="outline-text-3" id="text-orgc93cf73">
 <p>
 We will first setup our PC as the gateway:
 </p>
@@ -540,13 +540,13 @@ ping:<span class="w"> </span>deb.debian.org:<span class="w"> </span>Temporary<sp
 </pre></div>
 
 <p>
-that indicates that the firewall is probably blocking the traffic. To resolve this, see the section corresponding to the firewall you use here: <a href="#org6d0843d">ufw</a> (Debian, Ubuntu, Mint), <a href="#orga557b39">firewalld</a> (Fedora), <a href="#org88ed2ca">iptables</a>, <a href="#org994a385">nftables</a>. 
+that indicates that the firewall is probably blocking the traffic. To resolve this, see the section corresponding to the firewall you use here: <a href="#org648511d">ufw</a> (Debian, Ubuntu, Mint), <a href="#org78402c0">firewalld</a> (Fedora), <a href="#orga4031a6">iptables</a>, <a href="#org3d3d7e4">nftables</a>. 
 <br><br></p>
 </div>
 </div>
-<div id="outline-container-org59f61cd" class="outline-3">
-<h3 id="org59f61cd">Making it Persistent</h3>
-<div class="outline-text-3" id="text-org59f61cd">
+<div id="outline-container-org7362ed6" class="outline-3">
+<h3 id="org7362ed6">Making it Persistent</h3>
+<div class="outline-text-3" id="text-org7362ed6">
 <p>
 <br>
 This step is totally optional, but will save you time from having to type all those commands all the time.
@@ -556,9 +556,9 @@ This step is totally optional, but will save you time from having to type all th
 There's two approaches to this, run a shell script after logging into the board, or setting it all up during boot.
 <br><br></p>
 </div>
-<div id="outline-container-orgc4ec2f4" class="outline-4">
-<h4 id="orgc4ec2f4">Script</h4>
-<div class="outline-text-4" id="text-orgc4ec2f4">
+<div id="outline-container-orgf532ea9" class="outline-4">
+<h4 id="orgf532ea9">Script</h4>
+<div class="outline-text-4" id="text-orgf532ea9">
 <p>
 <br>
 This script is based off of <a href="http://derekmolloy.ie/">Derek Molloy</a>'s script <a href="https://github.com/derekmolloy/ee402/blob/master/scripts/StartUSBNetwork">here</a>. Put it in a file under /usr/local/bin/StartUSBNetwork on your bone wit the following content.
@@ -586,9 +586,9 @@ Now try pinging 1.1.1.1 and deb.debian.org!
 <br><br></p>
 </div>
 </div>
-<div id="outline-container-org058052e" class="outline-4">
-<h4 id="org058052e">A Configuration File in /etc/network/interfaces.d</h4>
-<div class="outline-text-4" id="text-org058052e">
+<div id="outline-container-org40b014b" class="outline-4">
+<h4 id="org40b014b">A Configuration File in /etc/network/interfaces.d</h4>
+<div class="outline-text-4" id="text-org40b014b">
 <p>
 Using a configuration file under /etc/network/interfaces.d we can setup a nameserver for our interfaces on boot.
 </p>
@@ -610,18 +610,18 @@ valid_lft<span class="w"> </span>forever<span class="w"> </span>preferred_lft<sp
 </pre></div>
 
 <p>
-Since I've been using the 192.168.6.x ip, I'll show how to write a simple configuration file for the corresponding usb1 interface. A similar one can be created for usb0, but the ip addresses will be different.
+Since I've been using the 192.168.6.x ip, I'll show how to write a simple configuration file for the corresponding usb1 interface. A similar one can be created for usb0, but the ip addresses will have to be different (i.e the 192.168.6.x should be 192.168.7.x).
 </p>
 
 <p>
-Create a file /etc/network/interfaces.d/usb0 with the following content on the bone<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>:
+Create a file /etc/network/interfaces.d/usb1 with the following content on the bone<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>:
 </p>
 <div class="highlight"><pre><span></span>auto usb1
 iface usb1 inet static
 	address 192.168.6.2
 	netmask 255.255.255.252
 	gateway 192.168.6.1
-	up /usr/bin/systemd-resolve --interface=usb0 --set-dns=1.1.1.1
+	up /usr/bin/systemd-resolve --interface=usb1 --set-dns=1.1.1.1
 </pre></div>
 
 <p>
@@ -638,9 +638,9 @@ and try pinging 1.1.1.1 and deb.debian.org. Everything should work nicely!
 </div>
 </div>
 
-<div id="outline-container-orgbe4d061" class="outline-2">
-<h2 id="orgbe4d061">Conclusion</h2>
-<div class="outline-text-2" id="text-orgbe4d061">
+<div id="outline-container-org24540be" class="outline-2">
+<h2 id="org24540be">Conclusion</h2>
+<div class="outline-text-2" id="text-org24540be">
 <p>
 <br>
 I hope this post helped you setting up an internet connection with your board! If anything is not clear, don't hesitate to email me. See the following section for links to various resources and guides to clarify things more.
@@ -651,9 +651,9 @@ Until next time!
 <br><br></p>
 </div>
 </div>
-<div id="outline-container-org8fb38d7" class="outline-2">
-<h2 id="org8fb38d7">References and Further Reading</h2>
-<div class="outline-text-2" id="text-org8fb38d7">
+<div id="outline-container-org28f6cd8" class="outline-2">
+<h2 id="org28f6cd8">References and Further Reading</h2>
+<div class="outline-text-2" id="text-org28f6cd8">
 <ul class="org-ul">
 <li><a href="https://wiki.archlinux.org/title/NetworkManager">https://wiki.archlinux.org/title/NetworkManager</a></li>
 <li><a href="https://wiki.gentoo.org/wiki/Iptables">https://wiki.gentoo.org/wiki/Iptables</a></li>

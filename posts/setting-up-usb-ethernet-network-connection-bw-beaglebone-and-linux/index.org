@@ -88,7 +88,7 @@ $ ip addr
        valid_lft forever preferred_lft forever
 #+END_SRC
 
-Take a note of either of the interface names[fn:1] and the corresponding ip. I will be going with the interface enp0s210f0u2i2 that has the ip 192.168.6.1, unless otherwise stated. Some of the sections have commands run for both of the interfaces, but solely using one interface will also work. 
+Take a note of either of the interface names[fn:1] and the corresponding ip. Configuring one interface properly is enough for reliable internet-sharing, so I will be going with the interface enp0s210f0u2i2 that has the ip 192.168.6.1, unless otherwise stated. 
 
 Now plug in the board and wait for it to boot, and then go forward with one of the NetworkManager methods[fn:2]. The firewall configuration has to be done if your internet connection from the board does not work (as described here: [[*Testing the Connection][Testing the Connection]]). Here are quick-links for your firewall: [[*Firewall Configuration (ufw)][ufw]], [[*Firewall Configuration (firewalld)][firewalld]], [[*Firewall Configuration (iptables)][iptables]], [[*Firewall Configuration (nftables)][nftables]].
 \\
@@ -131,9 +131,8 @@ If the STATE for the interfaces is "connected", run the following for your inter
 #+BEGIN_SRC sh
   $ nmcli connection modify  "Ethernet connection 2" ipv4.method shared
   $ nmcli connection modify  "Ethernet connection 2" ipv4.addresses 192.168.6.1/24
-  $ nmcli connection modify  "Ethernet connection 3" ipv4.method shared
-  $ nmcli connection modify  "Ethernet connection 3" ipv4.addresses 192.168.7.1/24
 #+END_SRC
+You may run the commands again for the other interface, just make sure to use the right connection names and change the ip from 192.168.6.1/24 to 192.168.7.1/24
 
 If the STATE is "disconnected", like below,
 #+BEGIN_SRC sh 
@@ -146,11 +145,11 @@ If the STATE is "disconnected", like below,
 
 Run the following for the bone's interfaces to manually set everything up:
 #+BEGIN_SRC sh
-  # I will setup both of the interfaces that have the disconnected state above:
+  # I will setup one of the interfaces that have the disconnected state above:
   $ nmcli connection add type ethernet ifname enp0s20f0u2i2 ipv4.method shared ipv4.addresses 192.168.6.1/24 con-name "Ethernet Connection 1" # make sure that con-name name is unique
-
-  $ nmcli connection add type ethernet ifname enp0s20f0u2 ipv4.method shared ipv4.addresses 192.168.7.1/24 con-name "Ethernet Connection 2" # make sure that con-name name is unique
   #+END_SRC
+A similar command is run for the other interface, just charge the ipv4.addresss to 192.168.7.1/24 and use a different connection name.
+
 Make sure that the interfaces are from the bone and not from your PC's Ethernet port or some other device. A simple way to figure that out is to just disconnect the bone and see what interfaces are removed; or the converse: connect the board and note down what show up.
 
 
@@ -165,8 +164,7 @@ Note down the internet-facing interface on your PC. For me, it was wlp3s0.
 
 #+BEGIN_SRC sh
   $ sudo -s
-  root$ ufw route allow in on enp0s20f0u2i2 out on wlp3s0 # enp0s20f0u2i2 is the interface of the bone, and wlp3s0 is the internet-facing interface on my PC
-  root$ ufw route allow in on enp0s20f0u2 out on wlp3s0 # enp0s20f0u2 is the other interface of the bone
+  root$ ufw route allow in on enp0s20f0u2i2 out on wlp3s0 # enp0s20f0u2i2 is the interface of the bone, and wlp3s0 is the internet-facing interface on my PC. To configure both interfaces, run the same command but with enps20f0u2 instead of enp0s20f0u2i2
   root$ ufw default allow FORWARD
 #+END_SRC
 
@@ -178,7 +176,6 @@ Now, open and add the following content to the top of /etc/ufw/before.rules:
 
 # Forward traffic
 -A POSTROUTING -s 192.168.6.0/24 -o wlp3s0 -j MASQUERADE
--A POSTROUTING -s 192.168.7.0/24 -o wlp3s0 -j MASQUERADE  
 
 COMMIT
 #+END_SRC
@@ -224,13 +221,12 @@ Let's create a new zone for the bone (rhymes). Put the following into /etc/firew
 Now from a root shell:
 #+BEGIN_SRC sh
   root$ firewall-cmd --reload
-  # adding both of the interfaces of the BeagleBone to the bone-zone. 
+  # adding the choosen interface of the BeagleBone to the bbb-zone
   root$ firewall-cmd --zone=bbb-zone --change-interface=enp0s20f0u2i2 
-  root$ firewall-cmd --zone=bbb-zone --change-interface=enp0s20f0u2
   root$ firewall-cmd --zone=bbb-zone --list-all # double check your work!
   target: ACCEPT
   icmp-block-inversion: no
-  interfaces: enp0s20f0u2 enp0s20f0u2i2
+  interfaces: enp0s20f0u2 enp0s20f0u2i2 # I've added the other interface as well
   sources:
   services: dhcp dns ssh
   ports:
@@ -419,16 +415,16 @@ Using a configuration file under /etc/network/interfaces.d we can setup a namese
   valid_lft forever preferred_lft forever
 #+END_SRC
 
-Since I've been using the 192.168.6.x ip, I'll show how to write a simple configuration file for the corresponding usb1 interface. A similar one can be created for usb0, but the ip addresses will be different.
+Since I've been using the 192.168.6.x ip, I'll show how to write a simple configuration file for the corresponding usb1 interface. A similar one can be created for usb0, but the ip addresses will have to be different (i.e the 192.168.6.x should be 192.168.7.x).
 
-Create a file /etc/network/interfaces.d/usb0 with the following content on the bone[fn:3]:
+Create a file /etc/network/interfaces.d/usb1 with the following content on the bone[fn:3]:
 #+BEGIN_SRC
   auto usb1
   iface usb1 inet static
           address 192.168.6.2
           netmask 255.255.255.252
           gateway 192.168.6.1
-          up /usr/bin/systemd-resolve --interface=usb0 --set-dns=1.1.1.1
+          up /usr/bin/systemd-resolve --interface=usb1 --set-dns=1.1.1.1
 #+END_SRC
 
 Reboot,
