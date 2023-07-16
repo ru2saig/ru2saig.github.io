@@ -132,7 +132,7 @@ If the STATE for the interfaces is "connected", run the following for your inter
   $ nmcli connection modify  "Ethernet connection 2" ipv4.method shared
   $ nmcli connection modify  "Ethernet connection 2" ipv4.addresses 192.168.6.1/24
 #+END_SRC
-You may run the commands again for the other interface, just make sure to use the right connection names and change the ip from 192.168.6.1/24 to 192.168.7.1/24
+You may run the commands again for the other interface, just make sure to use the right connection name and change the ip from 192.168.6.1/24 to 192.168.7.1/24
 
 If the STATE is "disconnected", like below,
 #+BEGIN_SRC sh 
