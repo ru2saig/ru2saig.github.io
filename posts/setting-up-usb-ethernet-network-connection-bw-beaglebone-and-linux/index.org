@@ -127,10 +127,12 @@ Let's list the network devices, with nmcli:
   ...
 #+END_SRC
 
-If the STATE for the interfaces is "connected", run the following for your chosen interface (here I have used enp0s20f0u2i2 which is named Ethernet connection 2):
+If the STATE for the interfaces is "connected", run the following for your interfaces:
 #+BEGIN_SRC sh
   $ nmcli connection modify  "Ethernet connection 2" ipv4.method shared
   $ nmcli connection modify  "Ethernet connection 2" ipv4.addresses 192.168.6.1/24
+  $ nmcli connection modify  "Ethernet connection 3" ipv4.method shared
+  $ nmcli connection modify  "Ethernet connection 3" ipv4.addresses 192.168.7.1/24
 #+END_SRC
 
 If the STATE is "disconnected", like below,
