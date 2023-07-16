@@ -9,8 +9,10 @@
 .tagpage h1 { font-size: 1.875rem; }
 .postpage h1 { font-size: 1.875rem; }
 .storypage h1 { font-size: 1.875rem; }
-.e-content h2 { font-size: 1.25rem; }
-.e-content h3 { font-size: 1rem; }
+.e-content h1 { font-size: 1.875rem; }
+.e-content h2 { font-size: 1.5rem; }
+.e-content h3 { font-size: 1.25rem; }
+.e-content h4 { font-size: 1rem; }
 #older-post { float: left; margin-left:auto; }
 #next-post { float: left; margin-left:auto; }
 .license{ display:flex; justify-content:center; }

@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html prefix="
+        og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+    " vocab="http://ogp.me/ns" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Setting up USB-Ethernet Network Connection between BeagleBone Boards and Desktop Linux | ru2saig</title>
+<link href="../../assets/css/baguetteBox.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/rst_base.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/index.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/custom.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/">
+<link rel="/icon" href="//favicon.ico" sizes="32x32">
+<!--[if lt IE 9]><script src="../../assets/js/html5shiv-printshiv.min.js"></script><![endif]--><meta name="author" content="ru2saig">
+<link rel="prev" href="../contextual-capitalization-of-org-roam-node-titles/" title="Contextual-Capitalization of Org-Roam Node Titles" type="text/html">
+<meta property="og:site_name" content="ru2saig">
+<meta property="og:title" content="Setting up USB-Ethernet Network Connection between BeagleBone Boards a">
+<meta property="og:url" content="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/">
+<meta property="og:description" content="Table Of Contents
+
+
+Introduction
+Prerequisites
+Network Configuration on the PC
+
+Using a GUI (NetworkManager, nm-connection-editor)
+Command-Line Method (NetworkManager, nmcli)
+Firewall Configuration (u">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-07-16T22:08:00+05:30">
+<meta property="article:tag" content="beaglebone">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="networking">
+</head>
+<body>
+    <input id="dark-mode" type="checkbox"><div class="theme">
+        <div class="layout">
+              <header class="cover"><h1 id="brand" class="cover__title">
+<a href="../../" title="ru2saig" rel="home">
+      <span id="blog-title">ru2saig</span>
+  </a>
+  <label class="dark-mode-label hover:dark-mode-label" for="dark-mode">
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Generator: Gravit.io --><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="isolation: isolate;" viewbox="0 0 416 416" width="30px" height="30px"><defs><clippath id="_clipPath_qEPwrMg7OPn6mDBNPkG6Nqc7qffgU4IC"><rect width="416" height="416"></rect></clippath></defs><g clip-path="url(#_clipPath_qEPwrMg7OPn6mDBNPkG6Nqc7qffgU4IC)"><path d=" M 304 88 C 304 57.38 299.49 26.39 288 0 C 364.43 33.27 416 111.32 416 200 C 416 319.29 319.29 416 200 416 C 111.32 416 33.27 364.43 0 288 C 26.39 299.49 57.38 304 88 304 C 207.29 304 304 207.29 304 88 Z "></path></g></svg></label>
+
+  </h1>
+  <span id="blog-desc">Adventures in Robotics, Emacs, Art and more</span>
+
+       <div>
+     <nav class="nav-menu"><ul class="navigation">
+<li><a href="../../">Blog</a></li>
+                <li><a href="../../projects/">Projects</a></li>
+                <li><a href="../../about/">About</a></li>
+                <li><a href="../../categories/">Categories</a></li>
+                <li><a href="../../archive/">Archive</a></li>
+                <li><a href="../../rss.xml">RSS feed</a></li>
+
+	 
+	 
+	 
+       </ul></nav>
+</div>
+
+
+  </header><main id="content" class="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title header__title" itemprop="headline name"><a href="." class="u-url hover:header__title__link">Setting up USB-Ethernet Network Connection between BeagleBone Boards and Desktop Linux</a></h1>
+
+        <div class="metadata">
+            <span class="byline author vcard p-author h-card">
+		Tags:
+            </span>
+                <a class="tag p-category article__meta__link hover:article__meta__link" href="../../categories/beaglebone/" rel="tag">#beaglebone </a>
+                <a class="tag p-category article__meta__link hover:article__meta__link" href="../../categories/linux/" rel="tag">#linux </a>
+                <a class="tag p-category article__meta__link hover:article__meta__link" href="../../categories/networking/" rel="tag">#networking </a>
+            <span class="dateline">
+              | <a class="article__meta__link hover:article__meta__link" href="." rel="bookmark">
+            <time class="published dt-published" datetime="2023-07-16T22:08:00+05:30" itemprop="datePublished" title="16-July-2023">16-July-2023</time></a>
+            </span>
+                    | <span class="sourceline"><a class="article__meta__link hover:article__meta__link" href="index.org">Source</a></span>
+
+        </div>
+        
+    </header><section class="e-content entry-content" itemprop="articleBody text"><p>
+<br></p>
+<div id="outline-container-orgc57de9d" class="outline-2">
+<h2 id="orgc57de9d">Table Of Contents</h2>
+<div class="outline-text-2" id="text-orgc57de9d">
+<ul class="org-ul">
+<li><a href="#org254fda5">Introduction</a></li>
+<li><a href="#org6218a6b">Prerequisites</a></li>
+<li>
+<a href="#org13927d5">Network Configuration on the PC</a>
+<ul class="org-ul">
+<li><a href="#org8681b91">Using a GUI (NetworkManager, nm-connection-editor)</a></li>
+<li><a href="#orga238f07">Command-Line Method (NetworkManager, nmcli)</a></li>
+<li><a href="#org80024b0">Firewall Configuration (ufw)</a></li>
+<li><a href="#org249b850">Firewall Configuration (firewalld)</a></li>
+<li><a href="#org2a7aa0f">Firewall Configuration (iptables)</a></li>
+<li><a href="#org5142628">Firewall Configuration (nftables)</a></li>
+</ul>
+</li>
+<li>
+<a href="#org4ceb332">Onto the BeagleBone!</a>
+<ul class="org-ul">
+<li>
+<a href="#org13a0a41">Making it Persistent</a>
+<ul class="org-ul">
+<li><a href="#orgec5d2e0">Script</a></li>
+<li><a href="#org8fb38df">A Configuration File in /etc/network/interfaces.d</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org990f2ab">Conclusion</a></li>
+<li><a href="#org645a8cc">References and Further Reading</a></li>
+<li><a href="#orga4692ab">Footnotes</a></li>
+</ul>
+<p>
+<br></p>
+</div>
+</div>
+<div id="outline-container-org254fda5" class="outline-2">
+<h2 id="org254fda5">Introduction</h2>
+<div class="outline-text-2" id="text-org254fda5">
+<p>
+<br>
+In this post, I'll describe setting up internet-sharing between a typical desktop Linux install and a BeagleBone board, over USB. This will allow the boards such as the BeagleBone Black to access the outside world with just the provided USB cable and your PC. This will eliminate the need for an additional USB WiFi dongle or another Ethernet cable for the board. 
+<br><br></p>
+</div>
+</div>
+<div id="outline-container-org6218a6b" class="outline-2">
+<h2 id="org6218a6b">Prerequisites</h2>
+<div class="outline-text-2" id="text-org6218a6b">
+<p>
+<br>
+This guide assumes you're running a desktop Linux distribution, have physical working BeagleBone and also have basic familiarity with the Linux command line. 
+<br><br>
+This guide should work on all typical Linux distributions, such as Debian, Ubuntu, Mint and Fedora.
+For editing and creation of files, knowledge of a command-line text editor like nano of vi will be required. For those on something like Arch or Gentoo, I cover setting up the internet-connection using NetworkManager (managing internet connections), managing rules with iptables/nftables or their frontends ufw/firewalld. For those who use scripts to manage their interfaces, this guide will give you an idea of what you may need to configure to get networking on your bone. 
+<br><br>
+For the board, make sure it powers up successfully. This guide assumes you have <a href="https://forum.beagleboard.org/t/debian-11-x-bullseye-monthly-snapshot-2023-07-01/31280#debian-11x-bullseye-iot-snapshot-12">Debian Bullseye IoT</a> booting successfully on BeagleBone. I interchange bone and board and BeagleBone throughout: they all refer to the BeagleBone board that you are using. The nano and vi editors come by default in the install. Use your favorite to create or edit files.
+<br><br>
+If you are new to the Linux command-line, read through this: <a href="https://ubuntu.com/tutorials/command-line-for-beginners">https://ubuntu.com/tutorials/command-line-for-beginners</a>.
+A typical code block for commands running on the PC looks like this:
+</p>
+<div class="highlight"><pre><span></span><span class="c1"># this is a comment, don't type anything following '#' or the '#' itself</span>
+$<span class="w"> </span><span class="c1"># this indicates that we are at the host PC's shell. Do not type this part when running a command</span>
+$<span class="w"> </span>cmd<span class="w"> </span><span class="c1"># this is a command run on the host PC. Just type in the "cmd" part at the shell</span>
+this<span class="w"> </span>is<span class="w"> </span>output<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span><span class="nb">command</span>
+...<span class="w"> </span><span class="c1"># this indicates that some of the output was not included for brevity</span>
+this<span class="w"> </span>is<span class="w"> </span>more<span class="w"> </span>output<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span><span class="nb">command</span>
+root$<span class="w"> </span><span class="c1"># this indicates the root shell on the host PC. This can be accessed with sudo -s or doas -s</span>
+</pre></div>
+
+<p>
+I will seperate the commands run on the host and the bone into different command blocks. A command block for commands running on the bone will look like this:  
+</p>
+<div class="highlight"><pre><span></span>bone$<span class="w"> </span><span class="c1"># this is a command run on the board, bone$ indicates the bone's shell. Do not type this part when running a command</span>
+bone$<span class="w"> </span>cmd<span class="w"> </span><span class="c1"># just type in the "cmd" part at the shell</span>
+woof<span class="w"> </span>woof<span class="w"> </span><span class="c1"># every command won't go woof woof :(</span>
+root-bone$<span class="w"> </span><span class="c1"># this indicates the root shell on the bone. This can be accssed with sudo -s. I would have gone with bone-marrow for the pun, though less clear</span>
+</pre></div>
+<p>
+I am running Fedora 38 and I am using a BeagleBone Black, kindly lent by <a href="https://krvprashanth.github.io/">Prashanth</a>.
+Let's get started!
+<br><br></p>
+</div>
+</div>
+<div id="outline-container-org13927d5" class="outline-2">
+<h2 id="org13927d5">Network Configuration on the PC</h2>
+<div class="outline-text-2" id="text-org13927d5">
+<p>
+<br>
+First we will note down the interfaces of the board. Once you boot your board (just power up your board using the provided USB cable using on of your PC's USB ports), 2 new network interfaces will show up. On my machine, they were enp0s20f0u2 and enp0s20f0u2i2, though they may be different under yours. Make sure to note down the interface names. The ip address will always be 192.168.7.1 and 192.168.6.1 for the respective interface. Here's a snippet of the interfaces on my machine:
+</p>
+<div class="highlight"><pre><span></span>$ ip addr
+...
+6: enp0s20f0u2: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UNKNOWN group default qlen 1000
+    link/ether 36:f5:23:52:6f:8f brd ff:ff:ff:ff:ff:ff
+    inet 192.168.7.1/24 brd 192.168.7.255 scope global noprefixroute enp0s20f0u2
+       valid_lft forever preferred_lft forever
+    inet6 fe80::aec8:22fe:dba4:2a35/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+7: enp0s20f0u2i2: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 76:08:36:43:ab:9f brd ff:ff:ff:ff:ff:ff
+    inet 192.168.6.1/24 brd 192.168.6.255 scope global noprefixroute enp0s20f0u2i2
+       valid_lft forever preferred_lft forever
+    inet6 fe80::7243:7253:1184:11b6/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+</pre></div>
+
+<p>
+Take a note of either of the interface names<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup> and the corresponding ip. I will be going with the interface enp0s210f0u2i2 that has the ip 192.168.6.1, unless otherwise stated.
+</p>
+
+<p>
+Now plug in the board and wait for it to boot, and then go forward with one of the NetworkManager methods<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>. The firewall configuration has to be done if your internet connection from the board does not work (as described here: <a href="#org921787e">Testing the Connection</a>). Here are quick-links for your firewall: <a href="#org80024b0">ufw</a>, <a href="#org249b850">firewalld</a>, <a href="#org2a7aa0f">iptables</a>, <a href="#org5142628">nftables</a>.
+<br><br></p>
+</div>
+<div id="outline-container-org8681b91" class="outline-3">
+<h3 id="org8681b91">Using a GUI (NetworkManager, nm-connection-editor)</h3>
+<div class="outline-text-3" id="text-org8681b91">
+<p>
+<br>
+NetworkManager is a software used to manage networks. We will use NetworkManager to set-up internet sharing between our PC and the bone. In this section, we will use nm-connection-editor, a GUI tool used for configuring networks for NetworkManager. Let's dive right in:
+</p>
+
+<p>
+<b>Note:</b> I've done the filling steps with nm-connection-editor on a different machine running Debian, and the interface I've chosen there is enx6c302ae0733. It has an ip of 192.168.6.1. 
+</p>
+
+<p>
+Run nm-connection-editor, either from the command-line (heh) or by searching it in your application menu. You will be greeted with something like this:
+<img src="../../images/nm-connection-editor-1.png" alt="nil"></p>
+
+<p>
+Double click on the interface that's most recently used. To check if it's from the bone, cross-reference the Device field with the interfaces you've noted down before (you have, haven't you?)
+<img src="../../images/nm-connection-editor-2.png" alt="nil"></p>
+
+<p>
+Now go to the IPv4 section and change the Method field to the "Shared to other Computers" option in the drop down menu:
+<img src="../../images/nm-connection-editor-3.png" alt="nil"></p>
+
+<p>
+Click the Add button and fill out the following details (use 192.168.7.1 if you are going with that ip address):
+<img src="../../images/nm-connection-editor-4.png" alt="nil"></p>
+
+<p>
+Now click Save. You may additionally configure the other interface too, though that is not required. Now <a href="#org4ceb332">onto the BeagleBone</a>!
+<br><br></p>
+</div>
+</div>
+<div id="outline-container-orga238f07" class="outline-3">
+<h3 id="orga238f07">Command-Line Method (NetworkManager, nmcli)</h3>
+<div class="outline-text-3" id="text-orga238f07">
+<p>
+<br>
+NetworkManager is a software to manage networks. In our case, we use it to share the internet of our PC with the bone. NetworkManager comes with a nifty command-line tool, nmcli. This section will describe how to use that to set up internet-sharing.
+</p>
+
+<p>
+Let's list the network devices, with nmcli:
+</p>
+<div class="highlight"><pre><span></span>$<span class="w"> </span>nmcli<span class="w"> </span>device
+DEVICE<span class="w">          </span>TYPE<span class="w">      </span>STATE<span class="w">                   </span>CONNECTION
+enp0s20f0u2<span class="w">     </span>ethernet<span class="w">  </span>connected<span class="w">               </span>Ethernet<span class="w"> </span>connection<span class="w"> </span><span class="m">3</span>
+enp0s20f0u2i2<span class="w">   </span>ethernet<span class="w">  </span>connected<span class="w">               </span>Ethernet<span class="w"> </span>connection<span class="w"> </span><span class="m">2</span>
+...
+</pre></div>
+
+<p>
+If the STATE for the interfaces is "connected", run the following for your chosen interface (here I have used enp0s20f0u2i2 which is named Ethernet connection 2):
+</p>
+<div class="highlight"><pre><span></span>$<span class="w"> </span>nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w">  </span><span class="s2">"Ethernet connection 2"</span><span class="w"> </span>ipv4.method<span class="w"> </span>shared
+$<span class="w"> </span>nmcli<span class="w"> </span>connection<span class="w"> </span>modify<span class="w">  </span><span class="s2">"Ethernet connection 2"</span><span class="w"> </span>ipv4.addresses<span class="w"> </span><span class="m">192</span>.168.6.1/24
+</pre></div>
+
+<p>
+If the STATE is "disconnected", like below,
+</p>
+<div class="highlight"><pre><span></span>$<span class="w"> </span>ncmli<span class="w"> </span>device
+DEVICE<span class="w">          </span>TYPE<span class="w">      </span>STATE<span class="w">                   </span>CONNECTION
+enp0s20f0u2<span class="w">     </span>ethernet<span class="w">  </span>disconnected<span class="w">            </span>--
+enp0s20f0u2i2<span class="w">   </span>ethernet<span class="w">  </span>disconnected<span class="w">            </span>--
+...
+</pre></div>
+
+<p>
+Run the following for the bone's interfaces to manually set everything up:
+</p>
+<div class="highlight"><pre><span></span><span class="c1"># I will setup both of the interfaces that have the disconnected state above:</span>
+$<span class="w"> </span>nmcli<span class="w"> </span>connection<span class="w"> </span>add<span class="w"> </span><span class="nb">type</span><span class="w"> </span>ethernet<span class="w"> </span>ifname<span class="w"> </span>enp0s20f0u2i2<span class="w"> </span>ipv4.method<span class="w"> </span>shared<span class="w"> </span>ipv4.addresses<span class="w"> </span><span class="m">192</span>.168.6.1/24<span class="w"> </span>con-name<span class="w"> </span><span class="s2">"Ethernet Connection 1"</span><span class="w"> </span><span class="c1"># make sure that con-name name is unique</span>
+
+$<span class="w"> </span>nmcli<span class="w"> </span>connection<span class="w"> </span>add<span class="w"> </span><span class="nb">type</span><span class="w"> </span>ethernet<span class="w"> </span>ifname<span class="w"> </span>enp0s20f0u2<span class="w"> </span>ipv4.method<span class="w"> </span>shared<span class="w"> </span>ipv4.addresses<span class="w"> </span><span class="m">192</span>.168.7.1/24<span class="w"> </span>con-name<span class="w"> </span><span class="s2">"Ethernet Connection 2"</span><span class="w"> </span><span class="c1"># make sure that con-name name is unique</span>
+</pre></div>
+<p>
+Make sure that the interfaces are from the bone and not from your PC's Ethernet port or some other device. A simple way to figure that out is to just disconnect the bone and see what interfaces are removed; or the converse: connect the board and note down what show up.
+</p>
+
+
+<p>
+Now <a href="#org4ceb332">onto the BeagleBone</a>!
+<br><br></p>
+</div>
+</div>
+<div id="outline-container-org80024b0" class="outline-3">
+<h3 id="org80024b0">Firewall Configuration (ufw)</h3>
+<div class="outline-text-3" id="text-org80024b0">
+<p>
+<br>
+ufw is a firewall that comes with many Linux distributions. It comes preinstalled on many Debian-based distributions such as Ubuntu and Mint. This section assumes you have run the network manager steps and  sometimes required in addition to NetworkManager methods.
+</p>
+
+<p>
+Note down the internet-facing interface on your PC. For me, it was wlp3s0.
+</p>
+
+<div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>-s
+root$<span class="w"> </span>ufw<span class="w"> </span>route<span class="w"> </span>allow<span class="w"> </span><span class="k">in</span><span class="w"> </span>on<span class="w"> </span>enp0s20f0u2i2<span class="w"> </span>out<span class="w"> </span>on<span class="w"> </span>wlp3s0<span class="w"> </span><span class="c1"># enp0s20f0u2i2 is the interface of the bone, and wlp3s0 is the internet-facing interface on my PC</span>
+root$<span class="w"> </span>ufw<span class="w"> </span>default<span class="w"> </span>allow<span class="w"> </span>FORWARD
+</pre></div>
+
+<p>
+Now, open and add the following content to the top of /etc/ufw/before.rules:
+</p>
+<div class="highlight"><pre><span></span># nat table rules
+*nat
+:POSTROUTING ACCEPT [0:0]
+
+# Forward traffic
+-A POSTROUTING -s 192.168.6.0/24 -o wlp3s0 -j MASQUERADE  
+
+COMMIT
+</pre></div>
+<p>
+I've put these in a code block so that it'll be easier to copy. Make sure it is at the top of the file. If you went with 192.168.7.1 as the IP, change 192.168.6.0/24 to 192.168.7.0/24.
+</p>
+
+
+<p>
+Now reload the rules:
+</p>
+<div class="highlight"><pre><span></span>root$<span class="w"> </span>ufw<span class="w"> </span>reload
+root$<span class="w"> </span><span class="nb">exit</span>
+</pre></div>
+
+<p>
+To the <a href="#org4ceb332">BeagleBone</a>!
+<br><br></p>
+</div>
+</div>
+<div id="outline-container-org249b850" class="outline-3">
+<h3 id="org249b850">Firewall Configuration (firewalld)</h3>
+<div class="outline-text-3" id="text-org249b850">
+<p>
+<br>
+Firewalld is the firewall used typically on Fedora. Firewalld requires a way to manage connections, it won't do that on it's own. See <a href="https://firewalld.org/documentation/zone/connections-interfaces-and-sources.html">this resource</a> for more information. Assuming there is a way to manage the interface, we will continue to allow the interface through our firewall.
+<br></p>
+
+<p>
+Let's create a new zone for the bone (rhymes). Put the following into /etc/firewalld/zones/bbb-zone.xml on your PC:
+</p>
+<div class="highlight"><pre><span></span>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;zone target="ACCEPT"&gt;
+  &lt;short&gt;BeagleBone Zone&lt;/short&gt;
+
+  &lt;description&gt;
+    This zone shall be used for your beagle bone, and other SBCs you want to connect to the internet.
+    Block all traffic to the local machine except ICMP, ICMPv6, DHCP
+    and DNS. Allow all forwarded traffic.
+
+    Based on the nm-shared zone.
+  &lt;/description&gt;
+
+  &lt;protocol value='icmp'/&gt;
+  &lt;protocol value='ipv6-icmp'/&gt;
+  &lt;service name="dhcp"/&gt;
+  &lt;service name="dns"/&gt;
+  &lt;service name="ssh"/&gt;
+&lt;/zone&gt;
+</pre></div>
+
+<p>
+Now from a root shell:
+</p>
+<div class="highlight"><pre><span></span>root$<span class="w"> </span>firewall-cmd<span class="w"> </span>--reload
+<span class="c1"># adding both of the interfaces of the BeagleBone to the bone-zone. </span>
+root$<span class="w"> </span>firewall-cmd<span class="w"> </span>--zone<span class="o">=</span>bbb-zone<span class="w"> </span>--change-interface<span class="o">=</span>enp0s20f0u2i2<span class="w"> </span>
+root$<span class="w"> </span>firewall-cmd<span class="w"> </span>--zone<span class="o">=</span>bbb-zone<span class="w"> </span>--change-interface<span class="o">=</span>enp0s20f0u2
+root$<span class="w"> </span>firewall-cmd<span class="w"> </span>--zone<span class="o">=</span>bbb-zone<span class="w"> </span>--list-all<span class="w"> </span><span class="c1"># double check your work!</span>
+target:<span class="w"> </span>ACCEPT
+icmp-block-inversion:<span class="w"> </span>no
+interfaces:<span class="w"> </span>enp0s20f0u2<span class="w"> </span>enp0s20f0u2i2
+sources:
+services:<span class="w"> </span>dhcp<span class="w"> </span>dns<span class="w"> </span>ssh
+ports:
+protocols:<span class="w"> </span>icmp<span class="w"> </span>ipv6-icmp
+forward:<span class="w"> </span>no
+masquerade:<span class="w"> </span>no
+forward-ports:
+source-ports:
+icmp-blocks:
+rich<span class="w"> </span>rules:
+</pre></div>
+
+<p>
+To the <a href="#org4ceb332">BeagleBone</a>!
+<br><br></p>
+</div>
+</div>
+<div id="outline-container-org2a7aa0f" class="outline-3">
+<h3 id="org2a7aa0f">Firewall Configuration (iptables)</h3>
+<div class="outline-text-3" id="text-org2a7aa0f">
+<p>
+<br>
+Make sure you note down the name of the interface on your host that is facing the internet. Mine is wlp3s0, yours may be different. 
+</p>
+
+<div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>-s
+
+<span class="c1"># flush old rules from iptables</span>
+root$<span class="w"> </span>iptables<span class="w"> </span>--flush<span class="w">            </span>
+root$<span class="w"> </span>iptables<span class="w"> </span>--table<span class="w"> </span>nat<span class="w"> </span>--flush
+root$<span class="w"> </span>iptables<span class="w"> </span>--delete-chain<span class="w">     </span>
+root$<span class="w"> </span>iptables<span class="w"> </span>--table<span class="w"> </span>nat<span class="w"> </span>--delete-chain
+
+
+root$<span class="w"> </span>iptables<span class="w"> </span>--table<span class="w"> </span>nat<span class="w"> </span>--append<span class="w"> </span>POSTROUTING<span class="w"> </span>--out-interface<span class="w"> </span>host-interface<span class="w"> </span>-j<span class="w"> </span>MASQUERADE<span class="w"> </span><span class="c1"># where host-interface is the interface on your host you'd like to use, e.g. wlp3s0</span>
+root$<span class="w"> </span>iptables<span class="w"> </span>--append<span class="w"> </span>FORWARD<span class="w"> </span>--in-interface<span class="w"> </span>bbb-interface<span class="w"> </span>-j<span class="w"> </span>ACCEPT<span class="w"> </span><span class="c1"># bbb-interface is what the interface of beaglebone shows up when ifconfig or ip addr is run on the host mahcine. For me it was enp0s20f0u2i2</span>
+
+root$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>&gt;<span class="w"> </span>/proc/sys/net/ipv4/ip_forward<span class="w"> </span><span class="c1"># turn on IP forwarding</span>
+root$<span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="c1"># exit root shell</span>
+</pre></div>
+
+<p>
+To the <a href="#org4ceb332">BeagleBone</a>!
+<br><br></p>
+</div>
+</div>
+<div id="outline-container-org5142628" class="outline-3">
+<h3 id="org5142628">Firewall Configuration (nftables)</h3>
+<div class="outline-text-3" id="text-org5142628">
+<p>
+<br>
+Make sure you note down the name of the interface on your host that is facing the internet. Mine is wlp3s0, yours may be different.
+</p>
+
+<p>
+Note that these were generated using iptables-translate. 
+</p>
+<div class="highlight"><pre><span></span>$<span class="w"> </span>sudo<span class="w"> </span>-s
+root$<span class="w"> </span>nft<span class="w"> </span>flush<span class="w"> </span>table<span class="w"> </span>ip<span class="w"> </span>filter
+root$<span class="w"> </span>nft<span class="w"> </span>flush<span class="w"> </span>table<span class="w"> </span>ip<span class="w"> </span>nat
+root$<span class="w"> </span>nft<span class="w"> </span>delete<span class="w"> </span>chain<span class="w"> </span>ip<span class="w"> </span>filter<span class="w"> </span><span class="o">(</span>null<span class="o">)</span>
+root$<span class="w"> </span>nft<span class="w"> </span>delete<span class="w"> </span>chain<span class="w"> </span>ip<span class="w"> </span>nat<span class="w"> </span><span class="o">(</span>null<span class="o">)</span>
+root$<span class="w"> </span>nft<span class="w"> </span><span class="s1">'add rule ip nat POSTROUTING oifname "host-interface" counter masquerade'</span><span class="w">  </span><span class="c1"># where host-interface is the interface on your host you'd like to use, e.g. wlp3s0</span>
+root$<span class="w"> </span>nft<span class="w"> </span><span class="s1">'add rule ip filter FORWARD iifname "bbb-interface" counter accept'</span><span class="w"> </span><span class="c1"># bbb-interface is what the interface of beaglebone shows up when ifconfig or ip addr is run on the host mahcine. For me it was enp0s20f0u2i2</span>
+root$<span class="w"> </span><span class="nb">exit</span>
+</pre></div>
+
+<p>
+To the <a href="#org4ceb332">BeagleBone</a>!
+<br><br></p>
+</div>
+</div>
+</div>
+<div id="outline-container-org4ceb332" class="outline-2">
+<h2 id="org4ceb332">Onto the BeagleBone!</h2>
+<div class="outline-text-2" id="text-org4ceb332">
+<p>
+<br>
+Alright, now boot power-up the bone by connecting the USB-mini to the board and the USB-A to your PC. After a few seconds, a few connections will show up, you can watch for them to appear with
+</p>
+<div class="highlight"><pre><span></span>$<span class="w"> </span>watch<span class="w"> </span>-n1<span class="w"> </span>ip<span class="w"> </span>addr
+</pre></div>
+
+<p>
+After they come up, we will use <a href="https://en.wikipedia.org/wiki/Secure_Shell">SSH</a> to login into our board. Ensure you have a SSH client installed on your PC:
+</p>
+<div class="highlight"><pre><span></span><span class="c1"># run the command that corresponds to your distribution</span>
+$<span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>openssh-client<span class="w"> </span><span class="c1"># Debian-derived distributions (Ubuntu, Mint, Q4OS, amount others)</span>
+$<span class="w"> </span>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>openssh-clients<span class="w"> </span><span class="c1"># Fedora</span>
+$<span class="w"> </span>sudo<span class="w"> </span>pacman<span class="w"> </span>-S<span class="w"> </span>openssh<span class="w"> </span><span class="c1"># Arch</span>
+</pre></div>
+
+<p>
+We can use either 192.168.6.2 or 192.168.7.2 to login over SSH, I will be using the former. Note that you won't see the password while typing it. It's recommended to change the password later to something more stronger.
+</p>
+<div class="highlight"><pre><span></span>$<span class="w"> </span>ssh<span class="w"> </span>debian@192.168.6.2
+Debian<span class="w"> </span>GNU/Linux<span class="w"> </span><span class="m">11</span>
+
+BeagleBoard.org<span class="w"> </span>Debian<span class="w"> </span>Bullseye<span class="w"> </span>IoT<span class="w"> </span>Image<span class="w"> </span><span class="m">2023</span>-05-03
+Support:<span class="w"> </span>https://bbb.io/debian
+default<span class="w"> </span>username:password<span class="w"> </span>is<span class="w"> </span><span class="o">[</span>debian:temppwd<span class="o">]</span>
+
+...
+</pre></div>
+
+<p>
+After a successfully logging in, we will be operating in our board. The "bone\(" below would probably be something like debian@BeagleBone:~\) or similar. 
+</p>
+<div class="highlight"><pre><span></span>bone$<span class="w"> </span>cat<span class="w"> </span>/etc/dogtag
+BeagleBoard.org<span class="w"> </span>Debian<span class="w"> </span>Bullseye<span class="w"> </span>IoT<span class="w"> </span>Image<span class="w"> </span><span class="m">2023</span>-05-03
+</pre></div>
+<p>
+<br><br></p>
+</div>
+<div id="outline-container-org921787e" class="outline-3">
+<h3 id="org921787e">Testing the Connection</h3>
+<div class="outline-text-3" id="text-org921787e">
+<p>
+We will first setup our PC as the gateway:
+</p>
+<div class="highlight"><pre><span></span>bone$<span class="w"> </span>sudo<span class="w"> </span>-s<span class="w"> </span><span class="c1"># the sudo password is temppwd by default</span>
+<span class="c1"># you will be greeted by a message if this is your first time using sudo. Read it, understand it, and continue.</span>
+root-bone$<span class="w"> </span>route<span class="w"> </span>add<span class="w"> </span>default<span class="w"> </span>gw<span class="w"> </span><span class="m">192</span>.168.6.1<span class="w"> </span><span class="c1"># 192.168.6.1 is the IP of the PC from the board. Replace with 192.168.7.1 if you're using that IP</span>
+root-bone$<span class="w"> </span>ping<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">1</span>.1.1.1
+PING<span class="w"> </span><span class="m">1</span>.1.1.1<span class="w"> </span><span class="o">(</span><span class="m">1</span>.1.1.1<span class="o">)</span><span class="w"> </span><span class="m">56</span><span class="o">(</span><span class="m">84</span><span class="o">)</span><span class="w"> </span>bytes<span class="w"> </span>of<span class="w"> </span>data.
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">1</span>.1.1.1:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">52</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">20</span>.0<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">1</span>.1.1.1:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">52</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">37</span>.1<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">1</span>.1.1.1:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">52</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">19</span>.0<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">1</span>.1.1.1:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">52</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">21</span>.7<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">1</span>.1.1.1:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">5</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">52</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">20</span>.6<span class="w"> </span>ms
+
+---<span class="w"> </span><span class="m">1</span>.1.1.1<span class="w"> </span>ping<span class="w"> </span>statistics<span class="w"> </span>---
+<span class="m">5</span><span class="w"> </span>packets<span class="w"> </span>transmitted,<span class="w"> </span><span class="m">5</span><span class="w"> </span>received,<span class="w"> </span><span class="m">0</span>%<span class="w"> </span>packet<span class="w"> </span>loss,<span class="w"> </span><span class="nb">time</span><span class="w"> </span>4007ms
+rtt<span class="w"> </span>min/avg/max/mdev<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">19</span>.012/23.676/37.089/6.762<span class="w"> </span>ms
+</pre></div>
+
+<p>
+Since we can reach the DNS resolver, let's try to see if we can reach a website:
+</p>
+
+<div class="highlight"><pre><span></span>root-bone$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"nameserver 1.1.1.1"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/resolv.conf
+root-bone$<span class="w"> </span>ping<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span><span class="w"> </span>deb.debian.org<span class="w"> </span>
+PING<span class="w"> </span>debian.map.fastlydns.net<span class="w"> </span><span class="o">(</span><span class="m">151</span>.101.158.132<span class="o">)</span><span class="w"> </span><span class="m">56</span><span class="o">(</span><span class="m">84</span><span class="o">)</span><span class="w"> </span>bytes<span class="w"> </span>of<span class="w"> </span>data.
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">151</span>.101.158.132<span class="w"> </span><span class="o">(</span><span class="m">151</span>.101.158.132<span class="o">)</span>:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">52</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">20</span>.0<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">151</span>.101.158.132<span class="w"> </span><span class="o">(</span><span class="m">151</span>.101.158.132<span class="o">)</span>:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">52</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">20</span>.4<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">151</span>.101.158.132<span class="w"> </span><span class="o">(</span><span class="m">151</span>.101.158.132<span class="o">)</span>:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">52</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">19</span>.9<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">151</span>.101.158.132<span class="w"> </span><span class="o">(</span><span class="m">151</span>.101.158.132<span class="o">)</span>:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">52</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">21</span>.1<span class="w"> </span>ms
+<span class="m">64</span><span class="w"> </span>bytes<span class="w"> </span>from<span class="w"> </span><span class="m">151</span>.101.158.132<span class="w"> </span><span class="o">(</span><span class="m">151</span>.101.158.132<span class="o">)</span>:<span class="w"> </span><span class="nv">icmp_seq</span><span class="o">=</span><span class="m">5</span><span class="w"> </span><span class="nv">ttl</span><span class="o">=</span><span class="m">52</span><span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">20</span>.1<span class="w"> </span>ms
+
+---<span class="w"> </span>debian.map.fastlydns.net<span class="w"> </span>ping<span class="w"> </span>statistics<span class="w"> </span>---
+<span class="m">5</span><span class="w"> </span>packets<span class="w"> </span>transmitted,<span class="w"> </span><span class="m">5</span><span class="w"> </span>received,<span class="w"> </span><span class="m">0</span>%<span class="w"> </span>packet<span class="w"> </span>loss,<span class="w"> </span><span class="nb">time</span><span class="w"> </span>4002ms
+rtt<span class="w"> </span>min/avg/max/mdev<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">19</span>.904/20.287/21.096/0.430<span class="w"> </span>ms
+</pre></div>
+
+<p>
+If the ping command above fails with
+</p>
+<div class="highlight"><pre><span></span>root-bone$<span class="w"> </span>ping<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span><span class="w"> </span>deb.debian.org
+ping:<span class="w"> </span>deb.debian.org:<span class="w"> </span>Temporary<span class="w"> </span>failure<span class="w"> </span><span class="k">in</span><span class="w"> </span>name<span class="w"> </span>resolution
+</pre></div>
+
+<p>
+that indicates that the firewall is probably blocking the traffic. To resolve this, see the section corresponding to the firewall you use here: <a href="#org80024b0">ufw</a> (Debian, Ubuntu, Mint), <a href="#org249b850">firewalld</a> (Fedora), <a href="#org2a7aa0f">iptables</a>, <a href="#org5142628">nftables</a>. 
+<br><br></p>
+</div>
+</div>
+<div id="outline-container-org13a0a41" class="outline-3">
+<h3 id="org13a0a41">Making it Persistent</h3>
+<div class="outline-text-3" id="text-org13a0a41">
+<p>
+<br>
+This step is totally optional, but will save you time from having to type all those commands all the time.
+</p>
+
+<p>
+There's two approaches to this, run a shell script after logging into the board, or setting it all up during boot.
+<br><br></p>
+</div>
+<div id="outline-container-orgec5d2e0" class="outline-4">
+<h4 id="orgec5d2e0">Script</h4>
+<div class="outline-text-4" id="text-orgec5d2e0">
+<p>
+<br>
+This script is based off of <a href="http://derekmolloy.ie/">Derek Molloy</a>'s script <a href="https://github.com/derekmolloy/ee402/blob/master/scripts/StartUSBNetwork">here</a>. Put it in a file under /usr/local/bin/StartUSBNetwork on your bone wit the following content.
+</p>
+<div class="highlight"><pre><span></span>#!/bin/sh
+echo "Setting up the default gateway"
+/sbin/route add default gw 192.168.6.1
+
+echo "Updating the nameserver entry"
+echo "nameserver 1.1.1.1" &gt;&gt; /etc/resolv.conf
+</pre></div>
+
+<p>
+Make sure to make it executable:
+</p>
+<div class="highlight"><pre><span></span>bone$ sudo chmod +x /usr/local/bin/StartUSBNetwork
+bone$ sudo StartUSBNetwork
+[sudo] password for debian:
+Setting up the default gateway
+Updating the nameserver entry
+</pre></div>
+
+<p>
+Now try pinging 1.1.1.1 and deb.debian.org!
+<br><br></p>
+</div>
+</div>
+<div id="outline-container-org8fb38df" class="outline-4">
+<h4 id="org8fb38df">A Configuration File in /etc/network/interfaces.d</h4>
+<div class="outline-text-4" id="text-org8fb38df">
+<p>
+Using a configuration file under /etc/network/interfaces.d we can setup a nameserver for our interfaces on boot.
+</p>
+
+
+<div class="highlight"><pre><span></span>bone$<span class="w"> </span>ip<span class="w"> </span>addr
+<span class="m">3</span>:<span class="w"> </span>usb0:<span class="w"> </span>&lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;<span class="w"> </span>mtu<span class="w"> </span><span class="m">1500</span><span class="w"> </span>qdisc<span class="w"> </span>pfifo_fast<span class="w"> </span>state<span class="w"> </span>UP<span class="w"> </span>group<span class="w"> </span>default<span class="w"> </span>qlen<span class="w"> </span><span class="m">1000</span>
+link/ether<span class="w"> </span><span class="m">24</span>:76:25:89:20:83<span class="w"> </span>brd<span class="w"> </span>ff:ff:ff:ff:ff:ff
+inet<span class="w"> </span><span class="m">192</span>.168.7.2/24<span class="w"> </span>brd<span class="w"> </span><span class="m">192</span>.168.7.255<span class="w"> </span>scope<span class="w"> </span>global<span class="w"> </span>usb0
+valid_lft<span class="w"> </span>forever<span class="w"> </span>preferred_lft<span class="w"> </span>forever
+inet6<span class="w"> </span>fe80::2676:25ff:fe89:2083/64<span class="w"> </span>scope<span class="w"> </span>link
+valid_lft<span class="w"> </span>forever<span class="w"> </span>preferred_lft<span class="w"> </span>forever
+<span class="m">4</span>:<span class="w"> </span>usb1:<span class="w"> </span>&lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;<span class="w"> </span>mtu<span class="w"> </span><span class="m">1500</span><span class="w"> </span>qdisc<span class="w"> </span>pfifo_fast<span class="w"> </span>state<span class="w"> </span>UP<span class="w"> </span>group<span class="w"> </span>default<span class="w"> </span>qlen<span class="w"> </span><span class="m">1000</span>
+link/ether<span class="w"> </span><span class="m">24</span>:76:25:89:20:85<span class="w"> </span>brd<span class="w"> </span>ff:ff:ff:ff:ff:ff
+inet<span class="w"> </span><span class="m">192</span>.168.6.2/24<span class="w"> </span>brd<span class="w"> </span><span class="m">192</span>.168.6.255<span class="w"> </span>scope<span class="w"> </span>global<span class="w"> </span>usb1
+valid_lft<span class="w"> </span>forever<span class="w"> </span>preferred_lft<span class="w"> </span>forever
+inet6<span class="w"> </span>fe80::2676:25ff:fe89:2085/64<span class="w"> </span>scope<span class="w"> </span>link
+valid_lft<span class="w"> </span>forever<span class="w"> </span>preferred_lft<span class="w"> </span>forever
+</pre></div>
+
+<p>
+Since I've been using the 192.168.6.x ip, I'll show how to write a simple configuration file for the corresponding usb1 interface. A similar one can be created for usb0, but the ip addresses will be different.
+</p>
+
+<p>
+Create a file /etc/network/interfaces.d/usb0 with the following content on the bone<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>:
+</p>
+<div class="highlight"><pre><span></span>auto usb1
+iface usb1 inet static
+	address 192.168.6.2
+	netmask 255.255.255.252
+	gateway 192.168.6.1
+	up /usr/bin/systemd-resolve --interface=usb0 --set-dns=1.1.1.1
+</pre></div>
+
+<p>
+Reboot,
+</p>
+<div class="highlight"><pre><span></span>bone$<span class="w"> </span>sudo<span class="w"> </span>reboot<span class="w"> </span>
+</pre></div>
+
+<p>
+and try pinging 1.1.1.1 and deb.debian.org. Everything should work nicely! 
+<br><br></p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org990f2ab" class="outline-2">
+<h2 id="org990f2ab">Conclusion</h2>
+<div class="outline-text-2" id="text-org990f2ab">
+<p>
+<br>
+I hope this post helped you setting up an internet connection with your board! If anything is not clear, don't hesitate to email me. See the following section for links to various resources and guides to clarify things more.
+</p>
+
+<p>
+Until next time!
+<br><br></p>
+</div>
+</div>
+<div id="outline-container-org645a8cc" class="outline-2">
+<h2 id="org645a8cc">References and Further Reading</h2>
+<div class="outline-text-2" id="text-org645a8cc">
+<ul class="org-ul">
+<li><a href="https://wiki.archlinux.org/title/NetworkManager">https://wiki.archlinux.org/title/NetworkManager</a></li>
+<li><a href="https://wiki.gentoo.org/wiki/Iptables">https://wiki.gentoo.org/wiki/Iptables</a></li>
+<li><a href="https://wiki.gentoo.org/wiki/Nftables">https://wiki.gentoo.org/wiki/Nftables</a></li>
+<li><a href="https://wiki.archlinux.org/title/Nftables">https://wiki.archlinux.org/title/Nftables</a></li>
+<li><a href="https://wiki.nftables.org/wiki-nftables/index.php/Moving_from_iptables_to_nftables">https://wiki.nftables.org/wiki-nftables/index.php/Moving_from_iptables_to_nftables</a></li>
+<li><a href="https://securitynetworkinglinux.wordpress.com/2019/07/03/how-to-masquerade-nat-ipv4-traffic-using-ufw-on-ubuntu-cli/">https://securitynetworkinglinux.wordpress.com/2019/07/03/how-to-masquerade-nat-ipv4-traffic-using-ufw-on-ubuntu-cli/</a></li>
+<li><a href="https://fedoramagazine.org/internet-connection-sharing-networkmanager/">https://fedoramagazine.org/internet-connection-sharing-networkmanager/</a></li>
+<li><a href="https://developer-old.gnome.org/NetworkManager/stable/settings-ipv4.html">https://developer-old.gnome.org/NetworkManager/stable/settings-ipv4.html</a></li>
+<li><a href="https://firewalld.org/documentation/zone/">https://firewalld.org/documentation/zone/</a></li>
+<li><a href="http://derekmolloy.ie/beaglebone/">http://derekmolloy.ie/beaglebone/</a></li>
+<li><a href="https://unix.stackexchange.com/questions/128439/good-detailed-explanation-of-etc-network-interfaces-syntax">https://unix.stackexchange.com/questions/128439/good-detailed-explanation-of-etc-network-interfaces-syntax</a></li>
+<li><a href="https://serverfault.com/questions/89597/when-interface-receives-an-ip-address-run-a-shell-script">https://serverfault.com/questions/89597/when-interface-receives-an-ip-address-run-a-shell-script</a></li>
+<li><a href="https://wiki.debian.org/NetworkConfiguration#A.2Fetc.2Fnetwork.2Finterfaces">https://wiki.debian.org/NetworkConfiguration#A.2Fetc.2Fnetwork.2Finterfaces</a></li>
+<li><a href="https://unix.stackexchange.com/questions/128439/good-detailed-explanation-of-etc-network-interfaces-syntax">https://unix.stackexchange.com/questions/128439/good-detailed-explanation-of-etc-network-interfaces-syntax</a></li>
+<li><a href="https://github.com/rcn-ee/repos/tree/master/bb-usb-gadgets/suite/bookworm/debian">https://github.com/rcn-ee/repos/tree/master/bb-usb-gadgets/suite/bookworm/debian</a></li>
+</ul>
+<p>
+<br></p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef">
+<sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup><div class="footpara" role="doc-footnote"><p class="footpara">
+In the official Debian images from BeagleBone, the bone's USB is configured this way: USB-RNDIS (for Windows compatibility) and USB-NCM gadget (for MacOS compatibility). Both USB gadgets are supported under Linux operating systems.
+</p></div>
+</div>
+
+<div class="footdef">
+<sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup><div class="footpara" role="doc-footnote"><p class="footpara">
+This is certainly not exhaustive list of all network managing software's or firewalls, but it has the most common ones that are usually preinstalled with your distro. If you have methods for your networking that you don't see here, feel free to shoot me an email at develruusaig dot gmail dot com!
+</p></div>
+</div>
+
+<div class="footdef">
+<sup><a id="fn.3" class="footnum" href="#fnr.3" role="doc-backlink">3</a></sup><div class="footpara" role="doc-footnote"><p class="footpara">
+There is a "dns-nameservers" option but that did not work for me, so I used systemd-resolv which is what manages /etc/resolv.conf. 
+</p></div>
+</div>
+
+
+</div>
+</div>
+    </section><aside class="postpromonav"><nav><ul class="pager hidden-print pagination">
+<li class="previous">
+                <a class="hover:pagination__link" href="../contextual-capitalization-of-org-roam-node-titles/" rel="prev" title="Contextual-Capitalization of Org-Roam Node Titles"> ← Previous post</a>
+            </li>
+        </ul></nav></aside></article></main><footer class="article__meta footer"><div>
+          <p class="footer-content">
+Contents © 2023
+<a href="mailto:develruusaig@gmail.com">ru2saig</a> - Powered by <a href="https://getnikola.com" rel="nofollow">Nikola</a>
+
+</p>
+<div class="license">
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License BY-NC-SA" style="border-width:0; margin-bottom:12px;" src="../../images/cc-88x31.png"></a>
+</div>
+
+
+	</div>
+	<div>
+          
+	</div>
+        </footer>
+</div>
+    </div>
+                <script src="../../assets/js/index.js"></script><script src="../../assets/js/baguetteBox.min.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>
