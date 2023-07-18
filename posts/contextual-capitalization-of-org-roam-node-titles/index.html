@@ -59,7 +59,7 @@
 </div>
 
 
-  </header><main id="content" class="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title header__title" itemprop="headline name"><a href="." class="u-url hover:header__title__link">Contextual-Capitalization of Org-Roam Node Titles</a></h1>
+  </header><main id="content" class="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title header__title" itemprop="headline name">Contextual-Capitalization of Org-Roam Node Titles</h1>
 
         <div class="metadata">
             <span class="byline author vcard p-author h-card">
@@ -83,12 +83,9 @@ I extensively use Emacs, Org-Mode and <a href="https://www.orgroam.com/">Org-Roa
 <br><br>
 But there I have a gripe; the titles are inserted as they are, which makes the link not so aesthetic. (e.g.) "Given a Matrix …". I did not like reading that. So I spent some time making such a sentence into "Given a matrix …". I describe in this post (more of an article) how I arrived at a workable solution. 
 </p>
-
-<p>
-<br></p>
-<div id="outline-container-orgc8b2e14" class="outline-2">
-<h2 id="orgc8b2e14">Requirements</h2>
-<div class="outline-text-2" id="text-orgc8b2e14">
+<div id="outline-container-org65d073f" class="outline-2">
+<h2 id="org65d073f">Requirements</h2>
+<div class="outline-text-2" id="text-org65d073f">
 <p>
 First, how do I like my links? The first step is setting requirements for the end approach.
 </p>
@@ -100,12 +97,12 @@ First, how do I like my links? The first step is setting requirements for the en
 </ul>
 <p>
 Alright so once that's out of the way, I can get to making it!
-<br><br></p>
+</p>
 </div>
 </div>
-<div id="outline-container-org6ab07eb" class="outline-2">
-<h2 id="org6ab07eb">Version 1</h2>
-<div class="outline-text-2" id="text-org6ab07eb">
+<div id="outline-container-orgf59dc2b" class="outline-2">
+<h2 id="orgf59dc2b">Version 1</h2>
+<div class="outline-text-2" id="text-orgf59dc2b">
 <p>
 I started by investigating the function that runs when I insert a node. I consulted describe-key for answers. I called the describe-key function (C-h k) and then used the keyboard shortcut to insert a node in org-buffers: (C-c n i). Describe-key reported that org-roam-node-insert is what is run.
 </p>
@@ -178,12 +175,13 @@ This snippet works pretty well! Except, split-string consumes the separators. Th
 
 <p>
 It works! But, there are a few issues present, mainly, there is no way to configure the capitalize-word-list without editing the elisp setq expression. That's what version 2 is for!
-<br><br></p>
+</p>
 </div>
 </div>
-<div id="outline-container-orgf750007" class="outline-2">
-<h2 id="orgf750007">Version 2</h2>
-<div class="outline-text-2" id="text-orgf750007">
+
+<div id="outline-container-org8bfb426" class="outline-2">
+<h2 id="org8bfb426">Version 2</h2>
+<div class="outline-text-2" id="text-org8bfb426">
 <p>
 Using Emacs's <a href="https://www.gnu.org/software/emacs/manual/html_node/eintr/defcustom.html">defcustom</a> mechanism, the user can add and remove words as they wish, and take their capitalize-word-list with them! I've written elisp functions for removal and addition of words as well, as I find using the customize interface for a new word take too long. While typing, add-word-at-point-to-list becomes immensely useful to add words on the fly. 
 </p>
@@ -211,9 +209,9 @@ Using Emacs's <a href="https://www.gnu.org/software/emacs/manual/html_node/eintr
 </div>
 </div>
 
-<div id="outline-container-orgd92547d" class="outline-2">
-<h2 id="orgd92547d">The Complete Code Listing</h2>
-<div class="outline-text-2" id="text-orgd92547d">
+<div id="outline-container-org4e7d97b" class="outline-2">
+<h2 id="org4e7d97b">The Complete Code Listing</h2>
+<div class="outline-text-2" id="text-org4e7d97b">
 <div class="highlight"><pre><span></span><span class="w">  </span><span class="p">(</span><span class="nv">defcustom</span><span class="w"> </span><span class="nv">capitalize-words-list</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"Emacs"</span><span class="w"> </span><span class="s">"Elisp"</span><span class="w"> </span><span class="s">"GNU"</span><span class="w"> </span><span class="s">"Linux"</span><span class="w"> </span><span class="s">"Python"</span><span class="w"> </span><span class="s">"BeagleBone"</span><span class="w"> </span><span class="s">"Arduino"</span><span class="p">)</span>
 <span class="w">    </span><span class="s">"If non-nil, contains a list of proper-nouns, abbreviations, and other words to be capitalized when</span>
 <span class="s">  org-roam-insert is called. The case does matter for this, so be careful when adding own words."</span>
@@ -302,9 +300,9 @@ Using Emacs's <a href="https://www.gnu.org/software/emacs/manual/html_node/eintr
 </div>
 </div>
 
-<div id="outline-container-org227c5eb" class="outline-2">
-<h2 id="org227c5eb">Conclusion…or is it?</h2>
-<div class="outline-text-2" id="text-org227c5eb">
+<div id="outline-container-org954dc6e" class="outline-2">
+<h2 id="org954dc6e">Conclusion…or is it?</h2>
+<div class="outline-text-2" id="text-org954dc6e">
 <p>
 I have noticed a few areas that I can improve version 2,
 </p>

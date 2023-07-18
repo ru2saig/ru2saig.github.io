@@ -6,19 +6,15 @@
 style="border-width:0; margin-bottom:12px;"
 src="/images/cc-88x31.png"&gt;&lt;/a&gt;
 &lt;/div&gt;
-</copyright><lastBuildDate>Mon, 10 Jul 2023 13:54:56 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Contextual-Capitalization of Org-Roam Node Titles</title><link>https://ru2saig.github.io/posts/contextual-capitalization-of-org-roam-node-titles/</link><dc:creator>ru2saig</dc:creator><description>&lt;p&gt;
+</copyright><lastBuildDate>Tue, 18 Jul 2023 06:57:05 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Contextual-Capitalization of Org-Roam Node Titles</title><link>https://ru2saig.github.io/posts/contextual-capitalization-of-org-roam-node-titles/</link><dc:creator>ru2saig</dc:creator><description>&lt;p&gt;
 I extensively use Emacs, Org-Mode and &lt;a href="https://www.orgroam.com/"&gt;Org-Roam&lt;/a&gt; for managing my knowledge, in the form a personal wiki. I use the &lt;a href="https://zettelkasten.de/introduction/"&gt;Zettelkasten Method&lt;/a&gt; for making the entries, but instead of explicitly noting the ID, I like inserting the titles of the nodes instead, like a page from &lt;a href="https://en.wikipedia.org/wiki/Cosmic_latte"&gt;Wikipedia&lt;/a&gt; or this blog post itself as an example! (Of course, the links are relevant to the topic of the note)
 &lt;br&gt;
 &lt;br&gt;
 But there I have a gripe; the titles are inserted as they are, which makes the link not so aesthetic. (e.g.) "Given a Matrix …". I did not like reading that. So I spent some time making such a sentence into "Given a matrix …". I describe in this post (more of an article) how I arrived at a workable solution. 
 &lt;/p&gt;
-
-&lt;p&gt;
-&lt;br&gt;
-&lt;/p&gt;
-&lt;div id="outline-container-orgc8b2e14" class="outline-2"&gt;
-&lt;h2 id="orgc8b2e14"&gt;Requirements&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc8b2e14"&gt;
+&lt;div id="outline-container-org65d073f" class="outline-2"&gt;
+&lt;h2 id="org65d073f"&gt;Requirements&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org65d073f"&gt;
 &lt;p&gt;
 First, how do I like my links? The first step is setting requirements for the end approach.
 &lt;/p&gt;
@@ -31,14 +27,12 @@ First, how do I like my links? The first step is setting requirements for the en
 
 &lt;p&gt;
 Alright so once that's out of the way, I can get to making it!
-&lt;br&gt;
-&lt;br&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org6ab07eb" class="outline-2"&gt;
-&lt;h2 id="org6ab07eb"&gt;Version 1&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6ab07eb"&gt;
+&lt;div id="outline-container-orgf59dc2b" class="outline-2"&gt;
+&lt;h2 id="orgf59dc2b"&gt;Version 1&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf59dc2b"&gt;
 &lt;p&gt;
 I started by investigating the function that runs when I insert a node. I consulted describe-key for answers. I called the describe-key function (C-h k) and then used the keyboard shortcut to insert a node in org-buffers: (C-c n i). Describe-key reported that org-roam-node-insert is what is run.
 &lt;/p&gt;
@@ -111,14 +105,13 @@ This snippet works pretty well! Except, split-string consumes the separators. Th
 
 &lt;p&gt;
 It works! But, there are a few issues present, mainly, there is no way to configure the capitalize-word-list without editing the elisp setq expression. That's what version 2 is for!
-&lt;br&gt;
-&lt;br&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf750007" class="outline-2"&gt;
-&lt;h2 id="orgf750007"&gt;Version 2&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf750007"&gt;
+
+&lt;div id="outline-container-org8bfb426" class="outline-2"&gt;
+&lt;h2 id="org8bfb426"&gt;Version 2&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8bfb426"&gt;
 &lt;p&gt;
 Using Emacs's &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/eintr/defcustom.html"&gt;defcustom&lt;/a&gt; mechanism, the user can add and remove words as they wish, and take their capitalize-word-list with them! I've written elisp functions for removal and addition of words as well, as I find using the customize interface for a new word take too long. While typing, add-word-at-point-to-list becomes immensely useful to add words on the fly. 
 &lt;/p&gt;
@@ -146,9 +139,9 @@ Using Emacs's &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/ei
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd92547d" class="outline-2"&gt;
-&lt;h2 id="orgd92547d"&gt;The Complete Code Listing&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd92547d"&gt;
+&lt;div id="outline-container-org4e7d97b" class="outline-2"&gt;
+&lt;h2 id="org4e7d97b"&gt;The Complete Code Listing&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4e7d97b"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;defcustom&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;capitalize-words-list&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Emacs"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"Elisp"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"GNU"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"Linux"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"Python"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"BeagleBone"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"Arduino"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="s"&gt;"If non-nil, contains a list of proper-nouns, abbreviations, and other words to be capitalized when&lt;/span&gt;
 &lt;span class="s"&gt;  org-roam-insert is called. The case does matter for this, so be careful when adding own words."&lt;/span&gt;
@@ -237,9 +230,9 @@ Using Emacs's &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/ei
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org227c5eb" class="outline-2"&gt;
-&lt;h2 id="org227c5eb"&gt;Conclusion…or is it?&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org227c5eb"&gt;
+&lt;div id="outline-container-org954dc6e" class="outline-2"&gt;
+&lt;h2 id="org954dc6e"&gt;Conclusion…or is it?&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org954dc6e"&gt;
 &lt;p&gt;
 I have noticed a few areas that I can improve version 2,
 &lt;/p&gt;

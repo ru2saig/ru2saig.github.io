@@ -14,8 +14,6 @@ I extensively use Emacs, Org-Mode and [[https://www.orgroam.com/][Org-Roam]] for
 \\
 \\
 But there I have a gripe; the titles are inserted as they are, which makes the link not so aesthetic. (e.g.) "Given a Matrix ...". I did not like reading that. So I spent some time making such a sentence into "Given a matrix ...". I describe in this post (more of an article) how I arrived at a workable solution. 
-
-\\
 * Requirements
 First, how do I like my links? The first step is setting requirements for the end approach.
 - Insert the title as it is if it's a project node
@@ -24,8 +22,6 @@ First, how do I like my links? The first step is setting requirements for the en
 - The first word is capitalized if it's at the beginning of a sentence
 
 Alright so once that's out of the way, I can get to making it!
-\\
-\\
 * Version 1
 I started by investigating the function that runs when I insert a node. I consulted describe-key for answers. I called the describe-key function (C-h k) and then used the keyboard shortcut to insert a node in org-buffers: (C-c n i). Describe-key reported that org-roam-node-insert is what is run.
 
@@ -90,8 +86,7 @@ This snippet works pretty well! Except, split-string consumes the separators. Th
 #+END_SRC
 
 It works! But, there are a few issues present, mainly, there is no way to configure the capitalize-word-list without editing the elisp setq expression. That's what version 2 is for!
-\\
-\\
+
 * Version 2
 Using Emacs's [[https://www.gnu.org/software/emacs/manual/html_node/eintr/defcustom.html][defcustom]] mechanism, the user can add and remove words as they wish, and take their capitalize-word-list with them! I've written elisp functions for removal and addition of words as well, as I find using the customize interface for a new word take too long. While typing, add-word-at-point-to-list becomes immensely useful to add words on the fly. 
 

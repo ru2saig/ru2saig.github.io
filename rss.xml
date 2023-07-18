@@ -6,68 +6,67 @@
 style="border-width:0; margin-bottom:12px;"
 src="/images/cc-88x31.png"&gt;&lt;/a&gt;
 &lt;/div&gt;
-</copyright><lastBuildDate>Sun, 16 Jul 2023 16:57:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Setting up USB-Ethernet Network Connection between BeagleBone Boards and Desktop Linux</title><link>https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/</link><dc:creator>ru2saig</dc:creator><description>&lt;p&gt;
-&lt;br&gt;
-&lt;/p&gt;
-&lt;div id="outline-container-org057f3b3" class="outline-2"&gt;
-&lt;h2 id="org057f3b3"&gt;Table Of Contents&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org057f3b3"&gt;
+</copyright><lastBuildDate>Tue, 18 Jul 2023 06:58:32 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Setting up USB-Ethernet Network Connection between BeagleBone Boards and Desktop Linux</title><link>https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/</link><dc:creator>ru2saig</dc:creator><description>&lt;div id="outline-container-org4ebb244" class="outline-2"&gt;
+&lt;h2 id="org4ebb244"&gt;Table Of Contents&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4ebb244"&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org29dcef9"&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org48e6057"&gt;Prerequisites&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgbee6786"&gt;Network Configuration on the PC&lt;/a&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgbf351d1"&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org881c546"&gt;Prerequisites&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orge797c83"&gt;Network Configuration on the PC&lt;/a&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org8592c5a"&gt;Using a GUI (NetworkManager, nm-connection-editor)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org108455a"&gt;Command-Line Method (NetworkManager, nmcli)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org1fe076e"&gt;Firewall Configuration (ufw)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org162135f"&gt;Firewall Configuration (firewalld)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgb03f143"&gt;Firewall Configuration (iptables)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org00f7433"&gt;Firewall Configuration (nftables)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org5622313"&gt;Using a GUI (NetworkManager, nm-connection-editor)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgb24be89"&gt;Command-Line Method (NetworkManager, nmcli)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org0e151aa"&gt;Firewall Configuration (ufw)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org6391df3"&gt;Firewall Configuration (firewalld)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgb80efb5"&gt;Firewall Configuration (iptables)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgddfb8ab"&gt;Firewall Configuration (nftables)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org70f2a62"&gt;Onto the BeagleBone!&lt;/a&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgf34bce4"&gt;Onto the BeagleBone!&lt;/a&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orga533493"&gt;Making it Persistent&lt;/a&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgaaa062f"&gt;Making it Persistent&lt;/a&gt;
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgf9ba289"&gt;Script&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orge1a5b90"&gt;A Configuration File in /etc/network/interfaces.d&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgfc8d2fb"&gt;Script&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org374f281"&gt;A Configuration File in /etc/network/interfaces.d&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orga0c2d2f"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org3a4ce92"&gt;References and Further Reading&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orge60f655"&gt;Footnotes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgfd8af2f"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgf0b09ca"&gt;References and Further Reading&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org933b015"&gt;Footnotes&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-orgbf351d1" class="outline-2"&gt;
+&lt;h2 id="orgbf351d1"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgbf351d1"&gt;
+&lt;p&gt;
+In this post, I'll describe setting up internet-sharing between a typical desktop Linux install and a BeagleBone board, over USB. This will allow the boards such as the BeagleBone Black to access the outside world with just the provided USB cable and your PC. This will eliminate the need for an additional USB WiFi dongle or another Ethernet cable for the board. 
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-org881c546" class="outline-2"&gt;
+&lt;h2 id="org881c546"&gt;Prerequisites&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org881c546"&gt;
+&lt;p&gt;
+This guide assumes you're running a desktop Linux distribution, have physical working BeagleBone and also have basic familiarity with the Linux command line. 
+&lt;/p&gt;
+
 
 &lt;p&gt;
-&lt;br&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-org29dcef9" class="outline-2"&gt;
-&lt;h2 id="org29dcef9"&gt;Introduction&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org29dcef9"&gt;
-&lt;p&gt;
-&lt;br&gt;
-In this post, I'll describe setting up internet-sharing between a typical desktop Linux install and a BeagleBone board, over USB. This will allow the boards such as the BeagleBone Black to access the outside world with just the provided USB cable and your PC. This will eliminate the need for an additional USB WiFi dongle or another Ethernet cable for the board. 
-&lt;br&gt;
-&lt;br&gt;
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id="outline-container-org48e6057" class="outline-2"&gt;
-&lt;h2 id="org48e6057"&gt;Prerequisites&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org48e6057"&gt;
-&lt;p&gt;
-&lt;br&gt;
-This guide assumes you're running a desktop Linux distribution, have physical working BeagleBone and also have basic familiarity with the Linux command line. 
-&lt;br&gt;
-&lt;br&gt;
 This guide should work on all typical Linux distributions, such as Debian, Ubuntu, Mint and Fedora.
 For editing and creation of files, knowledge of a command-line text editor like nano of vi will be required. For those on something like Arch or Gentoo, I cover setting up the internet-connection using NetworkManager (managing internet connections), managing rules with iptables/nftables or their frontends ufw/firewalld. For those who use scripts to manage their interfaces, this guide will give you an idea of what you may need to configure to get networking on your bone. 
-&lt;br&gt;
-&lt;br&gt;
+&lt;/p&gt;
+
+
+&lt;p&gt;
 For the board, make sure it powers up successfully. This guide assumes you have &lt;a href="https://forum.beagleboard.org/t/debian-11-x-bullseye-monthly-snapshot-2023-07-01/31280#debian-11x-bullseye-iot-snapshot-12"&gt;Debian Bullseye IoT&lt;/a&gt; booting successfully on BeagleBone. I interchange bone and board and BeagleBone throughout: they all refer to the BeagleBone board that you are using. The nano and vi editors come by default in the install. Use your favorite to create or edit files.
-&lt;br&gt;
-&lt;br&gt;
+&lt;/p&gt;
+
+
+&lt;p&gt;
 If you are new to the Linux command-line, read through this: &lt;a href="https://ubuntu.com/tutorials/command-line-for-beginners"&gt;https://ubuntu.com/tutorials/command-line-for-beginners&lt;/a&gt;.
 A typical code block for commands running on the PC looks like this:
 &lt;/p&gt;
@@ -91,16 +90,15 @@ root-bone$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# this indi
 &lt;p&gt;
 I am running Fedora 38 and I am using a BeagleBone Black, kindly lent by &lt;a href="https://krvprashanth.github.io/"&gt;Prashanth&lt;/a&gt;.
 Let's get started!
-&lt;br&gt;
-&lt;br&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgbee6786" class="outline-2"&gt;
-&lt;h2 id="orgbee6786"&gt;Network Configuration on the PC&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgbee6786"&gt;
+
+
+&lt;div id="outline-container-orge797c83" class="outline-2"&gt;
+&lt;h2 id="orge797c83"&gt;Network Configuration on the PC&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orge797c83"&gt;
 &lt;p&gt;
-&lt;br&gt;
 First we will note down the interfaces of the board. Once you boot your board (just power up your board using the provided USB cable using on of your PC's USB ports), 2 new network interfaces will show up. On my machine, they were enp0s20f0u2 and enp0s20f0u2i2, though they may be different under yours. Make sure to note down the interface names. The ip address will always be 192.168.7.1 and 192.168.6.1 for the respective interface. Here's a snippet of the interfaces on my machine:
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ip addr
@@ -124,16 +122,15 @@ Take a note of either of the interface names&lt;sup&gt;&lt;a id="fnr.1" class="f
 &lt;/p&gt;
 
 &lt;p&gt;
-Now plug in the board and wait for it to boot, and then go forward with one of the NetworkManager methods&lt;sup&gt;&lt;a id="fnr.2" class="footref" href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#fn.2" role="doc-backlink"&gt;2&lt;/a&gt;&lt;/sup&gt;. The firewall configuration has to be done if your internet connection from the board does not work (as described here: &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org0e716b3"&gt;Testing the Connection&lt;/a&gt;). Here are quick-links for your firewall: &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org1fe076e"&gt;ufw&lt;/a&gt;, &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org162135f"&gt;firewalld&lt;/a&gt;, &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgb03f143"&gt;iptables&lt;/a&gt;, &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org00f7433"&gt;nftables&lt;/a&gt;.
-&lt;br&gt;
-&lt;br&gt;
+Now plug in the board and wait for it to boot, and then go forward with one of the NetworkManager methods&lt;sup&gt;&lt;a id="fnr.2" class="footref" href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#fn.2" role="doc-backlink"&gt;2&lt;/a&gt;&lt;/sup&gt;. The firewall configuration has to be done if your internet connection from the board does not work (as described here: &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgb77547f"&gt;Testing the Connection&lt;/a&gt;). Here are quick-links for your firewall: &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org0e151aa"&gt;ufw&lt;/a&gt;, &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org6391df3"&gt;firewalld&lt;/a&gt;, &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgb80efb5"&gt;iptables&lt;/a&gt;, &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgddfb8ab"&gt;nftables&lt;/a&gt;.
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org8592c5a" class="outline-3"&gt;
-&lt;h3 id="org8592c5a"&gt;Using a GUI (NetworkManager, nm-connection-editor)&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org8592c5a"&gt;
+
+
+&lt;div id="outline-container-org5622313" class="outline-3"&gt;
+&lt;h3 id="org5622313"&gt;Using a GUI (NetworkManager, nm-connection-editor)&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org5622313"&gt;
 &lt;p&gt;
-&lt;br&gt;
 NetworkManager is a software used to manage networks. We will use NetworkManager to set-up internet sharing between our PC and the bone. In this section, we will use nm-connection-editor, a GUI tool used for configuring networks for NetworkManager. Let's dive right in:
 &lt;/p&gt;
 
@@ -162,17 +159,16 @@ Click the Add button and fill out the following details (use 192.168.7.1 if you 
 &lt;/p&gt;
 
 &lt;p&gt;
-Now click Save. You may additionally configure the other interface too, though that is not required. Now &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org70f2a62"&gt;onto the BeagleBone&lt;/a&gt;!
-&lt;br&gt;
-&lt;br&gt;
+Now click Save. You may additionally configure the other interface too, though that is not required. Now &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgf34bce4"&gt;onto the BeagleBone&lt;/a&gt;!
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org108455a" class="outline-3"&gt;
-&lt;h3 id="org108455a"&gt;Command-Line Method (NetworkManager, nmcli)&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org108455a"&gt;
+
+
+&lt;div id="outline-container-orgb24be89" class="outline-3"&gt;
+&lt;h3 id="orgb24be89"&gt;Command-Line Method (NetworkManager, nmcli)&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb24be89"&gt;
 &lt;p&gt;
-&lt;br&gt;
 NetworkManager is a software to manage networks. In our case, we use it to share the internet of our PC with the bone. NetworkManager comes with a nifty command-line tool, nmcli. This section will describe how to use that to set up internet-sharing.
 &lt;/p&gt;
 
@@ -222,17 +218,16 @@ Make sure that the interfaces are from the bone and not from your PC's Ethernet 
 
 
 &lt;p&gt;
-Now &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org70f2a62"&gt;onto the BeagleBone&lt;/a&gt;!
-&lt;br&gt;
-&lt;br&gt;
+Now &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgf34bce4"&gt;onto the BeagleBone&lt;/a&gt;!
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org1fe076e" class="outline-3"&gt;
-&lt;h3 id="org1fe076e"&gt;Firewall Configuration (ufw)&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org1fe076e"&gt;
+
+
+&lt;div id="outline-container-org0e151aa" class="outline-3"&gt;
+&lt;h3 id="org0e151aa"&gt;Firewall Configuration (ufw)&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org0e151aa"&gt;
 &lt;p&gt;
-&lt;br&gt;
 ufw is a firewall that comes with many Linux distributions. It comes preinstalled on many Debian-based distributions such as Ubuntu and Mint. This section assumes you have run the network manager steps and  sometimes required in addition to NetworkManager methods.
 &lt;/p&gt;
 
@@ -270,20 +265,19 @@ root$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;exit&lt;/span&gt
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
-To the &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org70f2a62"&gt;BeagleBone&lt;/a&gt;!
-&lt;br&gt;
-&lt;br&gt;
+To the &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgf34bce4"&gt;BeagleBone&lt;/a&gt;!
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org162135f" class="outline-3"&gt;
-&lt;h3 id="org162135f"&gt;Firewall Configuration (firewalld)&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org162135f"&gt;
+
+
+&lt;div id="outline-container-org6391df3" class="outline-3"&gt;
+&lt;h3 id="org6391df3"&gt;Firewall Configuration (firewalld)&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-org6391df3"&gt;
 &lt;p&gt;
-&lt;br&gt;
 Firewalld is the firewall used typically on Fedora. Firewalld requires a way to manage connections, it won't do that on it's own. See &lt;a href="https://firewalld.org/documentation/zone/connections-interfaces-and-sources.html"&gt;this resource&lt;/a&gt; for more information. Assuming there is a way to manage the interface, we will continue to allow the interface through our firewall.
-&lt;br&gt;
 &lt;/p&gt;
+
 
 &lt;p&gt;
 Let's create a new zone for the bone (rhymes). Put the following into /etc/firewalld/zones/bbb-zone.xml on your PC:
@@ -331,17 +325,16 @@ rich&lt;span class="w"&gt; &lt;/span&gt;rules:
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
-To the &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org70f2a62"&gt;BeagleBone&lt;/a&gt;!
-&lt;br&gt;
-&lt;br&gt;
+To the &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgf34bce4"&gt;BeagleBone&lt;/a&gt;!
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgb03f143" class="outline-3"&gt;
-&lt;h3 id="orgb03f143"&gt;Firewall Configuration (iptables)&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orgb03f143"&gt;
+
+
+&lt;div id="outline-container-orgb80efb5" class="outline-3"&gt;
+&lt;h3 id="orgb80efb5"&gt;Firewall Configuration (iptables)&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb80efb5"&gt;
 &lt;p&gt;
-&lt;br&gt;
 Make sure you note down the name of the interface on your host that is facing the internet. Mine is wlp3s0, yours may be different. 
 &lt;/p&gt;
 
@@ -362,17 +355,16 @@ root$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;exit&lt;/span&gt
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
-To the &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org70f2a62"&gt;BeagleBone&lt;/a&gt;!
-&lt;br&gt;
-&lt;br&gt;
+To the &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgf34bce4"&gt;BeagleBone&lt;/a&gt;!
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org00f7433" class="outline-3"&gt;
-&lt;h3 id="org00f7433"&gt;Firewall Configuration (nftables)&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org00f7433"&gt;
+
+
+&lt;div id="outline-container-orgddfb8ab" class="outline-3"&gt;
+&lt;h3 id="orgddfb8ab"&gt;Firewall Configuration (nftables)&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgddfb8ab"&gt;
 &lt;p&gt;
-&lt;br&gt;
 Make sure you note down the name of the interface on your host that is facing the internet. Mine is wlp3s0, yours may be different.
 &lt;/p&gt;
 
@@ -390,18 +382,17 @@ root$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;exit&lt;/span&gt
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
-To the &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org70f2a62"&gt;BeagleBone&lt;/a&gt;!
-&lt;br&gt;
-&lt;br&gt;
+To the &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgf34bce4"&gt;BeagleBone&lt;/a&gt;!
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org70f2a62" class="outline-2"&gt;
-&lt;h2 id="org70f2a62"&gt;Onto the BeagleBone!&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org70f2a62"&gt;
+
+
+&lt;div id="outline-container-orgf34bce4" class="outline-2"&gt;
+&lt;h2 id="orgf34bce4"&gt;Onto the BeagleBone!&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf34bce4"&gt;
 &lt;p&gt;
-&lt;br&gt;
 Alright, now boot power-up the bone by connecting the USB-mini to the board and the USB-A to your PC. After a few seconds, a few connections will show up, you can watch for them to appear with
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$&lt;span class="w"&gt; &lt;/span&gt;watch&lt;span class="w"&gt; &lt;/span&gt;-n1&lt;span class="w"&gt; &lt;/span&gt;ip&lt;span class="w"&gt; &lt;/span&gt;addr
@@ -435,14 +426,12 @@ After a successfully logging in, we will be operating in our board. The "bone\("
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;bone$&lt;span class="w"&gt; &lt;/span&gt;cat&lt;span class="w"&gt; &lt;/span&gt;/etc/dogtag
 BeagleBoard.org&lt;span class="w"&gt; &lt;/span&gt;Debian&lt;span class="w"&gt; &lt;/span&gt;Bullseye&lt;span class="w"&gt; &lt;/span&gt;IoT&lt;span class="w"&gt; &lt;/span&gt;Image&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2023&lt;/span&gt;-05-03
 &lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;
-&lt;br&gt;
-&lt;br&gt;
-&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org0e716b3" class="outline-3"&gt;
-&lt;h3 id="org0e716b3"&gt;Testing the Connection&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-org0e716b3"&gt;
+
+
+&lt;div id="outline-container-orgb77547f" class="outline-3"&gt;
+&lt;h3 id="orgb77547f"&gt;Testing the Connection&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgb77547f"&gt;
 &lt;p&gt;
 We will first setup our PC as the gateway:
 &lt;/p&gt;
@@ -488,31 +477,29 @@ ping:&lt;span class="w"&gt; &lt;/span&gt;deb.debian.org:&lt;span class="w"&gt; &
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;
-that indicates that the firewall is probably blocking the traffic. To resolve this, see the section corresponding to the firewall you use here: &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org1fe076e"&gt;ufw&lt;/a&gt; (Debian, Ubuntu, Mint), &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org162135f"&gt;firewalld&lt;/a&gt; (Fedora), &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgb03f143"&gt;iptables&lt;/a&gt;, &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org00f7433"&gt;nftables&lt;/a&gt;. 
-&lt;br&gt;
-&lt;br&gt;
+that indicates that the firewall is probably blocking the traffic. To resolve this, see the section corresponding to the firewall you use here: &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org0e151aa"&gt;ufw&lt;/a&gt; (Debian, Ubuntu, Mint), &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#org6391df3"&gt;firewalld&lt;/a&gt; (Fedora), &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgb80efb5"&gt;iptables&lt;/a&gt;, &lt;a href="https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/#orgddfb8ab"&gt;nftables&lt;/a&gt;. 
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orga533493" class="outline-3"&gt;
-&lt;h3 id="orga533493"&gt;Making it Persistent&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-orga533493"&gt;
+
+
+&lt;div id="outline-container-orgaaa062f" class="outline-3"&gt;
+&lt;h3 id="orgaaa062f"&gt;Making it Persistent&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-orgaaa062f"&gt;
 &lt;p&gt;
-&lt;br&gt;
 This step is totally optional, but will save you time from having to type all those commands all the time.
 &lt;/p&gt;
 
 &lt;p&gt;
 There's two approaches to this, run a shell script after logging into the board, or setting it all up during boot.
-&lt;br&gt;
-&lt;br&gt;
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf9ba289" class="outline-4"&gt;
-&lt;h4 id="orgf9ba289"&gt;Script&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orgf9ba289"&gt;
+
+
+&lt;div id="outline-container-orgfc8d2fb" class="outline-4"&gt;
+&lt;h4 id="orgfc8d2fb"&gt;Script&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-orgfc8d2fb"&gt;
 &lt;p&gt;
-&lt;br&gt;
 This script is based off of &lt;a href="http://derekmolloy.ie/"&gt;Derek Molloy&lt;/a&gt;'s script &lt;a href="https://github.com/derekmolloy/ee402/blob/master/scripts/StartUSBNetwork"&gt;here&lt;/a&gt;. Put it in a file under /usr/local/bin/StartUSBNetwork on your bone wit the following content.
 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#!/bin/sh
@@ -535,14 +522,14 @@ Updating the nameserver entry
 
 &lt;p&gt;
 Now try pinging 1.1.1.1 and deb.debian.org!
-&lt;br&gt;
-&lt;br&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orge1a5b90" class="outline-4"&gt;
-&lt;h4 id="orge1a5b90"&gt;A Configuration File in /etc/network/interfaces.d&lt;/h4&gt;
-&lt;div class="outline-text-4" id="text-orge1a5b90"&gt;
+
+
+&lt;div id="outline-container-org374f281" class="outline-4"&gt;
+&lt;h4 id="org374f281"&gt;A Configuration File in /etc/network/interfaces.d&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-org374f281"&gt;
 &lt;p&gt;
 Using a configuration file under /etc/network/interfaces.d we can setup a nameserver for our interfaces on boot.
 &lt;/p&gt;
@@ -586,32 +573,31 @@ Reboot,
 
 &lt;p&gt;
 and try pinging 1.1.1.1 and deb.debian.org. Everything should work nicely! 
-&lt;br&gt;
-&lt;br&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orga0c2d2f" class="outline-2"&gt;
-&lt;h2 id="orga0c2d2f"&gt;Conclusion&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orga0c2d2f"&gt;
+
+
+&lt;div id="outline-container-orgfd8af2f" class="outline-2"&gt;
+&lt;h2 id="orgfd8af2f"&gt;Conclusion&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfd8af2f"&gt;
 &lt;p&gt;
-&lt;br&gt;
 I hope this post helped you setting up an internet connection with your board! If anything is not clear, don't hesitate to email me. See the following section for links to various resources and guides to clarify things more.
 &lt;/p&gt;
 
 &lt;p&gt;
 Until next time!
-&lt;br&gt;
-&lt;br&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org3a4ce92" class="outline-2"&gt;
-&lt;h2 id="org3a4ce92"&gt;References and Further Reading&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org3a4ce92"&gt;
+
+
+&lt;div id="outline-container-orgf0b09ca" class="outline-2"&gt;
+&lt;h2 id="orgf0b09ca"&gt;References and Further Reading&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf0b09ca"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;a href="https://wiki.archlinux.org/title/NetworkManager"&gt;https://wiki.archlinux.org/title/NetworkManager&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://wiki.gentoo.org/wiki/Iptables"&gt;https://wiki.gentoo.org/wiki/Iptables&lt;/a&gt;&lt;/li&gt;
@@ -629,9 +615,6 @@ Until next time!
 &lt;li&gt;&lt;a href="https://unix.stackexchange.com/questions/128439/good-detailed-explanation-of-etc-network-interfaces-syntax"&gt;https://unix.stackexchange.com/questions/128439/good-detailed-explanation-of-etc-network-interfaces-syntax&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/rcn-ee/repos/tree/master/bb-usb-gadgets/suite/bookworm/debian"&gt;https://github.com/rcn-ee/repos/tree/master/bb-usb-gadgets/suite/bookworm/debian&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;
-&lt;br&gt;
-&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id="footnotes"&gt;
@@ -658,13 +641,9 @@ I extensively use Emacs, Org-Mode and &lt;a href="https://www.orgroam.com/"&gt;O
 &lt;br&gt;
 But there I have a gripe; the titles are inserted as they are, which makes the link not so aesthetic. (e.g.) "Given a Matrix …". I did not like reading that. So I spent some time making such a sentence into "Given a matrix …". I describe in this post (more of an article) how I arrived at a workable solution. 
 &lt;/p&gt;
-
-&lt;p&gt;
-&lt;br&gt;
-&lt;/p&gt;
-&lt;div id="outline-container-orgc8b2e14" class="outline-2"&gt;
-&lt;h2 id="orgc8b2e14"&gt;Requirements&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgc8b2e14"&gt;
+&lt;div id="outline-container-org65d073f" class="outline-2"&gt;
+&lt;h2 id="org65d073f"&gt;Requirements&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org65d073f"&gt;
 &lt;p&gt;
 First, how do I like my links? The first step is setting requirements for the end approach.
 &lt;/p&gt;
@@ -677,14 +656,12 @@ First, how do I like my links? The first step is setting requirements for the en
 
 &lt;p&gt;
 Alright so once that's out of the way, I can get to making it!
-&lt;br&gt;
-&lt;br&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-org6ab07eb" class="outline-2"&gt;
-&lt;h2 id="org6ab07eb"&gt;Version 1&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org6ab07eb"&gt;
+&lt;div id="outline-container-orgf59dc2b" class="outline-2"&gt;
+&lt;h2 id="orgf59dc2b"&gt;Version 1&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgf59dc2b"&gt;
 &lt;p&gt;
 I started by investigating the function that runs when I insert a node. I consulted describe-key for answers. I called the describe-key function (C-h k) and then used the keyboard shortcut to insert a node in org-buffers: (C-c n i). Describe-key reported that org-roam-node-insert is what is run.
 &lt;/p&gt;
@@ -757,14 +734,13 @@ This snippet works pretty well! Except, split-string consumes the separators. Th
 
 &lt;p&gt;
 It works! But, there are a few issues present, mainly, there is no way to configure the capitalize-word-list without editing the elisp setq expression. That's what version 2 is for!
-&lt;br&gt;
-&lt;br&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="outline-container-orgf750007" class="outline-2"&gt;
-&lt;h2 id="orgf750007"&gt;Version 2&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgf750007"&gt;
+
+&lt;div id="outline-container-org8bfb426" class="outline-2"&gt;
+&lt;h2 id="org8bfb426"&gt;Version 2&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org8bfb426"&gt;
 &lt;p&gt;
 Using Emacs's &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/eintr/defcustom.html"&gt;defcustom&lt;/a&gt; mechanism, the user can add and remove words as they wish, and take their capitalize-word-list with them! I've written elisp functions for removal and addition of words as well, as I find using the customize interface for a new word take too long. While typing, add-word-at-point-to-list becomes immensely useful to add words on the fly. 
 &lt;/p&gt;
@@ -792,9 +768,9 @@ Using Emacs's &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/ei
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgd92547d" class="outline-2"&gt;
-&lt;h2 id="orgd92547d"&gt;The Complete Code Listing&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgd92547d"&gt;
+&lt;div id="outline-container-org4e7d97b" class="outline-2"&gt;
+&lt;h2 id="org4e7d97b"&gt;The Complete Code Listing&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org4e7d97b"&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;defcustom&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;capitalize-words-list&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;'&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Emacs"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"Elisp"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"GNU"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"Linux"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"Python"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"BeagleBone"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;"Arduino"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="s"&gt;"If non-nil, contains a list of proper-nouns, abbreviations, and other words to be capitalized when&lt;/span&gt;
 &lt;span class="s"&gt;  org-roam-insert is called. The case does matter for this, so be careful when adding own words."&lt;/span&gt;
@@ -883,9 +859,9 @@ Using Emacs's &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/ei
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org227c5eb" class="outline-2"&gt;
-&lt;h2 id="org227c5eb"&gt;Conclusion…or is it?&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org227c5eb"&gt;
+&lt;div id="outline-container-org954dc6e" class="outline-2"&gt;
+&lt;h2 id="org954dc6e"&gt;Conclusion…or is it?&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org954dc6e"&gt;
 &lt;p&gt;
 I have noticed a few areas that I can improve version 2,
 &lt;/p&gt;

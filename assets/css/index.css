@@ -7,12 +7,17 @@
 .tagindex h1 { font-size: 1.875rem; }
 .listpage h1 { font-size: 1.875rem; }
 .tagpage h1 { font-size: 1.875rem; }
-.postpage h1 { font-size: 1.875rem; }
+.postpage h1 { font-size: 1.7rem; }
 .storypage h1 { font-size: 1.875rem; }
-.e-content h1 { font-size: 1.875rem; }
-.e-content h2 { font-size: 1.5rem; }
-.e-content h3 { font-size: 1.25rem; }
+.e-content h2 { font-size: 1.4rem; }
+.e-content h3 { font-size: 1.2rem; }
 .e-content h4 { font-size: 1rem; }
+.outline-2 { margin-top: 13px;margin-bot:13px;}
+.outline-text-2 { margin-top: 13px; }
+.outline-3 { margin-top: 13px;margin-bot:13px;}
+.outline-text-3 { margin-top: 13px; }
+.outline-4 { margin-top: 13px;margin-bot:13px;}
+.outline-text-4 { margin-top: 13px; }
 #older-post { float: left; margin-left:auto; }
 #next-post { float: left; margin-left:auto; }
 .license{ display:flex; justify-content:center; }
