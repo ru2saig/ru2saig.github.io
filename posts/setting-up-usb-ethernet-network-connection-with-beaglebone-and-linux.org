@@ -8,7 +8,7 @@
 .. description: 
 .. type: text
 #+END_COMMENT
-\\
+
 * Table Of Contents
 - [[*Introduction][Introduction]]
 - [[*Prerequisites][Prerequisites]]
@@ -27,24 +27,24 @@
 - [[*References and Further Reading][References and Further Reading]]
 - [[*Footnotes][Footnotes]]
 
-\\
+ 
 * Introduction
-\\
+ 
 In this post, I'll describe setting up internet-sharing between a typical desktop Linux install and a BeagleBone board, over USB. This will allow the boards such as the BeagleBone Black to access the outside world with just the provided USB cable and your PC. This will eliminate the need for an additional USB WiFi dongle or another Ethernet cable for the board. 
-\\
-\\
+ 
+ 
 * Prerequisites
-\\
+ 
 This guide assumes you're running a desktop Linux distribution, have physical working BeagleBone and also have basic familiarity with the Linux command line. 
-\\
-\\
+ 
+ 
 This guide should work on all typical Linux distributions, such as Debian, Ubuntu, Mint and Fedora.
 For editing and creation of files, knowledge of a command-line text editor like nano of vi will be required. For those on something like Arch or Gentoo, I cover setting up the internet-connection using NetworkManager (managing internet connections), managing rules with iptables/nftables or their frontends ufw/firewalld. For those who use scripts to manage their interfaces, this guide will give you an idea of what you may need to configure to get networking on your bone. 
-\\
-\\
+ 
+ 
 For the board, make sure it powers up successfully. This guide assumes you have [[https://forum.beagleboard.org/t/debian-11-x-bullseye-monthly-snapshot-2023-07-01/31280#debian-11x-bullseye-iot-snapshot-12][Debian Bullseye IoT]] booting successfully on BeagleBone. I interchange bone and board and BeagleBone throughout: they all refer to the BeagleBone board that you are using. The nano and vi editors come by default in the install. Use your favorite to create or edit files.
-\\
-\\
+ 
+ 
 If you are new to the Linux command-line, read through this: https://ubuntu.com/tutorials/command-line-for-beginners.
 A typical code block for commands running on the PC looks like this:
 #+BEGIN_SRC sh
@@ -66,10 +66,10 @@ I will seperate the commands run on the host and the bone into different command
 #+END_SRC
 I am running Fedora 38 and I am using a BeagleBone Black, kindly lent by [[https://krvprashanth.github.io/][Prashanth]].
 Let's get started!
-\\
-\\
+ 
+ 
 * Network Configuration on the PC
-\\
+ 
 First we will note down the interfaces of the board. Once you boot your board (just power up your board using the provided USB cable using on of your PC's USB ports), 2 new network interfaces will show up. On my machine, they were enp0s20f0u2 and enp0s20f0u2i2, though they may be different under yours. Make sure to note down the interface names. The ip address will always be 192.168.7.1 and 192.168.6.1 for the respective interface. Here's a snippet of the interfaces on my machine:
 #+BEGIN_SRC
 $ ip addr
@@ -91,10 +91,10 @@ $ ip addr
 Take a note of either of the interface names[fn:1] and the corresponding ip. Configuring one interface properly is enough for reliable internet-sharing, so I will be going with the interface enp0s210f0u2i2 that has the ip 192.168.6.1, unless otherwise stated. 
 
 Now plug in the board and wait for it to boot, and then go forward with one of the NetworkManager methods[fn:2]. The firewall configuration has to be done if your internet connection from the board does not work (as described here: [[*Testing the Connection][Testing the Connection]]). Here are quick-links for your firewall: [[*Firewall Configuration (ufw)][ufw]], [[*Firewall Configuration (firewalld)][firewalld]], [[*Firewall Configuration (iptables)][iptables]], [[*Firewall Configuration (nftables)][nftables]].
-\\
-\\
+ 
+ 
 ** Using a GUI (NetworkManager, nm-connection-editor)
-\\
+ 
 NetworkManager is a software used to manage networks. We will use NetworkManager to set-up internet sharing between our PC and the bone. In this section, we will use nm-connection-editor, a GUI tool used for configuring networks for NetworkManager. Let's dive right in:
 
 *Note:* I've done the filling steps with nm-connection-editor on a different machine running Debian, and the interface I've chosen there is enx6c302ae0733. It has an ip of 192.168.6.1. 
@@ -112,10 +112,10 @@ Click the Add button and fill out the following details (use 192.168.7.1 if you 
 [[img-url:/images/nm-connection-editor-4.png]]
 
 Now click Save. You may additionally configure the other interface too, though that is not required. Now [[*Onto the BeagleBone!][onto the BeagleBone]]!
-\\
-\\
+ 
+ 
 ** Command-Line Method (NetworkManager, nmcli)
-\\
+ 
 NetworkManager is a software to manage networks. In our case, we use it to share the internet of our PC with the bone. NetworkManager comes with a nifty command-line tool, nmcli. This section will describe how to use that to set up internet-sharing.
 
 Let's list the network devices, with nmcli:
@@ -154,10 +154,10 @@ Make sure that the interfaces are from the bone and not from your PC's Ethernet 
 
 
 Now [[*Onto the BeagleBone!][onto the BeagleBone]]!
-\\
-\\
+ 
+ 
 ** Firewall Configuration (ufw)
-\\
+ 
 ufw is a firewall that comes with many Linux distributions. It comes preinstalled on many Debian-based distributions such as Ubuntu and Mint. This section assumes you have run the network manager steps and  sometimes required in addition to NetworkManager methods.
 
 Note down the internet-facing interface on your PC. For me, it was wlp3s0.
@@ -189,12 +189,12 @@ Now reload the rules:
 #+END_SRC
 
 To the [[*Onto the BeagleBone!][BeagleBone]]!
-\\
-\\
+ 
+ 
 ** Firewall Configuration (firewalld)
-\\
+ 
 Firewalld is the firewall used typically on Fedora. Firewalld requires a way to manage connections, it won't do that on it's own. See [[https://firewalld.org/documentation/zone/connections-interfaces-and-sources.html][this resource]] for more information. Assuming there is a way to manage the interface, we will continue to allow the interface through our firewall.
-\\
+ 
 
 Let's create a new zone for the bone (rhymes). Put the following into /etc/firewalld/zones/bbb-zone.xml on your PC:
 #+BEGIN_SRC xml
@@ -240,10 +240,10 @@ Now from a root shell:
 #+END_SRC
 
 To the [[*Onto the BeagleBone!][BeagleBone]]!
-\\
-\\
+ 
+ 
 ** Firewall Configuration (iptables)
-\\
+ 
 Make sure you note down the name of the interface on your host that is facing the internet. Mine is wlp3s0, yours may be different. 
 
 #+BEGIN_SRC sh
@@ -264,10 +264,10 @@ Make sure you note down the name of the interface on your host that is facing th
 #+END_SRC
 
 To the [[*Onto the BeagleBone!][BeagleBone]]!
-\\
-\\
+ 
+ 
 ** Firewall Configuration (nftables)
-\\
+ 
 Make sure you note down the name of the interface on your host that is facing the internet. Mine is wlp3s0, yours may be different.
 
 Note that these were generated using iptables-translate. 
@@ -283,10 +283,10 @@ root$ exit
 #+END_SRC
 
 To the [[*Onto the BeagleBone!][BeagleBone]]!
-\\
-\\
+ 
+ 
 * Onto the BeagleBone!
-\\
+ 
 Alright, now boot power-up the bone by connecting the USB-mini to the board and the USB-A to your PC. After a few seconds, a few connections will show up, you can watch for them to appear with
 #+BEGIN_SRC sh
   $ watch -n1 ip addr
@@ -317,8 +317,8 @@ After a successfully logging in, we will be operating in our board. The "bone$" 
   bone$ cat /etc/dogtag
   BeagleBoard.org Debian Bullseye IoT Image 2023-05-03
 #+END_SRC
-\\
-\\
+ 
+ 
 ** Testing the Connection
 We will first setup our PC as the gateway:
 #+BEGIN_SRC sh
@@ -362,17 +362,17 @@ If the ping command above fails with
 #+END_SRC
 
 that indicates that the firewall is probably blocking the traffic. To resolve this, see the section corresponding to the firewall you use here: [[*Firewall Configuration (ufw)][ufw]] (Debian, Ubuntu, Mint), [[*Firewall Configuration (firewalld)][firewalld]] (Fedora), [[*Firewall Configuration (iptables)][iptables]], [[*Firewall Configuration (nftables)][nftables]]. 
-\\
-\\
+ 
+ 
 ** Making it Persistent
-\\
+ 
 This step is totally optional, but will save you time from having to type all those commands all the time.
 
 There's two approaches to this, run a shell script after logging into the board, or setting it all up during boot.
-\\
-\\
+ 
+ 
 *** Script
-\\
+ 
 This script is based off of [[http://derekmolloy.ie/][Derek Molloy]]'s script [[https://github.com/derekmolloy/ee402/blob/master/scripts/StartUSBNetwork][here]]. Put it in a file under /usr/local/bin/StartUSBNetwork on your bone wit the following content.
 #+BEGIN_SRC
 #!/bin/sh
@@ -393,8 +393,8 @@ Updating the nameserver entry
 #+END_SRC
 
 Now try pinging 1.1.1.1 and deb.debian.org!
-\\
-\\
+ 
+ 
 *** A Configuration File in /etc/network/interfaces.d
 Using a configuration file under /etc/network/interfaces.d we can setup a nameserver for our interfaces on boot.
 
@@ -433,16 +433,16 @@ bone$ sudo reboot
 #+END_SRC
 
 and try pinging 1.1.1.1 and deb.debian.org. Everything should work nicely! 
-\\
-\\
+ 
+ 
 
 * Conclusion
-\\
+ 
 I hope this post helped you setting up an internet connection with your board! If anything is not clear, don't hesitate to email me. See the following section for links to various resources and guides to clarify things more.
 
 Until next time!
-\\
-\\
+ 
+ 
 * References and Further Reading
 - https://wiki.archlinux.org/title/NetworkManager
 - [[https://wiki.gentoo.org/wiki/Iptables][https://wiki.gentoo.org/wiki/Iptables]]
@@ -459,7 +459,7 @@ Until next time!
 - https://wiki.debian.org/NetworkConfiguration#A.2Fetc.2Fnetwork.2Finterfaces
 - https://unix.stackexchange.com/questions/128439/good-detailed-explanation-of-etc-network-interfaces-syntax
 - https://github.com/rcn-ee/repos/tree/master/bb-usb-gadgets/suite/bookworm/debian
-\\
+ 
 * Footnotes
 [fn:1] In the official Debian images from BeagleBone, the bone's USB is configured this way: USB-RNDIS (for Windows compatibility) and USB-NCM gadget (for MacOS compatibility). Both USB gadgets are supported under Linux operating systems.
 [fn:2] This is certainly not exhaustive list of all network managing software's or firewalls, but it has the most common ones that are usually preinstalled with your distro. If you have methods for your networking that you don't see here, feel free to shoot me an email at develruusaig dot gmail dot com!
