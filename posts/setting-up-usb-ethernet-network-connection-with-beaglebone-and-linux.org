@@ -42,7 +42,7 @@ This guide should work on all typical Linux distributions, such as Debian, Ubunt
 For editing and creation of files, knowledge of a command-line text editor like nano of vi will be required. For those on something like Arch or Gentoo, I cover setting up the internet-connection using NetworkManager (managing internet connections), managing rules with iptables/nftables or their frontends ufw/firewalld. For those who use scripts to manage their interfaces, this guide will give you an idea of what you may need to configure to get networking on your bone. 
  
  
-For the board, make sure it powers up successfully. This guide assumes you have [[https://forum.beagleboard.org/t/debian-11-x-bullseye-monthly-snapshot-2023-07-01/31280#debian-11x-bullseye-iot-snapshot-12][Debian Bullseye IoT]] booting successfully on BeagleBone. I interchange bone and board and BeagleBone throughout: they all refer to the BeagleBone board that you are using. The nano and vi editors come by default in the install. Use your favorite to create or edit files.
+On the board side of things, make sure it powers up successfully. This guide assumes you have [[https://forum.beagleboard.org/t/debian-11-x-bullseye-monthly-snapshot-2023-07-01/31280#debian-11x-bullseye-iot-snapshot-12][Debian Bullseye IoT]] booting successfully on BeagleBone. I interchange bone and board and BeagleBone throughout: they all refer to the BeagleBone board that you are using. The nano and vi editors come by default in the install. Use your favorite to create or edit files.
  
  
 If you are new to the Linux command-line, read through this: https://ubuntu.com/tutorials/command-line-for-beginners.
@@ -95,14 +95,14 @@ Now plug in the board and wait for it to boot, and then go forward with one of t
  
 ** Using a GUI (NetworkManager, nm-connection-editor)
  
-NetworkManager is a software used to manage networks. We will use NetworkManager to set-up internet sharing between our PC and the bone. In this section, we will use nm-connection-editor, a GUI tool used for configuring networks for NetworkManager. Let's dive right in:
+NetworkManager is a software used to manage networks. We will use NetworkManager to setup internet sharing between our PC and the bone. In this section, we will use nm-connection-editor, a GUI tool used for configuring networks for NetworkManager. Let's dive right in:
 
 *Note:* I've done the filling steps with nm-connection-editor on a different machine running Debian, and the interface I've chosen there is enx6c302ae0733. It has an ip of 192.168.6.1. 
 
 Run nm-connection-editor, either from the command-line (heh) or by searching it in your application menu. You will be greeted with something like this:
 [[img-url:/images/nm-connection-editor-1.png]]
 
-Double click on the interface that's most recently used. To check if it's from the bone, cross-reference the Device field with the interfaces you've noted down before (you have, haven't you?)
+Double-click on the interface that's most recently used. To check if it's from the bone, cross-reference the Device field with the interfaces you've noted down before (you have, haven't you?)
 [[img-url:/images/nm-connection-editor-2.png]]
 
 Now go to the IPv4 section and change the Method field to the "Shared to other Computers" option in the drop down menu:
@@ -223,7 +223,7 @@ Now from a root shell:
   root$ firewall-cmd --reload
   # adding the choosen interface of the BeagleBone to the bbb-zone
   root$ firewall-cmd --zone=bbb-zone --change-interface=enp0s20f0u2i2 
-  root$ firewall-cmd --zone=bbb-zone --list-all # double check your work!
+  root$ firewall-cmd --zone=bbb-zone --list-all # double-check your work!
   target: ACCEPT
   icmp-block-inversion: no
   interfaces: enp0s20f0u2 enp0s20f0u2i2 # I've added the other interface as well
@@ -368,7 +368,7 @@ that indicates that the firewall is probably blocking the traffic. To resolve th
  
 This step is totally optional, but will save you time from having to type all those commands all the time.
 
-There's two approaches to this, run a shell script after logging into the board, or setting it all up during boot.
+There are two approaches to this, run a shell script after logging into the board, or setting it all up during boot.
  
  
 *** Script
@@ -396,7 +396,7 @@ Now try pinging 1.1.1.1 and deb.debian.org!
  
  
 *** A Configuration File in /etc/network/interfaces.d
-Using a configuration file under /etc/network/interfaces.d we can setup a nameserver for our interfaces on boot.
+Using a configuration file under /etc/network/interfaces.d we can set up a nameserver for our interfaces on boot.
 
 
 #+BEGIN_SRC sh
@@ -438,7 +438,7 @@ and try pinging 1.1.1.1 and deb.debian.org. Everything should work nicely!
 
 * Conclusion
  
-I hope this post helped you setting up an internet connection with your board! If anything is not clear, don't hesitate to email me. See the following section for links to various resources and guides to clarify things more.
+I hope this post helped you set up an internet connection with your board! If anything is not clear, don't hesitate to email me. See the following section for links to various resources and guides to clarify things more.
 
 Until next time!
  
@@ -463,4 +463,4 @@ Until next time!
 * Footnotes
 [fn:1] In the official Debian images from BeagleBone, the bone's USB is configured this way: USB-RNDIS (for Windows compatibility) and USB-NCM gadget (for MacOS compatibility). Both USB gadgets are supported under Linux operating systems.
 [fn:2] This is certainly not exhaustive list of all network managing software's or firewalls, but it has the most common ones that are usually preinstalled with your distro. If you have methods for your networking that you don't see here, feel free to shoot me an email at develruusaig dot gmail dot com!
-[fn:3] There is a "dns-nameservers" option but that did not work for me, so I used systemd-resolv which is what manages /etc/resolv.conf. 
+[fn:3] There is a "dns-nameservers" option, but that did not work for me, so I used systemd-resolv which is what manages /etc/resolv.conf. 
