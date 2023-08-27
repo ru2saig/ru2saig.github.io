@@ -23,11 +23,15 @@
  </url>
  <url>
   <loc>https://ru2saig.github.io/categories/</loc>
-  <lastmod>2023-07-16T16:38:00Z</lastmod>
+  <lastmod>2023-08-22T12:10:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/categories/beaglebone/</loc>
   <lastmod>2023-07-11T10:00:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/categories/docker/</loc>
+  <lastmod>2023-08-22T12:10:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/categories/elisp/</loc>
@@ -42,6 +46,10 @@
   <lastmod>2023-07-11T10:00:00Z</lastmod>
  </url>
  <url>
+  <loc>https://ru2saig.github.io/categories/mathjax/</loc>
+  <lastmod>2023-08-09T13:50:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://ru2saig.github.io/categories/networking/</loc>
   <lastmod>2023-07-11T14:14:00Z</lastmod>
  </url>
@@ -52,6 +60,10 @@
  <url>
   <loc>https://ru2saig.github.io/categories/org-roam/</loc>
   <lastmod>2023-07-08T22:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/categories/self-hosted/</loc>
+  <lastmod>2023-08-22T12:10:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/categories/tips/</loc>
@@ -72,6 +84,14 @@
  <url>
   <loc>https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/</loc>
   <lastmod>2023-07-16T06:48:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/posts/switching-from-simplenote-to-a-self-hosted-approach-nextcloud-orgzly-and-emacs/</loc>
+  <lastmod>2023-08-22T12:10:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/posts/switching-from-simplenote-to-a-self-hosted-approach-with-foss-nextcloud-orgzly-and-emacs/</loc>
+  <lastmod>2023-08-22T11:57:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/projects/</loc>

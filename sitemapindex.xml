@@ -7,46 +7,58 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>https://ru2saig.github.io/categories/beaglebone.xml</loc>
-  <lastmod>2023-07-16T16:38:00Z</lastmod>
+  <lastmod>2023-08-09T13:29:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://ru2saig.github.io/categories/docker.xml</loc>
+  <lastmod>2023-08-22T12:10:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/categories/elisp.xml</loc>
-  <lastmod>2023-07-10T13:54:00Z</lastmod>
+  <lastmod>2023-07-18T06:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/categories/emacs.xml</loc>
-  <lastmod>2023-07-10T13:54:00Z</lastmod>
+  <lastmod>2023-07-18T06:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/categories/linux.xml</loc>
-  <lastmod>2023-07-16T16:38:00Z</lastmod>
+  <lastmod>2023-08-22T12:10:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://ru2saig.github.io/categories/mathjax.xml</loc>
+  <lastmod>2023-08-09T14:20:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/categories/networking.xml</loc>
-  <lastmod>2023-07-16T16:38:00Z</lastmod>
+  <lastmod>2023-08-09T13:29:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/categories/org-mode.xml</loc>
-  <lastmod>2023-07-10T13:54:00Z</lastmod>
+  <lastmod>2023-08-22T12:10:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/categories/org-roam.xml</loc>
-  <lastmod>2023-07-10T13:54:00Z</lastmod>
+  <lastmod>2023-07-18T06:57:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://ru2saig.github.io/categories/self-hosted.xml</loc>
+  <lastmod>2023-08-22T12:10:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/categories/tips.xml</loc>
-  <lastmod>2023-07-10T13:54:00Z</lastmod>
+  <lastmod>2023-07-18T06:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/galleries/rss.xml</loc>
-  <lastmod>2023-07-09T00:31:00Z</lastmod>
+  <lastmod>2023-08-22T12:10:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/rss.xml</loc>
-  <lastmod>2023-07-16T16:38:00Z</lastmod>
+  <lastmod>2023-08-22T12:10:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/sitemap.xml</loc>
-  <lastmod>2023-07-16T16:39:00Z</lastmod>
+  <lastmod>2023-08-22T12:10:00Z</lastmod>
  </sitemap>
 </sitemapindex>

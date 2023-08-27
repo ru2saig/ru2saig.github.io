@@ -1,0 +1,88 @@
+#+BEGIN_COMMENT
+.. title: Switching from Simplenote to a Self-Hosted Approach (Nextcloud, Orgzly and Emacs)
+.. slug: switching-from-simplenote-to-a-self-hosted-approach-nextcloud-orgzly-and-emacs
+.. date: 2023-08-27 21:30:00 UTC+05:30
+.. tags: self-hosted, linux, org-mode
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+Note-taking, defined by [[https://en.wikipedia.org/wiki/Note-taking][Wikipedia]] is the "practice of recording information from different sources and platforms. By taking notes, the writer records the essence of the information, freeing their mind from having to recall everything." I use a note app to jot down quick ideas, write down tasks that come up, save a list of resources, store my "bookmarks" and to journal. For knowledge-management, I use org-roam, but that discussion will be for another time. Since I usually have my phone at hand, I used to use [[https://simplenote.com/][Simplenote]]. The web-app was suitable to access my notes from my laptop. But recently syncing stopped working. I realized how ingrained that app was to my day-to-day activities, and I rather have something like that hosted on my small home-server setup in-case of hiccups like that. But since that required effort, I did the usual thing of updating to the latest version of the app, installing the AppImage from FlatHub, to little or no avail. Now I realized I had to put some effort, so I spent the evening doing some light research on what self-hosted options are out there, and arrived at a nice setup using [[https://nextcloud.com/][NextCloud]], [[https://orgzly.com/][Orgzly]] and [[https://www.gnu.org/software/emacs/][Emacs]].
+
+* Why those in Particular?
+Considering that self-hosting was not possible[fn:1], I started looking into building a system for myself from "scratch". I got used to the org markup language and found myself using it in Simplenote, even if Simplenote didn't support it back then. So I figured to look into solution that will let me use org markup. Starting with mobile solutions (since I've got Emacs on my laptop[fn:2], anyway. You can't beat that for org markup) I found Orgzly. I then needed some way to sync my notes between my phone and any other devices I use, namely, my laptop. I found, after reading through the Orgzly [[https://www.orgzly.com/docs#synchronization][docs]] on the topic, it has support for this nifty thing called [[https://developer.mozilla.org/en-US/docs/Glossary/WebDAV][WebDAV]], which it additionally mentioned that Nextcloud had support for it. Having heard great things about NextCloud, I decided on that. For actually accessing the Nextcloud instance on my home-server from my laptop and phone, I use [[https://tailscale.com/][Tailscale]]. It is a WireGaurd-based VPN that is dead easy to get up and going, and I've used it extensively for accessing systems without having to deal with port-forwarding. Alright, now onto the setup!
+
+* Setting Nextcloud up on my Server
+My "home-server" is an Itona TC6727 thin-client running a minimal installation of Debian 12. I use docker to manage other services, mainly [[https://github.com/Kareadita/Kavita][Kavita]] and [[https://www.openproject.org/][OpenProject]]. Reading through the README for [[https://github.com/nextcloud/docker#base-version---apache][docker]] image for Nextcloud, I settled on using the following docker-compose.yml:
+
+#+BEGIN_SRC yaml
+version: '2'
+
+volumes:
+  nextcloud:
+  db:
+
+services:
+  db:
+    image: mariadb:10.6
+    restart: always
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=mystrongrootpw
+      - MYSQL_PASSWORD=mystrongsqlpw
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+
+  app:
+    image: nextcloud
+    restart: always
+    ports:
+      - 8081:80
+    links:
+      - db
+    volumes:
+      - nextcloud:/var/www/html
+    environment:
+      - MYSQL_PASSWORD=mystrongsqlpw
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=db
+#+END_SRC
+
+Using a docker-compose up -d, I had Nextcloud running on port 8081 on my server. After setting up an admin account, I proceeded to setting up the clients:
+
+* Setting Orgzly on my Phone
+I run Android, so I installed Orgzly using the [[https://f-droid.org/en/][F-Droid]] client. I then went over to my new Nextcloud instance and created a folder called "Nextnote" to store all the incoming notes. Referencing this setup from [[https://itcamefromtheinternet.com/blog/how-to-setup-nextcloud-syncthing/#step-6-verify-gui-access][itcamefromtheinternet]], I found the WebDAV sharing link for my Nextcloud instance under Files Settings > WebDAV. In Orgzly, under Settings > Sync > Repositories I pasted the url provided by NextCloud and added /Nextnote / to the end of the url. After logging in, I was good to go. Under Settings > Sync > Auto-Sync I enabled all that I could enable. Now, I moved onto my laptop:
+
+* Setting up Nextcloud Client on my Laptop
+After reading through [[https://docs.nextcloud.com/server/latest/user_manual/en/files/access_webdav.html][Aceessing Nextcloud files using WebDAV]] page on the Nextcloud docs, I decided to just try the official desktop client after unsuccessfully trying out the command-line method[fn:3]. It was available from the Fedora repos so an install later I had it running with a nice indicator in my panel. After logging in with the GUI, I configured the sync folders. I added a hello-world.org file and after manually syncing, it showed up under Orgzly! I did a little "hello" message for kicks, and proceeded for the main event: getting all my notes from Simplenote into Nextnote.
+
+From the Simplenote web-app, I was able to export them all as text files compressed in zip format. After thinking for a bit, I decided to just change the extension from .txt to .org and figured that would work well enough. I used this script in order to do that, run in the extracted directory:
+
+#+BEGIN_SRC bash
+  #!/bin/env bash
+
+  find . -maxdepth 1 -name "*.txt" -exec basename {} \; | while read filename;
+  do
+  echo "Processing ${filename}"
+  cp "${filename}" "/home/ruusaig/Nextcloud/Nextnote/${filename%.*}.org"
+  done
+#+END_SRC
+
+After syncing, everything started showing up under Orgzly. But wait! Some of my notes, I used stars to indicate bullet points. As anyone who uses org Markdown knows, stars are headings. And Orgzly treats each of those as a "note" and the file they are in as a "notebook". This caused some "notebooks" to be very hard to read. Since there weren't many files like this, I manually replaced the stars with bullet-points using the Emacs replace functions. Some of my older notes from Simplenote had carriage-return characters everywhere, these ^M things. I just replaced them with spaces: everything still looked fine afterwards.
+
+I used to keep track of things in Simplenote by using headings of the form of dd/mm/yy: with content underneath. In Orgzly, this didn't show up as headings, as they weren't actually headings. I wanted headings! So using regexp-replace, I made them into headings with [0-9]*/[0-9]*/[0-9]*: → * \&. The "\&" is what was matched, and can be used in the replacement text. I found that pretty neat. Emacs ftw. 
+
+* End
+After using this setup for a few weeks, I found myself very happy with it! Setup was fast, easy and simple, and sync works great! Of course, if you are just looking for a note-taking solution, Orgzly is a great choice on mobile. But if you want cross-platform sync, I recommend you have a look at what I've here, and try it out or something similar! You could substitute Nextcloud with something like Dropbox or even try just using a Syncthing, thing. If you don't have a thin-client handy, you could just host your notes out of your laptop or desktop computer under a VPN, so only selected devices can connect and access them. But if you can spare the money, try setting up a nice home server for yourself and family. Thinclients and NUCs are pretty cheap, a Raspberry Pi has also proven to be great for this sort of thing, and more. I highly suggest you to choose open, privacy and user-friendly solutions for your data whenever you can. Self-host and embrace the power! Until we meet again, toodaloo.
+
+* Footnotes
+[fn:1] See this post on the forum: https://forums.simplenote.com/forums/topic/customized-simplenote-for-self-hosting/
+[fn:2] Yes I know that there is a working Android port of Emacs. But I found that Orgzly had less configuration to get going. Perhaps I will revisit this post using the Android port and a custom Emacs config for it...
+[fn:3] I did get it working, but it was too slow, as in typing in the file in Emacs was very laggy. I don't know if this was Emacs, or the fact that it was mounted as a davfs

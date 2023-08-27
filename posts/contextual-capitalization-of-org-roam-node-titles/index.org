@@ -26,13 +26,13 @@ Alright so once that's out of the way, I can get to making it!
 I started by investigating the function that runs when I insert a node. I consulted describe-key for answers. I called the describe-key function (C-h k) and then used the keyboard shortcut to insert a node in org-buffers: (C-c n i). Describe-key reported that org-roam-node-insert is what is run.
 
 Reading through the source of the function, we find this intriguing s-expression:
-#+BEGIN_SRC lisp
+#+BEGIN_SRC elisp
   (description (or region-text
                    (org-roam-node-formatted node)))
 #+END_SRC
 
 This description is used further down as the description (aptly named, huh?) for the link that is inserted at the point:
-#+BEGIN_SRC lisp
+#+BEGIN_SRC elisp
   (insert (org-link-make-string
            (concat "id:" id)
            description))
@@ -42,7 +42,7 @@ So running (C-h f) with my point on org-roam-node-formatted, I find that this is
 
 Now I can write some elisp!
 
-#+BEGIN_SRC lisp
+#+BEGIN_SRC elisp
   (setq capitalize-words-list ;; put all the proper nouns in here
    '("Emacs" "Elisp" "GNU" "Linux" "Python" "BeagleBone" "Arduino"))
 
@@ -76,7 +76,7 @@ Now I can write some elisp!
 
 This snippet works pretty well! Except, split-string consumes the separators. This causes all the words of the title to be squished together. Not aesthetic. Browsing around, I found this nice implementation that does not consume the separators, [[https://emacs.stackexchange.com/questions/5729/split-a-string-without-consuming-separators][here]]. Using that, the case-title becomes 
 
-#+BEGIN_SRC lisp
+#+BEGIN_SRC elisp
   (setq cased-title (mapconcat 
                      (lambda (word)
                        (if (member word capitalize-words-list)
@@ -90,7 +90,7 @@ It works! But, there are a few issues present, mainly, there is no way to config
 * Version 2
 Using Emacs's [[https://www.gnu.org/software/emacs/manual/html_node/eintr/defcustom.html][defcustom]] mechanism, the user can add and remove words as they wish, and take their capitalize-word-list with them! I've written elisp functions for removal and addition of words as well, as I find using the customize interface for a new word take too long. While typing, add-word-at-point-to-list becomes immensely useful to add words on the fly. 
 
-#+BEGIN_SRC lisp
+#+BEGIN_SRC elisp
   (defun remove-word-from-list ()
     (interactive)
     (let ((word-to-remove (read-string "Word to remove: " "")))
@@ -113,7 +113,7 @@ Using Emacs's [[https://www.gnu.org/software/emacs/manual/html_node/eintr/defcus
 #+END_SRC
 
 * The Complete Code Listing
-#+BEGIN_SRC lisp
+#+BEGIN_SRC elisp
     (defcustom capitalize-words-list '("Emacs" "Elisp" "GNU" "Linux" "Python" "BeagleBone" "Arduino")
       "If non-nil, contains a list of proper-nouns, abbreviations, and other words to be capitalized when
     org-roam-insert is called. The case does matter for this, so be careful when adding own words."
