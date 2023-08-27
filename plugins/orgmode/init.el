@@ -88,6 +88,8 @@
     ("scala" . "scala")
     ("scheme" . "scheme")
     ("sh" . "sh")
+    ("bash" . "sh")
+    ("elisp" . "scheme")
     ("shell-session" . "shell-session")
     ("sql" . "sql")
     ("sqlite" . "sqlite3")

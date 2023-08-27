@@ -62,20 +62,16 @@ PAGES = (
 
 TIMEZONE = "Asia/Kolkata"
 
-DATE_FORMAT = 'dd-MMMM-yyyy'
+DATE_FORMAT = 'dd-MMM-yyyy'
 
 COMPILERS = {
     "orgmode": ['.org'],
-    "ipynb": ['.ipynb'],
     "html": ['.html', '.htm'],
 }
-
-HIDDEN_TAGS = ['mathjax']
 
 CATEGORY_ALLOW_HIERARCHIES = False
 CATEGORY_OUTPUT_FLAT_HIERARCHY = False
 
-HIDDEN_CATEGORIES = []
 
 HIDDEN_AUTHORS = ['Guest']
 FRONT_INDEX_HEADER = {
@@ -283,3 +279,4 @@ GLOBAL_CONTEXT = {}
 # GLOBAL_CONTEXT as parameter when the template is about to be
 # rendered
 GLOBAL_CONTEXT_FILLER = []
+

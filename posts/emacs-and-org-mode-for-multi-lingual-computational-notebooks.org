@@ -1,0 +1,51 @@
+#+BEGIN_COMMENT
+.. title: Emacs and Org-Mode for Multi-Lingual Computational Notebooks
+.. slug: emacs-and-org-mode-for-multi-lingual-computational-notebooks
+.. date: 2025-08-09 18:56:57 UTC+05:30
+.. tags:
+.. category: 
+.. link: 
+.. description: 
+.. type: text
+
+#+END_COMMENT
+
+
+Euler’s formulad: $e^{ix} = \cos x + i\sin x$
+
+\begin{equation}
+e^{ix} = \cos x + i\sin x
+\end{equation}
+
+\begin{equation}
+\begin{aligned}
+\underbrace{
+    \overbrace{
+        \begin{bmatrix}
+        Px              & 0               & \dots & 0     \\
+        P_u \bar{\nu} K & 0               & \dots & 0     \\
+        0               & P_x             & \dots & 0     \\
+        0               & P_u \bar{\nu} K & \dots & 0     \\
+        \dots           & \dots           & \dots & \dots
+        \end{bmatrix}
+    }^{\mathcal{M}}
+    \begin{bmatrix}
+    (A+B K)^0     \\
+    (A+B K)^1     \\
+    \vdots        \\
+    (A+B K)^{n-1}
+    \end{bmatrix}
+}_{P_{x_N}}
+\hat{x}_{k+N|k}
+\leq
+\underbrace{
+    \begin{bmatrix}
+    q_x    \\
+    q_u    \\
+    q_x    \\
+    q_u    \\
+    \vdots
+    \end{bmatrix}
+}_{q_{x_N}}
+\end{aligned}
+\end{equation}
