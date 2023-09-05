@@ -84,18 +84,18 @@
 Note-taking, defined by <a href="https://en.wikipedia.org/wiki/Note-taking">Wikipedia</a> is the "practice of recording information from different sources and platforms. By taking notes, the writer records the essence of the information, freeing their mind from having to recall everything." I use a note app to jot down quick ideas, write down tasks that come up, save a list of resources, store my "bookmarks" and to journal. For knowledge-management, I use org-roam, but that discussion will be for another time. Since I usually have my phone at hand, I used to use <a href="https://simplenote.com/">Simplenote</a>. The web-app was suitable to access my notes from my laptop. But recently syncing stopped working. I realized how ingrained that app was to my day-to-day activities, and I rather have something like that hosted on my small home-server setup in-case of hiccups like that. But since that required effort, I did the usual thing of updating to the latest version of the app, installing the AppImage from FlatHub, to little or no avail. Now I realized I had to put some effort, so I spent the evening doing some light research on what self-hosted options are out there, and arrived at a nice setup using <a href="https://nextcloud.com/">NextCloud</a>, <a href="https://orgzly.com/">Orgzly</a> and <a href="https://www.gnu.org/software/emacs/">Emacs</a>.
 </p>
 
-<div id="outline-container-org05e5f91" class="outline-2">
-<h2 id="org05e5f91">Why those in Particular?</h2>
-<div class="outline-text-2" id="text-org05e5f91">
+<div id="outline-container-orgfa34bd6" class="outline-2">
+<h2 id="orgfa34bd6">Why those in Particular?</h2>
+<div class="outline-text-2" id="text-orgfa34bd6">
 <p>
 Considering that self-hosting was not possible<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, I started looking into building a system for myself from "scratch". I got used to the org markup language and found myself using it in Simplenote, even if Simplenote didn't support it back then. So I figured to look into solution that will let me use org markup. Starting with mobile solutions (since I've got Emacs on my laptop<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>, anyway. You can't beat that for org markup) I found Orgzly. I then needed some way to sync my notes between my phone and any other devices I use, namely, my laptop. I found, after reading through the Orgzly <a href="https://www.orgzly.com/docs#synchronization">docs</a> on the topic, it has support for this nifty thing called <a href="https://developer.mozilla.org/en-US/docs/Glossary/WebDAV">WebDAV</a>, which it additionally mentioned that Nextcloud had support for it. Having heard great things about NextCloud, I decided on that. For actually accessing the Nextcloud instance on my home-server from my laptop and phone, I use <a href="https://tailscale.com/">Tailscale</a>. It is a WireGaurd-based VPN that is dead easy to get up and going, and I've used it extensively for accessing systems without having to deal with port-forwarding. Alright, now onto the setup!
 </p>
 </div>
 </div>
 
-<div id="outline-container-org2c9b7b7" class="outline-2">
-<h2 id="org2c9b7b7">Setting Nextcloud up on my Server</h2>
-<div class="outline-text-2" id="text-org2c9b7b7">
+<div id="outline-container-org2828c6c" class="outline-2">
+<h2 id="org2828c6c">Setting Nextcloud up on my Server</h2>
+<div class="outline-text-2" id="text-org2828c6c">
 <p>
 My "home-server" is an Itona TC6727 thin-client running a minimal installation of Debian 12. I use docker to manage other services, mainly <a href="https://github.com/Kareadita/Kavita">Kavita</a> and <a href="https://www.openproject.org/">OpenProject</a>. Reading through the README for <a href="https://github.com/nextcloud/docker#base-version---apache">docker</a> image for Nextcloud, I settled on using the following docker-compose.yml:
 </p>
@@ -141,18 +141,18 @@ Using a docker-compose up -d, I had Nextcloud running on port 8081 on my server.
 </div>
 </div>
 
-<div id="outline-container-orge8f23e5" class="outline-2">
-<h2 id="orge8f23e5">Setting Orgzly on my Phone</h2>
-<div class="outline-text-2" id="text-orge8f23e5">
+<div id="outline-container-org8cabf02" class="outline-2">
+<h2 id="org8cabf02">Setting Orgzly on my Phone</h2>
+<div class="outline-text-2" id="text-org8cabf02">
 <p>
 I run Android, so I installed Orgzly using the <a href="https://f-droid.org/en/">F-Droid</a> client. I then went over to my new Nextcloud instance and created a folder called "Nextnote" to store all the incoming notes. Referencing this setup from <a href="https://itcamefromtheinternet.com/blog/how-to-setup-nextcloud-syncthing/#step-6-verify-gui-access">itcamefromtheinternet</a>, I found the WebDAV sharing link for my Nextcloud instance under Files Settings &gt; WebDAV. In Orgzly, under Settings &gt; Sync &gt; Repositories I pasted the url provided by NextCloud and added /Nextnote / to the end of the url. After logging in, I was good to go. Under Settings &gt; Sync &gt; Auto-Sync I enabled all that I could enable. Now, I moved onto my laptop:
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgd35db68" class="outline-2">
-<h2 id="orgd35db68">Setting up Nextcloud Client on my Laptop</h2>
-<div class="outline-text-2" id="text-orgd35db68">
+<div id="outline-container-orgbab3c69" class="outline-2">
+<h2 id="orgbab3c69">Setting up Nextcloud Client on my Laptop</h2>
+<div class="outline-text-2" id="text-orgbab3c69">
 <p>
 After reading through <a href="https://docs.nextcloud.com/server/latest/user_manual/en/files/access_webdav.html">Aceessing Nextcloud files using WebDAV</a> page on the Nextcloud docs, I decided to just try the official desktop client after unsuccessfully trying out the command-line method<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>. It was available from the Fedora repos so an install later I had it running with a nice indicator in my panel. After logging in with the GUI, I configured the sync folders. I added a hello-world.org file and after manually syncing, it showed up under Orgzly! I did a little "hello" message for kicks, and proceeded for the main event: getting all my notes from Simplenote into Nextnote.
 </p>
@@ -180,11 +180,11 @@ I used to keep track of things in Simplenote by using headings of the form of dd
 </div>
 </div>
 
-<div id="outline-container-org0a9a922" class="outline-2">
-<h2 id="org0a9a922">End</h2>
-<div class="outline-text-2" id="text-org0a9a922">
+<div id="outline-container-org022a921" class="outline-2">
+<h2 id="org022a921">Conclusion</h2>
+<div class="outline-text-2" id="text-org022a921">
 <p>
-After using this setup for a few weeks, I found myself very happy with it! Setup was fast, easy and simple, and sync works great! Of course, if you are just looking for a note-taking solution, Orgzly is a great choice on mobile. But if you want cross-platform sync, I recommend you have a look at what I've here, and try it out or something similar! You could substitute Nextcloud with something like Dropbox or even try just using a Syncthing, thing. If you don't have a thin-client handy, you could just host your notes out of your laptop or desktop computer under a VPN, so only selected devices can connect and access them. But if you can spare the money, try setting up a nice home server for yourself and family. Thinclients and NUCs are pretty cheap, a Raspberry Pi has also proven to be great for this sort of thing, and more. I highly suggest you to choose open, privacy and user-friendly solutions for your data whenever you can. Self-host and embrace the power! Until we meet again, toodaloo.
+After using this setup for a few weeks, I found myself very happy with it! Setup was fast, easy and simple, and sync works great! Of course, if you are just looking for a note-taking solution, Orgzly is a great choice on mobile. But if you want cross-platform sync, I recommend you have a look at what I've here, and try it out or something similar! You could substitute Nextcloud with something like Dropbox or even try just using a Syncthing, thing. If you don't have a thin-client handy, you could just host your notes out of your laptop or desktop computer under a VPN, so only selected devices can connect and access them. But if you can spare the money, try setting up a nice home server for yourself and family. Thinclients and NUCs are pretty cheap, a Raspberry Pi has also proven to be great for this sort of thing, and more. I highly suggest you to choose open, privacy and user-friendly solutions for your data whenever you can. Self-host and embrace the power! Until we meet again.
 </p>
 </div>
 </div>
