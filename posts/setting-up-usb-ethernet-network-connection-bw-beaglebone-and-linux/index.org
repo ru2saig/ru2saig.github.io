@@ -193,8 +193,13 @@ To the [[*Onto the BeagleBone!][BeagleBone]]!
  
 ** Firewall Configuration (firewalld)
  
-Firewalld is the firewall used typically on Fedora. Firewalld requires a way to manage connections, it won't do that on it's own. See [[https://firewalld.org/documentation/zone/connections-interfaces-and-sources.html][this resource]] for more information. Assuming there is a way to manage the interface, we will continue to allow the interface through our firewall.
- 
+Firewalld is the firewall used typically on Fedora. Firewalld requires a way to manage connections, it won't do that on it's own. See [[https://firewalld.org/documentation/zone/connections-interfaces-and-sources.html][this resource]] for more information. Assuming there is a way to manage the interface, we will continue to allow the interface through our firewall[fn:3].
+
+#+BEGIN_SRC sh
+  root$ firewall-cmd --permanent --new-zone=bbb-zone # let's add a new zone
+  root$ firewall-cmd --reload
+  root$ firewall-cmd --get-zones # make sure bbb-zone is one of them
+#+END_SRC
 
 Let's create a new zone for the bone (rhymes). Put the following into /etc/firewalld/zones/bbb-zone.xml on your PC:
 #+BEGIN_SRC xml
@@ -237,11 +242,11 @@ Now from a root shell:
   source-ports:
   icmp-blocks:
   rich rules:
+  root$ firewall-cmd --runtime-to-permanent # make the settings persistent!
 #+END_SRC
 
 To the [[*Onto the BeagleBone!][BeagleBone]]!
- 
- 
+
 ** Firewall Configuration (iptables)
  
 Make sure you note down the name of the interface on your host that is facing the internet. Mine is wlp3s0, yours may be different. 
@@ -417,7 +422,7 @@ Using a configuration file under /etc/network/interfaces.d we can set up a names
 
 Since I've been using the 192.168.6.x ip, I'll show how to write a simple configuration file for the corresponding usb1 interface. A similar one can be created for usb0, but the ip addresses will have to be different (i.e the 192.168.6.x should be 192.168.7.x).
 
-Create a file /etc/network/interfaces.d/usb1 with the following content on the bone[fn:3]:
+Create a file /etc/network/interfaces.d/usb1 with the following content on the bone[fn:4]:
 #+BEGIN_SRC
   auto usb1
   iface usb1 inet static
@@ -459,8 +464,10 @@ Until next time!
 - https://wiki.debian.org/NetworkConfiguration#A.2Fetc.2Fnetwork.2Finterfaces
 - https://unix.stackexchange.com/questions/128439/good-detailed-explanation-of-etc-network-interfaces-syntax
 - https://github.com/rcn-ee/repos/tree/master/bb-usb-gadgets/suite/bookworm/debian
- 
+- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/security_guide/sec-working_with_zones
+   
 * Footnotes
 [fn:1] In the official Debian images from BeagleBone, the bone's USB is configured this way: USB-RNDIS (for Windows compatibility) and USB-NCM gadget (for MacOS compatibility). Both USB gadgets are supported under Linux operating systems.
 [fn:2] This is certainly not exhaustive list of all network managing software's or firewalls, but it has the most common ones that are usually preinstalled with your distro. If you have methods for your networking that you don't see here, feel free to shoot me an email at develruusaig dot gmail dot com!
-[fn:3] There is a "dns-nameservers" option, but that did not work for me, so I used systemd-resolv which is what manages /etc/resolv.conf. 
+[fn:3] One could just add the interfaces to the nm-shared zone if that exists. But it's not everyday you create a new firewall zone! 
+[fn:4] There is a "dns-nameservers" option, but that did not work for me, so I used systemd-resolv which is what manages /etc/resolv.conf. 
