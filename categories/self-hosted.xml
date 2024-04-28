@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ru2saig (Posts about self-hosted)</title><link>https://ru2saig.github.io/</link><description></description><atom:link href="https://ru2saig.github.io/categories/self-hosted.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2023 &lt;a href="mailto:develruusaig@gmail.com"&gt;ru2saig&lt;/a&gt; 
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ru2saig (Posts about self-hosted)</title><link>https://ru2saig.github.io/</link><description></description><atom:link href="https://ru2saig.github.io/categories/self-hosted.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2024 &lt;a href="mailto:develruusaig@gmail.com"&gt;ru2saig&lt;/a&gt; 
 &lt;div class="license"&gt;
 &lt;a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"&gt;
 &lt;img alt="Creative Commons License BY-NC-SA"
 style="border-width:0; margin-bottom:12px;"
 src="/images/cc-88x31.png"&gt;&lt;/a&gt;
 &lt;/div&gt;
-</copyright><lastBuildDate>Tue, 05 Sep 2023 17:57:13 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Switching from Simplenote to a Self-Hosted Approach (Nextcloud, Orgzly and Emacs)</title><link>https://ru2saig.github.io/posts/switching-from-simplenote-to-a-self-hosted-approach-nextcloud-orgzly-and-emacs/</link><dc:creator>ru2saig</dc:creator><description>&lt;p&gt;
+</copyright><lastBuildDate>Sun, 28 Apr 2024 06:03:46 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Switching from Simplenote to a Self-Hosted Approach (Nextcloud, Orgzly and Emacs)</title><link>https://ru2saig.github.io/posts/switching-from-simplenote-to-a-self-hosted-approach-nextcloud-orgzly-and-emacs/</link><dc:creator>ru2saig</dc:creator><description>&lt;p&gt;
 Note-taking, defined by &lt;a href="https://en.wikipedia.org/wiki/Note-taking"&gt;Wikipedia&lt;/a&gt; is the "practice of recording information from different sources and platforms. By taking notes, the writer records the essence of the information, freeing their mind from having to recall everything." I use a note app to jot down quick ideas, write down tasks that come up, save a list of resources, store my "bookmarks" and to journal. For knowledge-management, I use org-roam, but that discussion will be for another time. Since I usually have my phone at hand, I used to use &lt;a href="https://simplenote.com/"&gt;Simplenote&lt;/a&gt;. The web-app was suitable to access my notes from my laptop. But recently syncing stopped working. I realized how ingrained that app was to my day-to-day activities, and I rather have something like that hosted on my small home-server setup in-case of hiccups like that. But since that required effort, I did the usual thing of updating to the latest version of the app, installing the AppImage from FlatHub, to little or no avail. Now I realized I had to put some effort, so I spent the evening doing some light research on what self-hosted options are out there, and arrived at a nice setup using &lt;a href="https://nextcloud.com/"&gt;NextCloud&lt;/a&gt;, &lt;a href="https://orgzly.com/"&gt;Orgzly&lt;/a&gt; and &lt;a href="https://www.gnu.org/software/emacs/"&gt;Emacs&lt;/a&gt;.
 &lt;/p&gt;
 
-&lt;div id="outline-container-orgfa34bd6" class="outline-2"&gt;
-&lt;h2 id="orgfa34bd6"&gt;Why those in Particular?&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgfa34bd6"&gt;
+&lt;div id="outline-container-orgc77bee0" class="outline-2"&gt;
+&lt;h2 id="orgc77bee0"&gt;Why those in Particular?&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc77bee0"&gt;
 &lt;p&gt;
 Considering that self-hosting was not possible&lt;sup&gt;&lt;a id="fnr.1" class="footref" href="https://ru2saig.github.io/posts/switching-from-simplenote-to-a-self-hosted-approach-nextcloud-orgzly-and-emacs/#fn.1" role="doc-backlink"&gt;1&lt;/a&gt;&lt;/sup&gt;, I started looking into building a system for myself from "scratch". I got used to the org markup language and found myself using it in Simplenote, even if Simplenote didn't support it back then. So I figured to look into solution that will let me use org markup. Starting with mobile solutions (since I've got Emacs on my laptop&lt;sup&gt;&lt;a id="fnr.2" class="footref" href="https://ru2saig.github.io/posts/switching-from-simplenote-to-a-self-hosted-approach-nextcloud-orgzly-and-emacs/#fn.2" role="doc-backlink"&gt;2&lt;/a&gt;&lt;/sup&gt;, anyway. You can't beat that for org markup) I found Orgzly. I then needed some way to sync my notes between my phone and any other devices I use, namely, my laptop. I found, after reading through the Orgzly &lt;a href="https://www.orgzly.com/docs#synchronization"&gt;docs&lt;/a&gt; on the topic, it has support for this nifty thing called &lt;a href="https://developer.mozilla.org/en-US/docs/Glossary/WebDAV"&gt;WebDAV&lt;/a&gt;, which it additionally mentioned that Nextcloud had support for it. Having heard great things about NextCloud, I decided on that. For actually accessing the Nextcloud instance on my home-server from my laptop and phone, I use &lt;a href="https://tailscale.com/"&gt;Tailscale&lt;/a&gt;. It is a WireGaurd-based VPN that is dead easy to get up and going, and I've used it extensively for accessing systems without having to deal with port-forwarding. Alright, now onto the setup!
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org2828c6c" class="outline-2"&gt;
-&lt;h2 id="org2828c6c"&gt;Setting Nextcloud up on my Server&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org2828c6c"&gt;
+&lt;div id="outline-container-org2a5108e" class="outline-2"&gt;
+&lt;h2 id="org2a5108e"&gt;Setting Nextcloud up on my Server&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org2a5108e"&gt;
 &lt;p&gt;
 My "home-server" is an Itona TC6727 thin-client running a minimal installation of Debian 12. I use docker to manage other services, mainly &lt;a href="https://github.com/Kareadita/Kavita"&gt;Kavita&lt;/a&gt; and &lt;a href="https://www.openproject.org/"&gt;OpenProject&lt;/a&gt;. Reading through the README for &lt;a href="https://github.com/nextcloud/docker#base-version---apache"&gt;docker&lt;/a&gt; image for Nextcloud, I settled on using the following docker-compose.yml:
 &lt;/p&gt;
@@ -67,18 +67,18 @@ Using a docker-compose up -d, I had Nextcloud running on port 8081 on my server.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org8cabf02" class="outline-2"&gt;
-&lt;h2 id="org8cabf02"&gt;Setting Orgzly on my Phone&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org8cabf02"&gt;
+&lt;div id="outline-container-org168fe6f" class="outline-2"&gt;
+&lt;h2 id="org168fe6f"&gt;Setting Orgzly on my Phone&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-org168fe6f"&gt;
 &lt;p&gt;
 I run Android, so I installed Orgzly using the &lt;a href="https://f-droid.org/en/"&gt;F-Droid&lt;/a&gt; client. I then went over to my new Nextcloud instance and created a folder called "Nextnote" to store all the incoming notes. Referencing this setup from &lt;a href="https://itcamefromtheinternet.com/blog/how-to-setup-nextcloud-syncthing/#step-6-verify-gui-access"&gt;itcamefromtheinternet&lt;/a&gt;, I found the WebDAV sharing link for my Nextcloud instance under Files Settings &amp;gt; WebDAV. In Orgzly, under Settings &amp;gt; Sync &amp;gt; Repositories I pasted the url provided by NextCloud and added /Nextnote / to the end of the url. After logging in, I was good to go. Under Settings &amp;gt; Sync &amp;gt; Auto-Sync I enabled all that I could enable. Now, I moved onto my laptop:
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-orgbab3c69" class="outline-2"&gt;
-&lt;h2 id="orgbab3c69"&gt;Setting up Nextcloud Client on my Laptop&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-orgbab3c69"&gt;
+&lt;div id="outline-container-orgfcd6905" class="outline-2"&gt;
+&lt;h2 id="orgfcd6905"&gt;Setting up Nextcloud Client on my Laptop&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgfcd6905"&gt;
 &lt;p&gt;
 After reading through &lt;a href="https://docs.nextcloud.com/server/latest/user_manual/en/files/access_webdav.html"&gt;Aceessing Nextcloud files using WebDAV&lt;/a&gt; page on the Nextcloud docs, I decided to just try the official desktop client after unsuccessfully trying out the command-line method&lt;sup&gt;&lt;a id="fnr.3" class="footref" href="https://ru2saig.github.io/posts/switching-from-simplenote-to-a-self-hosted-approach-nextcloud-orgzly-and-emacs/#fn.3" role="doc-backlink"&gt;3&lt;/a&gt;&lt;/sup&gt;. It was available from the Fedora repos so an install later I had it running with a nice indicator in my panel. After logging in with the GUI, I configured the sync folders. I added a hello-world.org file and after manually syncing, it showed up under Orgzly! I did a little "hello" message for kicks, and proceeded for the main event: getting all my notes from Simplenote into Nextnote.
 &lt;/p&gt;
@@ -106,9 +106,9 @@ I used to keep track of things in Simplenote by using headings of the form of dd
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-org022a921" class="outline-2"&gt;
-&lt;h2 id="org022a921"&gt;Conclusion&lt;/h2&gt;
-&lt;div class="outline-text-2" id="text-org022a921"&gt;
+&lt;div id="outline-container-orgc51dfdb" class="outline-2"&gt;
+&lt;h2 id="orgc51dfdb"&gt;Conclusion&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-orgc51dfdb"&gt;
 &lt;p&gt;
 After using this setup for a few weeks, I found myself very happy with it! Setup was fast, easy and simple, and sync works great! Of course, if you are just looking for a note-taking solution, Orgzly is a great choice on mobile. But if you want cross-platform sync, I recommend you have a look at what I've here, and try it out or something similar! You could substitute Nextcloud with something like Dropbox or even try just using a Syncthing, thing. If you don't have a thin-client handy, you could just host your notes out of your laptop or desktop computer under a VPN, so only selected devices can connect and access them. But if you can spare the money, try setting up a nice home server for yourself and family. Thinclients and NUCs are pretty cheap, a Raspberry Pi has also proven to be great for this sort of thing, and more. I highly suggest you to choose open, privacy and user-friendly solutions for your data whenever you can. Self-host and embrace the power! Until we meet again.
 &lt;/p&gt;

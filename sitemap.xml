@@ -23,11 +23,15 @@
  </url>
  <url>
   <loc>https://ru2saig.github.io/categories/</loc>
-  <lastmod>2023-08-27T16:06:00Z</lastmod>
+  <lastmod>2023-12-04T08:54:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/categories/beaglebone/</loc>
   <lastmod>2023-07-11T10:00:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/categories/computer-vision/</loc>
+  <lastmod>2023-10-22T12:53:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/categories/elisp/</loc>
@@ -38,8 +42,16 @@
   <lastmod>2023-07-03T15:47:00Z</lastmod>
  </url>
  <url>
+  <loc>https://ru2saig.github.io/categories/embedded-dev/</loc>
+  <lastmod>2023-12-04T08:48:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://ru2saig.github.io/categories/linux/</loc>
   <lastmod>2023-07-11T10:00:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/categories/maths/</loc>
+  <lastmod>2023-10-22T12:53:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/categories/networking/</loc>
@@ -52,6 +64,14 @@
  <url>
   <loc>https://ru2saig.github.io/categories/org-roam/</loc>
   <lastmod>2023-07-08T22:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/categories/pico/</loc>
+  <lastmod>2023-12-04T08:48:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/categories/rpipico/</loc>
+  <lastmod>2023-12-04T08:54:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/categories/self-hosted/</loc>
@@ -70,8 +90,16 @@
   <lastmod>2023-07-03T15:47:00Z</lastmod>
  </url>
  <url>
+  <loc>https://ru2saig.github.io/posts/accelstepper-port-for-the-raspberry-pi-pico-picosdk/</loc>
+  <lastmod>2024-02-08T10:09:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://ru2saig.github.io/posts/contextual-capitalization-of-org-roam-node-titles/</loc>
   <lastmod>2023-07-03T15:47:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/posts/messing-around-with-the-xbox-360-kinect-sensor/</loc>
+  <lastmod>2023-10-22T12:53:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/posts/setting-up-usb-ethernet-network-connection-bw-beaglebone-and-linux/</loc>

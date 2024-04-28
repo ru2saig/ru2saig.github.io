@@ -89,9 +89,9 @@ I extensively use Emacs, Org-Mode and <a href="https://www.orgroam.com/">Org-Roa
 <br><br>
 But there I have a gripe; the titles are inserted as they are, which makes the link not so aesthetic. (e.g.) "Given a Matrix …". I did not like reading that. So I spent some time making such a sentence into "Given a matrix …". I describe in this post (more of an article) how I arrived at a workable solution. 
 </p>
-<div id="outline-container-org85a3210" class="outline-2">
-<h2 id="org85a3210">Requirements</h2>
-<div class="outline-text-2" id="text-org85a3210">
+<div id="outline-container-org9e9ee24" class="outline-2">
+<h2 id="org9e9ee24">Requirements</h2>
+<div class="outline-text-2" id="text-org9e9ee24">
 <p>
 First, how do I like my links? The first step is setting requirements for the end approach.
 </p>
@@ -106,9 +106,9 @@ Alright so once that's out of the way, I can get to making it!
 </p>
 </div>
 </div>
-<div id="outline-container-org9b23147" class="outline-2">
-<h2 id="org9b23147">Version 1</h2>
-<div class="outline-text-2" id="text-org9b23147">
+<div id="outline-container-org9e81438" class="outline-2">
+<h2 id="org9e81438">Version 1</h2>
+<div class="outline-text-2" id="text-org9e81438">
 <p>
 I started by investigating the function that runs when I insert a node. I consulted describe-key for answers. I called the describe-key function (C-h k) and then used the keyboard shortcut to insert a node in org-buffers: (C-c n i). Describe-key reported that org-roam-node-insert is what is run.
 </p>
@@ -117,15 +117,15 @@ I started by investigating the function that runs when I insert a node. I consul
 Reading through the source of the function, we find this intriguing s-expression:
 </p>
 <div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">description</span><span class="w"> </span><span class="p">(</span><span class="k">or</span><span class="w"> </span><span class="nv">region-text</span>
-<span class="w">		 </span><span class="p">(</span><span class="nf">org-roam-node-formatted</span><span class="w"> </span><span class="nv">node</span><span class="p">)))</span>
+<span class="w">                 </span><span class="p">(</span><span class="nf">org-roam-node-formatted</span><span class="w"> </span><span class="nv">node</span><span class="p">)))</span>
 </pre></div>
 
 <p>
 This description is used further down as the description (aptly named, huh?) for the link that is inserted at the point:
 </p>
 <div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">insert</span><span class="w"> </span><span class="p">(</span><span class="nf">org-link-make-string</span>
-<span class="w">	 </span><span class="p">(</span><span class="nf">concat</span><span class="w"> </span><span class="s">"id:"</span><span class="w"> </span><span class="nv">id</span><span class="p">)</span>
-<span class="w">	 </span><span class="nv">description</span><span class="p">))</span>
+<span class="w">         </span><span class="p">(</span><span class="nf">concat</span><span class="w"> </span><span class="s">"id:"</span><span class="w"> </span><span class="nv">id</span><span class="p">)</span>
+<span class="w">         </span><span class="nv">description</span><span class="p">))</span>
 </pre></div>
 
 <p>
@@ -144,27 +144,27 @@ Now I can write some elisp!
 <span class="w"> </span><span class="p">(</span><span class="k">lambda</span>
 <span class="w">     </span><span class="p">(</span><span class="nf">node</span><span class="p">)</span>
 <span class="w">   </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">((</span><span class="nf">sentence-end-regex</span><span class="w"> </span><span class="p">(</span><span class="nf">concat</span><span class="w"> </span><span class="s">"[:]</span><span class="se">\\</span><span class="s">{2</span><span class="se">\\</span><span class="s">}</span><span class="se">\\</span><span class="s">|[*-+]</span><span class="se">\\</span><span class="s">b*[</span><span class="se">\n</span><span class="s">]</span><span class="se">\\</span><span class="s">|"</span><span class="w"> </span><span class="p">(</span><span class="nf">sentence-end</span><span class="p">)))</span><span class="w"> </span><span class="c1">;; includes org-headlins, new line after the headline, and bullet points too</span>
-<span class="w">	 </span><span class="p">(</span><span class="nf">split-title-regex</span><span class="w"> </span><span class="s">"[-=']</span><span class="se">\\</span><span class="s">|[ </span><span class="se">\f\t\n\r\v</span><span class="s">]+"</span><span class="p">)</span>
-<span class="w">	 </span><span class="p">(</span><span class="nf">title</span><span class="w"> </span><span class="p">(</span><span class="nf">org-roam-node-title</span><span class="w"> </span><span class="nv">node</span><span class="p">))</span>
-<span class="w">	 </span><span class="p">(</span><span class="nf">initial-point</span><span class="w"> </span><span class="p">(</span><span class="nf">point</span><span class="p">)))</span>
+<span class="w">         </span><span class="p">(</span><span class="nf">split-title-regex</span><span class="w"> </span><span class="s">"[-=']</span><span class="se">\\</span><span class="s">|[ </span><span class="se">\f\t\n\r\v</span><span class="s">]+"</span><span class="p">)</span>
+<span class="w">         </span><span class="p">(</span><span class="nf">title</span><span class="w"> </span><span class="p">(</span><span class="nf">org-roam-node-title</span><span class="w"> </span><span class="nv">node</span><span class="p">))</span>
+<span class="w">         </span><span class="p">(</span><span class="nf">initial-point</span><span class="w"> </span><span class="p">(</span><span class="nf">point</span><span class="p">)))</span>
 <span class="w">     </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">member</span><span class="w"> </span><span class="s">"Project"</span><span class="w"> </span><span class="p">(</span><span class="nf">org-roam-node-tags</span><span class="w"> </span><span class="nv">node</span><span class="p">))</span>
-<span class="w">	 </span><span class="nv">title</span><span class="w"> </span><span class="c1">;; return title as it is</span>
+<span class="w">         </span><span class="nv">title</span><span class="w"> </span><span class="c1">;; return title as it is</span>
 
-<span class="w">	 </span><span class="c1">;; captilize each of the words in the capitalize-words-list</span>
-<span class="w">	 </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">cased-title</span><span class="w"> </span><span class="p">(</span><span class="nf">mapconcat</span><span class="w"> </span>
-<span class="w">			    </span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="p">(</span><span class="nf">word</span><span class="p">)</span>
-<span class="w">			      </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">member</span><span class="w"> </span><span class="nv">word</span><span class="w"> </span><span class="nv">capitalize-words-list</span><span class="p">)</span>
-<span class="w">				  </span><span class="nv">word</span>
-<span class="w">				  </span><span class="p">(</span><span class="nf">downcase</span><span class="w"> </span><span class="nv">word</span><span class="p">)))</span>
-<span class="w">			    </span><span class="p">(</span><span class="nf">split-string</span><span class="w"> </span><span class="nv">title</span><span class="w"> </span><span class="nv">split-title-regex</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span><span class="w"> </span><span class="s">""</span><span class="p">))</span>
-<span class="w">	 </span><span class="c1">;; count the words to the  beginning of last sentence</span>
-<span class="w">	 </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">words</span><span class="w"> </span><span class="p">(</span><span class="nf">save-excursion</span>
-<span class="w">		       </span><span class="p">(</span><span class="nf">re-search-backward</span><span class="w"> </span><span class="nv">sentence-end-regex</span><span class="p">)</span>
-<span class="w">		       </span><span class="p">(</span><span class="nf">count-words-region</span><span class="w"> </span><span class="p">(</span><span class="nf">point</span><span class="p">)</span><span class="w"> </span><span class="nv">initial-point</span><span class="p">)))</span><span class="w"> </span>
-<span class="w">	 </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">=</span><span class="w"> </span><span class="nv">words</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="c1">;; if it's at the beginning, captilize the first word</span>
-<span class="w">	     </span><span class="p">(</span><span class="nf">concat</span><span class="w"> </span><span class="p">(</span><span class="nf">capitalize</span><span class="w"> </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">cased-title</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
-<span class="w">		     </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">cased-title</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">(</span><span class="nb">length</span><span class="w"> </span><span class="nv">cased-title</span><span class="p">)))</span>
-<span class="w">	     </span><span class="nv">cased-title</span><span class="p">)))))</span>
+<span class="w">         </span><span class="c1">;; captilize each of the words in the capitalize-words-list</span>
+<span class="w">         </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">cased-title</span><span class="w"> </span><span class="p">(</span><span class="nf">mapconcat</span><span class="w"> </span>
+<span class="w">                            </span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="p">(</span><span class="nf">word</span><span class="p">)</span>
+<span class="w">                              </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">member</span><span class="w"> </span><span class="nv">word</span><span class="w"> </span><span class="nv">capitalize-words-list</span><span class="p">)</span>
+<span class="w">                                  </span><span class="nv">word</span>
+<span class="w">                                  </span><span class="p">(</span><span class="nf">downcase</span><span class="w"> </span><span class="nv">word</span><span class="p">)))</span>
+<span class="w">                            </span><span class="p">(</span><span class="nf">split-string</span><span class="w"> </span><span class="nv">title</span><span class="w"> </span><span class="nv">split-title-regex</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span><span class="w"> </span><span class="s">""</span><span class="p">))</span>
+<span class="w">         </span><span class="c1">;; count the words to the  beginning of last sentence</span>
+<span class="w">         </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">words</span><span class="w"> </span><span class="p">(</span><span class="nf">save-excursion</span>
+<span class="w">                       </span><span class="p">(</span><span class="nf">re-search-backward</span><span class="w"> </span><span class="nv">sentence-end-regex</span><span class="p">)</span>
+<span class="w">                       </span><span class="p">(</span><span class="nf">count-words-region</span><span class="w"> </span><span class="p">(</span><span class="nf">point</span><span class="p">)</span><span class="w"> </span><span class="nv">initial-point</span><span class="p">)))</span><span class="w"> </span>
+<span class="w">         </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">=</span><span class="w"> </span><span class="nv">words</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="c1">;; if it's at the beginning, captilize the first word</span>
+<span class="w">             </span><span class="p">(</span><span class="nf">concat</span><span class="w"> </span><span class="p">(</span><span class="nf">capitalize</span><span class="w"> </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">cased-title</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
+<span class="w">                     </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">cased-title</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">(</span><span class="nb">length</span><span class="w"> </span><span class="nv">cased-title</span><span class="p">)))</span>
+<span class="w">             </span><span class="nv">cased-title</span><span class="p">)))))</span>
 </pre></div>
 
 <p>
@@ -172,11 +172,11 @@ This snippet works pretty well! Except, split-string consumes the separators. Th
 </p>
 
 <div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">cased-title</span><span class="w"> </span><span class="p">(</span><span class="nf">mapconcat</span><span class="w"> </span>
-<span class="w">		   </span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="p">(</span><span class="nf">word</span><span class="p">)</span>
-<span class="w">		     </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">member</span><span class="w"> </span><span class="nv">word</span><span class="w"> </span><span class="nv">capitalize-words-list</span><span class="p">)</span>
-<span class="w">			 </span><span class="nv">word</span>
-<span class="w">			 </span><span class="p">(</span><span class="nf">downcase</span><span class="w"> </span><span class="nv">word</span><span class="p">)))</span>
-<span class="w">		   </span><span class="p">(</span><span class="nf">split-string</span><span class="w"> </span><span class="nv">title</span><span class="w"> </span><span class="nv">split-title-regex</span><span class="w"> </span><span class="nv">t</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span><span class="w"> </span><span class="s">""</span><span class="p">))</span>
+<span class="w">                   </span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="p">(</span><span class="nf">word</span><span class="p">)</span>
+<span class="w">                     </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">member</span><span class="w"> </span><span class="nv">word</span><span class="w"> </span><span class="nv">capitalize-words-list</span><span class="p">)</span>
+<span class="w">                         </span><span class="nv">word</span>
+<span class="w">                         </span><span class="p">(</span><span class="nf">downcase</span><span class="w"> </span><span class="nv">word</span><span class="p">)))</span>
+<span class="w">                   </span><span class="p">(</span><span class="nf">split-string</span><span class="w"> </span><span class="nv">title</span><span class="w"> </span><span class="nv">split-title-regex</span><span class="w"> </span><span class="nv">t</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span><span class="w"> </span><span class="s">""</span><span class="p">))</span>
 </pre></div>
 
 <p>
@@ -185,9 +185,9 @@ It works! But, there are a few issues present, mainly, there is no way to config
 </div>
 </div>
 
-<div id="outline-container-org810ec59" class="outline-2">
-<h2 id="org810ec59">Version 2</h2>
-<div class="outline-text-2" id="text-org810ec59">
+<div id="outline-container-org21db0f6" class="outline-2">
+<h2 id="org21db0f6">Version 2</h2>
+<div class="outline-text-2" id="text-org21db0f6">
 <p>
 Using Emacs's <a href="https://www.gnu.org/software/emacs/manual/html_node/eintr/defcustom.html">defcustom</a> mechanism, the user can add and remove words as they wish, and take their capitalize-word-list with them! I've written elisp functions for removal and addition of words as well, as I find using the customize interface for a new word take too long. While typing, add-word-at-point-to-list becomes immensely useful to add words on the fly. 
 </p>
@@ -202,7 +202,7 @@ Using Emacs's <a href="https://www.gnu.org/software/emacs/manual/html_node/eintr
 <span class="w">  </span><span class="p">(</span><span class="nf">interactive</span><span class="p">)</span>
 <span class="w">  </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">((</span><span class="nf">word</span><span class="w"> </span><span class="p">(</span><span class="nf">read-string</span><span class="w"> </span><span class="s">"Word selected: "</span><span class="w"> </span><span class="nv">word-inp</span><span class="p">)))</span>
 <span class="w">    </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">member</span><span class="w"> </span><span class="nv">word</span><span class="w"> </span><span class="nv">capitalize-words-list</span><span class="p">)</span>
-<span class="w">	</span><span class="p">(</span><span class="nf">message</span><span class="w"> </span><span class="s">"'%s' is already present in the capitalize-word-list."</span><span class="w"> </span><span class="nv">word</span><span class="p">)</span>
+<span class="w">        </span><span class="p">(</span><span class="nf">message</span><span class="w"> </span><span class="s">"'%s' is already present in the capitalize-word-list."</span><span class="w"> </span><span class="nv">word</span><span class="p">)</span>
 <span class="w">      </span><span class="p">(</span><span class="nf">customize-save-variable</span><span class="w"> </span><span class="ss">'capitalize-words-list</span><span class="w"> </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'capitalize-words-list</span><span class="w"> </span><span class="nv">word</span><span class="w"> </span><span class="nv">t</span><span class="p">))</span>
 <span class="w">      </span><span class="p">(</span><span class="nf">message</span><span class="w"> </span><span class="s">"Updated and saved word-list!"</span><span class="p">))))</span>
 
@@ -215,9 +215,9 @@ Using Emacs's <a href="https://www.gnu.org/software/emacs/manual/html_node/eintr
 </div>
 </div>
 
-<div id="outline-container-orge1372f6" class="outline-2">
-<h2 id="orge1372f6">The Complete Code Listing</h2>
-<div class="outline-text-2" id="text-orge1372f6">
+<div id="outline-container-orgced6b09" class="outline-2">
+<h2 id="orgced6b09">The Complete Code Listing</h2>
+<div class="outline-text-2" id="text-orgced6b09">
 <div class="highlight"><pre><span></span><span class="w">  </span><span class="p">(</span><span class="nf">defcustom</span><span class="w"> </span><span class="nv">capitalize-words-list</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"Emacs"</span><span class="w"> </span><span class="s">"Elisp"</span><span class="w"> </span><span class="s">"GNU"</span><span class="w"> </span><span class="s">"Linux"</span><span class="w"> </span><span class="s">"Python"</span><span class="w"> </span><span class="s">"BeagleBone"</span><span class="w"> </span><span class="s">"Arduino"</span><span class="p">)</span>
 <span class="w">    </span><span class="s">"If non-nil, contains a list of proper-nouns, abbreviations, and other words to be capitalized when</span>
 <span class="s">  org-roam-insert is called. The case does matter for this, so be careful when adding own words."</span>
@@ -227,58 +227,58 @@ Using Emacs's <a href="https://www.gnu.org/software/emacs/manual/html_node/eintr
 <span class="p">(</span><span class="nf">defun</span><span class="w"> </span><span class="nv">split-string</span><span class="w"> </span><span class="p">(</span><span class="nb">string</span><span class="w"> </span><span class="nv">&amp;optional</span><span class="w"> </span><span class="nv">separators</span><span class="w"> </span><span class="nv">omit-nulls</span><span class="w"> </span><span class="nv">keep-sep</span><span class="p">)</span>
 <span class="w">      </span><span class="s">"Split STRING into substrings bounded by matches for SEPARATORS."</span>
 <span class="w">      </span><span class="p">(</span><span class="k">let*</span><span class="w"> </span><span class="p">((</span><span class="nf">keep-nulls</span><span class="w"> </span><span class="p">(</span><span class="nb">not</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="nv">separators</span><span class="w"> </span><span class="nv">omit-nulls</span><span class="w"> </span><span class="nv">t</span><span class="p">)))</span>
-<span class="w">	     </span><span class="p">(</span><span class="nf">rexp</span><span class="w"> </span><span class="p">(</span><span class="k">or</span><span class="w"> </span><span class="nv">separators</span><span class="w"> </span><span class="nv">split-string-default-separators</span><span class="p">))</span>
-<span class="w">	     </span><span class="p">(</span><span class="nf">start</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<span class="w">	     </span><span class="nv">this-start</span><span class="w"> </span><span class="nv">this-end</span>
-<span class="w">	     </span><span class="nv">notfirst</span>
-<span class="w">	     </span><span class="p">(</span><span class="nb">list</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
-<span class="w">	     </span><span class="p">(</span><span class="nf">push-one</span>
-<span class="w">	      </span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="p">()</span>
-<span class="w">		</span><span class="p">(</span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="k">or</span><span class="w"> </span><span class="nv">keep-nulls</span><span class="w"> </span><span class="p">(</span><span class="nb">&lt;</span><span class="w"> </span><span class="nv">this-start</span><span class="w"> </span><span class="nv">this-end</span><span class="p">))</span>
-<span class="w">		  </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">((</span><span class="nf">this</span><span class="w"> </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="nv">this-start</span><span class="w"> </span><span class="nv">this-end</span><span class="p">)))</span>
-<span class="w">		    </span><span class="p">(</span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="k">or</span><span class="w"> </span><span class="nv">keep-nulls</span><span class="w"> </span><span class="p">(</span><span class="nb">&gt;</span><span class="w"> </span><span class="p">(</span><span class="nb">length</span><span class="w"> </span><span class="nv">this</span><span class="p">)</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
-<span class="w">		      </span><span class="p">(</span><span class="nf">push</span><span class="w"> </span><span class="nv">this</span><span class="w"> </span><span class="nb">list</span><span class="p">)))))))</span>
-<span class="w">	</span><span class="p">(</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="k">and</span><span class="w"> </span><span class="p">(</span><span class="nf">string-match</span>
-<span class="w">		     </span><span class="nv">rexp</span><span class="w"> </span><span class="nb">string</span>
-<span class="w">		     </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">and</span><span class="w"> </span><span class="nv">notfirst</span>
-<span class="w">			      </span><span class="p">(</span><span class="nb">=</span><span class="w"> </span><span class="nv">start</span><span class="w"> </span><span class="p">(</span><span class="nf">match-beginning</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
-<span class="w">			      </span><span class="p">(</span><span class="nb">&lt;</span><span class="w"> </span><span class="nv">start</span><span class="w"> </span><span class="p">(</span><span class="nb">length</span><span class="w"> </span><span class="nb">string</span><span class="p">)))</span>
-<span class="w">			 </span><span class="p">(</span><span class="nb">1+</span><span class="w"> </span><span class="nv">start</span><span class="p">)</span><span class="w"> </span><span class="nv">start</span><span class="p">))</span>
-<span class="w">		    </span><span class="p">(</span><span class="nb">&lt;</span><span class="w"> </span><span class="nv">start</span><span class="w"> </span><span class="p">(</span><span class="nb">length</span><span class="w"> </span><span class="nb">string</span><span class="p">)))</span>
-<span class="w">	  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">notfirst</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
-<span class="w">	  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">this-start</span><span class="w"> </span><span class="nv">start</span><span class="w"> </span><span class="nv">this-end</span><span class="w"> </span><span class="p">(</span><span class="nf">match-beginning</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
-<span class="w">		</span><span class="nv">start</span><span class="w"> </span><span class="p">(</span><span class="nf">match-end</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
-<span class="w">	  </span><span class="p">(</span><span class="nf">funcall</span><span class="w"> </span><span class="nv">push-one</span><span class="p">)</span>
-<span class="w">	  </span><span class="p">(</span><span class="k">when</span><span class="w"> </span><span class="nv">keep-sep</span>
-<span class="w">	    </span><span class="p">(</span><span class="nf">push</span><span class="w"> </span><span class="p">(</span><span class="nf">match-string</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nb">string</span><span class="p">)</span><span class="w"> </span><span class="nb">list</span><span class="p">)))</span>
-<span class="w">	</span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">this-start</span><span class="w"> </span><span class="nv">start</span><span class="w"> </span><span class="nv">this-end</span><span class="w"> </span><span class="p">(</span><span class="nb">length</span><span class="w"> </span><span class="nb">string</span><span class="p">))</span>
-<span class="w">	</span><span class="p">(</span><span class="nf">funcall</span><span class="w"> </span><span class="nv">push-one</span><span class="p">)</span>
-<span class="w">	</span><span class="p">(</span><span class="nf">nreverse</span><span class="w"> </span><span class="nb">list</span><span class="p">)))</span>
+<span class="w">             </span><span class="p">(</span><span class="nf">rexp</span><span class="w"> </span><span class="p">(</span><span class="k">or</span><span class="w"> </span><span class="nv">separators</span><span class="w"> </span><span class="nv">split-string-default-separators</span><span class="p">))</span>
+<span class="w">             </span><span class="p">(</span><span class="nf">start</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">             </span><span class="nv">this-start</span><span class="w"> </span><span class="nv">this-end</span>
+<span class="w">             </span><span class="nv">notfirst</span>
+<span class="w">             </span><span class="p">(</span><span class="nb">list</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+<span class="w">             </span><span class="p">(</span><span class="nf">push-one</span>
+<span class="w">              </span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="p">()</span>
+<span class="w">                </span><span class="p">(</span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="k">or</span><span class="w"> </span><span class="nv">keep-nulls</span><span class="w"> </span><span class="p">(</span><span class="nb">&lt;</span><span class="w"> </span><span class="nv">this-start</span><span class="w"> </span><span class="nv">this-end</span><span class="p">))</span>
+<span class="w">                  </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">((</span><span class="nf">this</span><span class="w"> </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nb">string</span><span class="w"> </span><span class="nv">this-start</span><span class="w"> </span><span class="nv">this-end</span><span class="p">)))</span>
+<span class="w">                    </span><span class="p">(</span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="k">or</span><span class="w"> </span><span class="nv">keep-nulls</span><span class="w"> </span><span class="p">(</span><span class="nb">&gt;</span><span class="w"> </span><span class="p">(</span><span class="nb">length</span><span class="w"> </span><span class="nv">this</span><span class="p">)</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
+<span class="w">                      </span><span class="p">(</span><span class="nf">push</span><span class="w"> </span><span class="nv">this</span><span class="w"> </span><span class="nb">list</span><span class="p">)))))))</span>
+<span class="w">        </span><span class="p">(</span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="k">and</span><span class="w"> </span><span class="p">(</span><span class="nf">string-match</span>
+<span class="w">                     </span><span class="nv">rexp</span><span class="w"> </span><span class="nb">string</span>
+<span class="w">                     </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">and</span><span class="w"> </span><span class="nv">notfirst</span>
+<span class="w">                              </span><span class="p">(</span><span class="nb">=</span><span class="w"> </span><span class="nv">start</span><span class="w"> </span><span class="p">(</span><span class="nf">match-beginning</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
+<span class="w">                              </span><span class="p">(</span><span class="nb">&lt;</span><span class="w"> </span><span class="nv">start</span><span class="w"> </span><span class="p">(</span><span class="nb">length</span><span class="w"> </span><span class="nb">string</span><span class="p">)))</span>
+<span class="w">                         </span><span class="p">(</span><span class="nb">1+</span><span class="w"> </span><span class="nv">start</span><span class="p">)</span><span class="w"> </span><span class="nv">start</span><span class="p">))</span>
+<span class="w">                    </span><span class="p">(</span><span class="nb">&lt;</span><span class="w"> </span><span class="nv">start</span><span class="w"> </span><span class="p">(</span><span class="nb">length</span><span class="w"> </span><span class="nb">string</span><span class="p">)))</span>
+<span class="w">          </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">notfirst</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="w">          </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">this-start</span><span class="w"> </span><span class="nv">start</span><span class="w"> </span><span class="nv">this-end</span><span class="w"> </span><span class="p">(</span><span class="nf">match-beginning</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">                </span><span class="nv">start</span><span class="w"> </span><span class="p">(</span><span class="nf">match-end</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
+<span class="w">          </span><span class="p">(</span><span class="nf">funcall</span><span class="w"> </span><span class="nv">push-one</span><span class="p">)</span>
+<span class="w">          </span><span class="p">(</span><span class="k">when</span><span class="w"> </span><span class="nv">keep-sep</span>
+<span class="w">            </span><span class="p">(</span><span class="nf">push</span><span class="w"> </span><span class="p">(</span><span class="nf">match-string</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="nb">string</span><span class="p">)</span><span class="w"> </span><span class="nb">list</span><span class="p">)))</span>
+<span class="w">        </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">this-start</span><span class="w"> </span><span class="nv">start</span><span class="w"> </span><span class="nv">this-end</span><span class="w"> </span><span class="p">(</span><span class="nb">length</span><span class="w"> </span><span class="nb">string</span><span class="p">))</span>
+<span class="w">        </span><span class="p">(</span><span class="nf">funcall</span><span class="w"> </span><span class="nv">push-one</span><span class="p">)</span>
+<span class="w">        </span><span class="p">(</span><span class="nf">nreverse</span><span class="w"> </span><span class="nb">list</span><span class="p">)))</span>
 
 <span class="p">(</span><span class="nf">customize-set-variable</span>
 <span class="w"> </span><span class="ss">'org-roam-node-formatter</span>
 <span class="w"> </span><span class="p">(</span><span class="k">lambda</span>
 <span class="w">   </span><span class="p">(</span><span class="nf">node</span><span class="p">)</span>
 <span class="w">   </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">((</span><span class="nf">sentence-end-regex</span><span class="w"> </span><span class="p">(</span><span class="nf">concat</span><span class="w"> </span><span class="s">"[:]</span><span class="se">\\</span><span class="s">{2</span><span class="se">\\</span><span class="s">}</span><span class="se">\\</span><span class="s">|[*-+]</span><span class="se">\\</span><span class="s">b*[</span><span class="se">\n</span><span class="s">]</span><span class="se">\\</span><span class="s">|"</span><span class="w"> </span><span class="p">(</span><span class="nf">sentence-end</span><span class="p">)))</span>
-<span class="w">	 </span><span class="p">(</span><span class="nf">split-title-regex</span><span class="w"> </span><span class="s">"[-='/()]</span><span class="se">\\</span><span class="s">|[ </span><span class="se">\f\t\n\r\v</span><span class="s">]+"</span><span class="p">)</span>
-<span class="w">	 </span><span class="p">(</span><span class="nf">title</span><span class="w"> </span><span class="p">(</span><span class="nf">org-roam-node-title</span><span class="w"> </span><span class="nv">node</span><span class="p">))</span>
-<span class="w">	 </span><span class="p">(</span><span class="nf">initial-point</span><span class="w"> </span><span class="p">(</span><span class="nf">point</span><span class="p">)))</span>
+<span class="w">         </span><span class="p">(</span><span class="nf">split-title-regex</span><span class="w"> </span><span class="s">"[-='/()]</span><span class="se">\\</span><span class="s">|[ </span><span class="se">\f\t\n\r\v</span><span class="s">]+"</span><span class="p">)</span>
+<span class="w">         </span><span class="p">(</span><span class="nf">title</span><span class="w"> </span><span class="p">(</span><span class="nf">org-roam-node-title</span><span class="w"> </span><span class="nv">node</span><span class="p">))</span>
+<span class="w">         </span><span class="p">(</span><span class="nf">initial-point</span><span class="w"> </span><span class="p">(</span><span class="nf">point</span><span class="p">)))</span>
 <span class="w">     </span><span class="p">(</span><span class="k">cond</span><span class="w"> </span><span class="p">((</span><span class="nb">member</span><span class="w"> </span><span class="s">"Project"</span><span class="w"> </span><span class="p">(</span><span class="nf">org-roam-node-tags</span><span class="w"> </span><span class="nv">node</span><span class="p">))</span><span class="w"> </span><span class="nv">title</span><span class="p">)</span><span class="w"> </span><span class="c1">;; return title as it is</span>
-<span class="w">	   </span><span class="c1">;; add specific cases here (like the above)</span>
-<span class="w">	   </span><span class="p">((</span><span class="nf">org-at-heading-p</span><span class="p">)</span><span class="w"> </span><span class="nv">title</span><span class="p">)</span><span class="w"> </span><span class="c1">;; at an org-headline, so return as it is</span>
-<span class="w">	   </span><span class="p">(</span><span class="nf">t</span><span class="w"> </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">cased-title</span><span class="w"> </span><span class="p">(</span><span class="nf">mapconcat</span><span class="w"> </span><span class="c1">;; capitalize only the proper nouns</span>
-<span class="w">				 </span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="p">(</span><span class="nf">word</span><span class="p">)</span>
-<span class="w">				   </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">member</span><span class="w"> </span><span class="nv">word</span><span class="w"> </span><span class="nv">capitalize-words-list</span><span class="p">)</span><span class="w"> </span><span class="c1">;; assumes that the word is capitalized properly in the title</span>
-<span class="w">				       </span><span class="nv">word</span>
-<span class="w">				     </span><span class="p">(</span><span class="nf">downcase</span><span class="w"> </span><span class="nv">word</span><span class="p">)))</span>
-<span class="w">				 </span><span class="p">(</span><span class="nf">split-string</span><span class="w"> </span><span class="nv">title</span><span class="w"> </span><span class="nv">split-title-regex</span><span class="w"> </span><span class="nv">t</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span><span class="w"> </span><span class="s">""</span><span class="p">))</span>
-<span class="w">	      </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">words</span><span class="w"> </span><span class="p">(</span><span class="nf">save-excursion</span>
-<span class="w">			    </span><span class="p">(</span><span class="nf">re-search-backward</span><span class="w"> </span><span class="nv">sentence-end-regex</span><span class="p">)</span>
-<span class="w">			    </span><span class="p">(</span><span class="nf">count-words-region</span><span class="w"> </span><span class="p">(</span><span class="nf">point</span><span class="p">)</span><span class="w"> </span><span class="nv">initial-point</span><span class="p">)))</span>
-<span class="w">	      </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">=</span><span class="w"> </span><span class="nv">words</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="c1">;; at the beginning of a sentence, so make sure the first word is capitalized</span>
-<span class="w">		  </span><span class="p">(</span><span class="nf">concat</span><span class="w"> </span><span class="p">(</span><span class="nf">capitalize</span><span class="w"> </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">cased-title</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
-<span class="w">			  </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">cased-title</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">(</span><span class="nb">length</span><span class="w"> </span><span class="nv">cased-title</span><span class="p">)))</span>
-<span class="w">		</span><span class="nv">cased-title</span><span class="p">))))))</span>
+<span class="w">           </span><span class="c1">;; add specific cases here (like the above)</span>
+<span class="w">           </span><span class="p">((</span><span class="nf">org-at-heading-p</span><span class="p">)</span><span class="w"> </span><span class="nv">title</span><span class="p">)</span><span class="w"> </span><span class="c1">;; at an org-headline, so return as it is</span>
+<span class="w">           </span><span class="p">(</span><span class="nf">t</span><span class="w"> </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">cased-title</span><span class="w"> </span><span class="p">(</span><span class="nf">mapconcat</span><span class="w"> </span><span class="c1">;; capitalize only the proper nouns</span>
+<span class="w">                                 </span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="p">(</span><span class="nf">word</span><span class="p">)</span>
+<span class="w">                                   </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">member</span><span class="w"> </span><span class="nv">word</span><span class="w"> </span><span class="nv">capitalize-words-list</span><span class="p">)</span><span class="w"> </span><span class="c1">;; assumes that the word is capitalized properly in the title</span>
+<span class="w">                                       </span><span class="nv">word</span>
+<span class="w">                                     </span><span class="p">(</span><span class="nf">downcase</span><span class="w"> </span><span class="nv">word</span><span class="p">)))</span>
+<span class="w">                                 </span><span class="p">(</span><span class="nf">split-string</span><span class="w"> </span><span class="nv">title</span><span class="w"> </span><span class="nv">split-title-regex</span><span class="w"> </span><span class="nv">t</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span><span class="w"> </span><span class="s">""</span><span class="p">))</span>
+<span class="w">              </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">words</span><span class="w"> </span><span class="p">(</span><span class="nf">save-excursion</span>
+<span class="w">                            </span><span class="p">(</span><span class="nf">re-search-backward</span><span class="w"> </span><span class="nv">sentence-end-regex</span><span class="p">)</span>
+<span class="w">                            </span><span class="p">(</span><span class="nf">count-words-region</span><span class="w"> </span><span class="p">(</span><span class="nf">point</span><span class="p">)</span><span class="w"> </span><span class="nv">initial-point</span><span class="p">)))</span>
+<span class="w">              </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">=</span><span class="w"> </span><span class="nv">words</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="c1">;; at the beginning of a sentence, so make sure the first word is capitalized</span>
+<span class="w">                  </span><span class="p">(</span><span class="nf">concat</span><span class="w"> </span><span class="p">(</span><span class="nf">capitalize</span><span class="w"> </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">cased-title</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
+<span class="w">                          </span><span class="p">(</span><span class="nb">substring</span><span class="w"> </span><span class="nv">cased-title</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">(</span><span class="nb">length</span><span class="w"> </span><span class="nv">cased-title</span><span class="p">)))</span>
+<span class="w">                </span><span class="nv">cased-title</span><span class="p">))))))</span>
 
 <span class="p">(</span><span class="nf">defun</span><span class="w"> </span><span class="nv">remove-word-from-list</span><span class="w"> </span><span class="p">()</span>
 <span class="w">  </span><span class="s">"Removes a word from the capitalize-words-list. Which word to be removed will be prompted at the mini-buffer."</span>
@@ -292,7 +292,7 @@ Using Emacs's <a href="https://www.gnu.org/software/emacs/manual/html_node/eintr
 <span class="w">  </span><span class="p">(</span><span class="nf">interactive</span><span class="p">)</span>
 <span class="w">  </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">((</span><span class="nf">word</span><span class="w"> </span><span class="p">(</span><span class="nf">read-string</span><span class="w"> </span><span class="s">"Word selected: "</span><span class="w"> </span><span class="nv">word-inp</span><span class="p">)))</span>
 <span class="w">    </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">member</span><span class="w"> </span><span class="nv">word</span><span class="w"> </span><span class="nv">capitalize-words-list</span><span class="p">)</span>
-<span class="w">	</span><span class="p">(</span><span class="nf">message</span><span class="w"> </span><span class="s">"'%s' is already present in the capitalize-word-list."</span><span class="w"> </span><span class="nv">word</span><span class="p">)</span>
+<span class="w">        </span><span class="p">(</span><span class="nf">message</span><span class="w"> </span><span class="s">"'%s' is already present in the capitalize-word-list."</span><span class="w"> </span><span class="nv">word</span><span class="p">)</span>
 <span class="w">      </span><span class="p">(</span><span class="nf">customize-save-variable</span><span class="w"> </span><span class="ss">'capitalize-words-list</span><span class="w"> </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'capitalize-words-list</span><span class="w"> </span><span class="nv">word</span><span class="w"> </span><span class="nv">t</span><span class="p">))</span>
 <span class="w">      </span><span class="p">(</span><span class="nf">message</span><span class="w"> </span><span class="s">"Updated and saved word-list!"</span><span class="p">))))</span>
 
@@ -306,9 +306,9 @@ Using Emacs's <a href="https://www.gnu.org/software/emacs/manual/html_node/eintr
 </div>
 </div>
 
-<div id="outline-container-org943edbb" class="outline-2">
-<h2 id="org943edbb">Conclusion…or is it?</h2>
-<div class="outline-text-2" id="text-org943edbb">
+<div id="outline-container-org1e63987" class="outline-2">
+<h2 id="org1e63987">Conclusion…or is it?</h2>
+<div class="outline-text-2" id="text-org1e63987">
 <p>
 I have noticed a few areas that I can improve version 2,
 </p>
@@ -327,7 +327,7 @@ These don't impede my usage as those cases are very less. But it is a scope of i
             </li>
         </ul></nav></aside></article></main><footer class="article__meta footer"><div>
           <p class="footer-content">
-Contents © 2023
+Contents © 2024
 <a href="mailto:develruusaig@gmail.com">ru2saig</a> - Powered by <a href="https://getnikola.com" rel="nofollow">Nikola</a>
 
 </p>
