@@ -1,7 +1,7 @@
 #+BEGIN_COMMENT
 .. title: Emacs and Org-Mode for Multi-Lingual Computational Notebooks
 .. slug: emacs-and-org-mode-for-multi-lingual-computational-notebooks
-.. date: 2025-08-09 18:56:57 UTC+05:30
+.. date: 2024-08-09 18:56:57 UTC+05:30
 .. tags:
 .. category: 
 .. link: 
