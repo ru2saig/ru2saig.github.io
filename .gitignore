@@ -2,4 +2,4 @@
 cache/
 __pycache__/
 .doit.*
-.venv/
+.python-version
