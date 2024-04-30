@@ -82,7 +82,7 @@ SsmrpAYGmTEv66nCLyE0wdQtOspxVvuJbpXR
 
 Now our secrets shall be safe with us! Or you could verify software I (might) have signed. Or both. Both is good.
 
-Here are my profiles:
+Here is where you can find my projects and such:
+- https://github.com/ru2saig
 - https://gitlab.com/ru2saig
 - https://code.swecha.org/ru2saig
-- https://github.com/ru2saig
