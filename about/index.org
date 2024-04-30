@@ -10,9 +10,21 @@
 
 #+END_COMMENT
 
-Hello, there! I'm Nidhish, interested in robotics, art, embedded development, free software and anything that beeps and boops. On this website you'll find posts about stuff I find interesting, in-progress projects, experiments and the like. For "finished" projects, check this [[https://ru2saig.github.io/projects/][page]]. 
+Hello, there! I'm Nidhish, interested in robotics, art, embedded development, free software and anything that beeps and boops. On this website you'll find posts about stuff I find interesting, in-progress projects, experiments and the like. For "finished" projects (for nothing is ever truly done), check this [[https://ru2saig.github.io/projects/][page]]. 
 
-Here is my PGP key:
+Here is the fingerprint of my public-key:
+#+BEGIN_SRC bash
+  pub   rsa4096/28ED6EA909E80A8A 2024-04-28 [SC] [expires: 2025-04-28]
+        Key fingerprint = 66DA 0E49 8699 6DF9 1A6F  CC6C 28ED 6EA9 09E8 0A8A
+        Keygrip = 19D5A9451BCC745BD2D27B508ED6686058C978C1
+  uid                 [ultimate] Gurusai Nidhish Chadive <[email-protected]>
+  sub   rsa4096/B670252D3930546F 2024-04-28 [E] [expires: 2025-04-28]
+        Key fingerprint = 2E17 0995 D8FB 3AF4 3723  8B08 B670 252D 3930 546F
+        Keygrip = F77471426DD7D74FBABF0187D300AC028DE6F514
+#+END_SRC
+
+There could be another uid stating that the key "revokes" another key (0x8267D123856B1271), and that was because I forgot the passphrase for that key. But, miraculously, after a few days of making this key, I remembered what my passphrase was. Then I promptly revoked that old key, because quantum computers.
+Anyway, here is my (latest) PGP key:
 #+BEGIN_SRC
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 
@@ -67,6 +79,8 @@ SsmrpAYGmTEv66nCLyE0wdQtOspxVvuJbpXR
 =DL/8
 -----END PGP PUBLIC KEY BLOCK-----
 #+END_SRC
+
+Now our secrets shall be safe with us! Or you could verify software I (might) have signed. Or both. Both is good.
 
 Here are my profiles:
 - https://gitlab.com/ru2saig

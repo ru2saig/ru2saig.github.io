@@ -10,10 +10,6 @@
   <lastmod>2024-04-28T06:03:00Z</lastmod>
  </sitemap>
  <sitemap>
-  <loc>https://ru2saig.github.io/categories/computer-vision.xml</loc>
-  <lastmod>2023-10-25T15:06:00Z</lastmod>
- </sitemap>
- <sitemap>
   <loc>https://ru2saig.github.io/categories/elisp.xml</loc>
   <lastmod>2024-04-28T06:03:00Z</lastmod>
  </sitemap>
@@ -22,16 +18,8 @@
   <lastmod>2024-04-28T06:03:00Z</lastmod>
  </sitemap>
  <sitemap>
-  <loc>https://ru2saig.github.io/categories/embedded-dev.xml</loc>
-  <lastmod>2023-12-04T08:55:00Z</lastmod>
- </sitemap>
- <sitemap>
   <loc>https://ru2saig.github.io/categories/linux.xml</loc>
   <lastmod>2024-04-28T06:03:00Z</lastmod>
- </sitemap>
- <sitemap>
-  <loc>https://ru2saig.github.io/categories/maths.xml</loc>
-  <lastmod>2023-10-25T15:06:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/categories/networking.xml</loc>
@@ -44,14 +32,6 @@
  <sitemap>
   <loc>https://ru2saig.github.io/categories/org-roam.xml</loc>
   <lastmod>2024-04-28T06:03:00Z</lastmod>
- </sitemap>
- <sitemap>
-  <loc>https://ru2saig.github.io/categories/pico.xml</loc>
-  <lastmod>2023-12-04T08:51:00Z</lastmod>
- </sitemap>
- <sitemap>
-  <loc>https://ru2saig.github.io/categories/rpipico.xml</loc>
-  <lastmod>2023-12-04T08:55:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/categories/self-hosted.xml</loc>
@@ -71,6 +51,6 @@
  </sitemap>
  <sitemap>
   <loc>https://ru2saig.github.io/sitemap.xml</loc>
-  <lastmod>2024-04-28T06:03:00Z</lastmod>
+  <lastmod>2024-04-30T06:47:00Z</lastmod>
  </sitemap>
 </sitemapindex>
