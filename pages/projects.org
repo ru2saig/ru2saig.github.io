@@ -12,8 +12,22 @@
 
 
 These are a list of pretty-much completed projects, or things I've deemed worthy of this page. The projects are ordered roughly by the date of the last commit.
- 
- 
+
+* Fishy Merry-Go-Round
+An interactive art exhibit, essentially, hand-coloured fish are scanned and displayed in an animated coral reef. Here's what it looks like, essentially:
+
+#+BEGIN_EXPORT html
+<br>
+<video controls>
+  <source src="/videos/recording.mp4" type="video/mp4" />
+</video>
+</br>
+#+END_EXPORT
+
+Yes, it's kinda choppy, probably because it was done on a Thinkpad T480 with an Intel UHD620. It's smoother in real life. 
+It was displayed at MakerFaire Hyderabad 2023, and had quite a few visitors (around 700 total fish over the 2 days)! The recording above is of the improved version, in which I squashed some (software) bugs and added better visuals (caustics and the volumetric effect).
+
+Source code: https://github.com/ru2saig/fishy-merry-go-round. 
 
 * Unlauncher Fork
 This is my fork of [[https://jkuester.github.io/unlauncher/][jkuester's Unlauncher]]. I've added a few quality of life improvements, such as wallpapers, double-tap to sleep and a long press menu as well. You use your phone, not the other way around!
