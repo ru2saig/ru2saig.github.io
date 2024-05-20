@@ -19,7 +19,7 @@ An interactive art exhibit. Hand-coloured fish are scanned and displayed in an a
 #+BEGIN_EXPORT html
 <br>
 <video controls>
-  <source src="/videos/recording.mp4" type="video/mp4" />
+  <source src="/assets/recording.mp4" type="video/mp4" />
 </video>
 </br>
 #+END_EXPORT
