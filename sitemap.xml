@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://ru2saig.github.io/</loc>
-  <lastmod>2024-05-20T00:18:00Z</lastmod>
+  <lastmod>2024-12-20T16:38:00Z</lastmod>
  </url>
  <url>
   <loc>https://ru2saig.github.io/about/</loc>
@@ -76,5 +76,9 @@
  <url>
   <loc>https://ru2saig.github.io/projects/</loc>
   <lastmod>2024-05-20T03:00:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://ru2saig.github.io/things-i-made/</loc>
+  <lastmod>2024-12-20T16:38:00Z</lastmod>
  </url>
 </urlset>

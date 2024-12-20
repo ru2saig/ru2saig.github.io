@@ -1,6 +1,6 @@
 #+BEGIN_COMMENT
-.. title: Projects
-.. slug: projects
+.. title: Things I Made
+.. slug: things-i-made
 .. date: 2023-07-03 15:13:21 UTC+05:30
 .. tags: 
 .. category: 
@@ -24,10 +24,10 @@ An interactive art exhibit. Hand-coloured fish are scanned and displayed in an a
 </br>
 #+END_EXPORT
 
-Yes, it's kinda choppy, probably because it was done on a Thinkpad T480 with an Intel UHD620. It's smoother in real life. 
-It was displayed at MakerFaire Hyderabad 2023, and had quite a few visitors (around 700 total fish over the 2 days)! The recording above is of the improved version, in which I squashed some (software) bugs and added better visuals (caustics and the volumetric effect).
+It's much smoother it real life! It was displayed at MakerFaire Hyderabad 2023, and had quite a few visitors (around 700 total fish over the 2 days)! The recording above is of the improved version, in which I squashed some (software) bugs and added better visuals (caustics and the volumetric effect).
 
 Source code: https://github.com/ru2saig/fishy-merry-go-round. 
+
 
 * Unlauncher Fork
 This is my fork of [[https://jkuester.github.io/unlauncher/][jkuester's Unlauncher]]. I've added a few quality of life improvements, such as wallpapers, double-tap to sleep and a long press menu as well. You use your phone, not the other way around!
