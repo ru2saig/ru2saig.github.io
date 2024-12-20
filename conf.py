@@ -28,8 +28,7 @@ TRANSLATIONS_PATTERN = '{path}.{lang}.{ext}'
 NAVIGATION_LINKS = {
     DEFAULT_LANG: (
         ("/", "Blog"),
-        ("/projects/", "Projects"),
-        ("/about/", "About"),
+        ("/things-i-made/", "Things"),
         ("/categories/", "Categories"),
         ("/archive/", "Archive"),
         ("/rss.xml", "RSS feed"),
