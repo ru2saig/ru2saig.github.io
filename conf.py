@@ -11,9 +11,9 @@ SITE_URL = "https://ru2saig.github.io/"
 # This is the URL where Nikola's output will be deployed.
 # If not set, defaults to SITE_URL
 # BASE_URL = "https://ru2saig.github.io/"
+BLOG_CONTACT_PAGE = "/contact"
 BLOG_EMAIL = "develruusaig@gmail.com"
 BLOG_DESCRIPTION = "Adventures in Robotics, Emacs, Art and more"  # (translatable)
-
 DEFAULT_LANG = "en"
 
 TRANSLATIONS = {
@@ -29,7 +29,6 @@ NAVIGATION_LINKS = {
     DEFAULT_LANG: (
         ("/", "Blog"),
         ("/things-i-made/", "Things"),
-        ("/categories/", "Categories"),
         ("/archive/", "Archive"),
         ("/rss.xml", "RSS feed"),
     ),
@@ -155,8 +154,7 @@ src="/images/cc-88x31.png"></a>
 # A small copyright notice for the page footer (in HTML).
 # (translatable)
 CONTENT_FOOTER = """
-Contents &copy; {date}
-<a href="mailto:{email}">{author}</a> - Powered by <a href="https://getnikola.com" rel="nofollow">Nikola</a>
+Contents by <a href="{contact}">{author}</a> - Powered by <a href="https://getnikola.com" rel="nofollow">Nikola</a>
 {license}
 """
 
@@ -166,6 +164,7 @@ CONTENT_FOOTER_FORMATS = {
         (),
         {
             "email": BLOG_EMAIL,
+            "contact": BLOG_CONTACT_PAGE,
             "author": BLOG_AUTHOR,
             "date": time.gmtime().tm_year,
             "license": LICENSE
@@ -175,8 +174,8 @@ CONTENT_FOOTER_FORMATS = {
 
 # A simple copyright tag for inclusion in RSS feeds that works just
 # like CONTENT_FOOTER and CONTENT_FOOTER_FORMATS
-RSS_COPYRIGHT = 'Contents © {date} <a href="mailto:{email}">{author}</a> {license}'
-RSS_COPYRIGHT_PLAIN = 'Contents © {date} {author} {license}'
+RSS_COPYRIGHT = 'Contents by {author}</a> {license}'
+RSS_COPYRIGHT_PLAIN = 'Contents by {author} {license}'
 RSS_COPYRIGHT_FORMATS = CONTENT_FOOTER_FORMATS
 
 # TODO: go with isso
