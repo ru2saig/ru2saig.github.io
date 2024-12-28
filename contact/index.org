@@ -13,4 +13,4 @@
 
 Hello, there! Oh? You would like to reach out to me? The best way to contact me is sending good ol' email to develruusaig at google dot com. If you want to send me some encrypted email, use my PGP public key found [[link:/assets/develruusaig.asc][here]]. The key's fingerprint is 66DA 0E49 8699 6DF9 1A6F CC6C 28ED 6EA9 09E8 0A8A and the ID is 28ED6EA909E80A8A.
 
-If you search a keyserver with my email, then you'll probably find my other revoked key (with ID 8267d123856b1271). I forgot the passphrase for it, so I made a new key. Then I promptly remembered the password /right after/ uploading this new key, and was able to revoke it. This new key is the key above. ( ´･_･`).
+If you search a keyserver with my email, then you'll probably find my other revoked key (with ID 8267d123856b1271). I forgot the passphrase for it, so I made a new key. Then I promptly remembered the password /right after/ uploading this new key, and was able to revoke it. ( ´･_･`).
