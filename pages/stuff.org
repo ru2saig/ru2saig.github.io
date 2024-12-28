@@ -1,6 +1,6 @@
 #+BEGIN_COMMENT
-.. title: Things I Made
-.. slug: things-i-made
+.. title: Stuff
+.. slug: stuff
 .. date: 2023-07-03 15:13:21 UTC+05:30
 .. tags: 
 .. category: 
@@ -10,8 +10,7 @@
 
 #+END_COMMENT
 
-
-These are a list of pretty-much completed projects, or things I've deemed worthy of this page. The projects are ordered by when they were considered "done".
+These are a list of pretty-much completed things  I've deemed worthy of this page. The projects are ordered by when they were considered "done".
 
 * Fishy Merry-Go-Round
 An interactive art exhibit. Hand-coloured fish are scanned and displayed in an animated coral reef. Here's what it looks like:
