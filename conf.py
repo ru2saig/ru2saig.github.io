@@ -13,7 +13,7 @@ SITE_URL = "https://ru2saig.github.io/"
 # BASE_URL = "https://ru2saig.github.io/"
 BLOG_CONTACT_PAGE = "/contact"
 BLOG_EMAIL = "develruusaig@gmail.com"
-BLOG_DESCRIPTION = "Adventures in Robotics, Emacs, Art and more"  # (translatable)
+BLOG_DESCRIPTION = "Monkeying around 'till I type out Shakespeare"  # (translatable)
 DEFAULT_LANG = "en"
 
 TRANSLATIONS = {
@@ -27,10 +27,10 @@ TRANSLATIONS_PATTERN = '{path}.{lang}.{ext}'
 
 NAVIGATION_LINKS = {
     DEFAULT_LANG: (
-        ("/", "Blog"),
-        ("/stuff/", "Stuff"),
-        ("/archive/", "Archive"),
-        ("/rss.xml", "RSS feed"),
+        ("/", "braindump"),
+        ("/stuff/", "stuff"),
+#        ("/archive/", "archive"),
+        ("/rss.xml", "feed"), # TODO: Put this in the bottom, somehwere? As a clickable icon?
     ),
 }
 
@@ -76,9 +76,9 @@ FRONT_INDEX_HEADER = {
     DEFAULT_LANG: ''
 }
 
-ARCHIVE_PATH = "archive/"
-ARCHIVE_FILENAME = "index.html"
-ARCHIVES_ARE_INDEXES = False
+#ARCHIVE_PATH = "archive/"
+#ARCHIVE_FILENAME = "index.html"
+#ARCHIVES_ARE_INDEXES = False
 
 ATOM_FILENAME_BASE = "feed"
 
