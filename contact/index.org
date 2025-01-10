@@ -1,5 +1,5 @@
 #+BEGIN_COMMENT
-.. title: Contact
+.. title: contact
 .. slug: contact
 .. date: 2024-12-24 12:30:33 UTC+05:30
 .. tags: 

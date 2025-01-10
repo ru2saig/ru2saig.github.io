@@ -1,5 +1,5 @@
 #+BEGIN_COMMENT
-.. title: Stuff
+.. title: stuff
 .. slug: stuff
 .. date: 2023-07-03 15:13:21 UTC+05:30
 .. tags: 
